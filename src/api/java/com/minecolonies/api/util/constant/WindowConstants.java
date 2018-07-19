@@ -649,6 +649,33 @@ public final class WindowConstants
     public static final String GREEN_ICON  = "minecolonies:textures/gui/green_icon.png";
 
     /**
+     * The Guidebook GUI file
+     */
+    public static final String PAGES_LEFT               = "pagesLeft";
+    public static final String PAGES_LEFT_NUM           = "pagesLNum";
+    public static final String PAGES_RIGHT              = "pagesRight";
+    public static final String PAGES_RIGHT_NUM          = "pagesRNum";
+
+    public static final String PAGE_LEFT                = "L";
+    public static final String PAGE_RIGHT               = "R";
+    public static final String PAGE_ERROR_HEAD          = "pageErrorHead";
+    public static final String PAGE_ERROR_CONTENT       = "pageErrorCt";
+    public static final String PAGE_BOOKMARK_ADD        = "addB";
+    public static final String PAGE_SHORCUT             = LanguageHandler.format(COM_MINECOLONIES_COREMOD_GUI_GUIDEBOOK_PAGESHORCUT) + " ";
+
+    public static final String LIST_INDEX               = "index";
+    public static final String LIST_BOOKMARK            = "bookmark";
+    public static final String LIST_PAGE                = "Page";
+    public static final String LIST_NAME                = "Name";
+    public static final String LIST_OF_INDEXES          = "indexList";
+    
+    public static final String BUTTON_BOOKMARK_DELETE   = PAGE_BOOKMARK_ADD + "Delete";
+    public static final String BUTTON_BOOKMARK_CONFIRM  = PAGE_BOOKMARK_ADD + "Confirm";
+    public static final String BUTTON_BOOKMARK_CANCEL   = PAGE_BOOKMARK_ADD + "Cancel";
+
+    public static final String INPUT_BOOKMARK_NEW_NAME  = PAGE_BOOKMARK_ADD + "NewName";
+
+    /**
      * public constructor to hide implicit public one.
      */
     private WindowConstants()

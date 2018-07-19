@@ -718,6 +718,17 @@ com.minecolonies.coremod.gui.workerHuts.happiness=Happiness indices
 com.minecolonies.coremod.gui.townHall.population.rangers=Rangers: %d
 com.minecolonies.coremod.gui.townHall.population.knights=Knights: %d
 
-
 tile.minecolonies.barrel_block.name=Barrel
 item.minecolonies.compost.name=Compost
+
+item.minecolonies.guidebook.name=Minecolonies Guidebook
+com.minecolonies.coremod.gui.guidebook.errorPage=Something not nice happened. If the problem persists, please report it to our Github. Thank you in advance
+com.minecolonies.coremod.gui.guidebook.pageShorcut=p.
+com.minecolonies.coremod.gui.guidebook.index=Index
+com.minecolonies.coremod.gui.guidebook.bookmarks=Bookmarks
+com.minecolonies.coremod.gui.guidebook.bookmarks.new=Add bookmark
+com.minecolonies.coremod.gui.guidebook.bookmarks.title=Enter a name for bookmark:
+com.minecolonies.coremod.gui.guidebook.bookmarks.confirm=Add
+com.minecolonies.coremod.gui.guidebook.bookmarks.cancel=Cancel
+com.minecolonies.coremod.gui.guidebook.bookmarks.alreadyExists=This name already exists!
+com.minecolonies.coremod.gui.guidebook.bookmarks.probablyRemoved=This bookmark pointed to page which no longer exists. Bookmark got automatically removed, you can make a new one.

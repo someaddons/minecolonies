@@ -47,6 +47,7 @@ import net.minecraftforge.event.world.ChunkEvent;
 import net.minecraftforge.event.world.WorldEvent;
 import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import org.jetbrains.annotations.NotNull;
@@ -54,6 +55,7 @@ import org.jetbrains.annotations.Nullable;
 
 import static com.minecolonies.api.util.constant.Constants.BLOCKS_PER_CHUNK;
 import static com.minecolonies.api.util.constant.NbtTagConstants.FIRST_POS_STRING;
+import static com.minecolonies.api.util.constant.NbtTagConstants.GUIDEBOOK_GIVEN;
 import static com.minecolonies.api.util.constant.TranslationConstants.*;
 import static com.minecolonies.coremod.MineColonies.CLOSE_COLONY_CAP;
 
@@ -251,6 +253,27 @@ public class EventHandler
             itemstack.setTagCompound(compound);
 
             event.setCanceled(true);
+        }
+    }
+
+    //Precast of guidebook, can't be inside function
+    @GameRegistry.ItemStackHolder(value = Constants.MOD_ID + ":guidebook")
+    public static ItemStack gbookStack;
+    /**
+     * Called when player log in to any world.
+     *
+     * @param event {@link PlayerEvent.PlayerLoggedInEvent}
+     */
+    @SubscribeEvent
+    public void onPlayerLoggedIn(@NotNull final net.minecraftforge.fml.common.gameevent.PlayerEvent.PlayerLoggedInEvent event)
+    {
+        final String playerTag = Constants.MOD_ID + ":" + GUIDEBOOK_GIVEN;
+        EntityPlayer player = event.player;
+
+        if (Configurations.gameplay.playerGetsGuidebookOnFirstJoin && !player.getTags().contains(playerTag))
+        {
+            player.addItemStackToInventory(gbookStack.copy());
+            player.addTag(playerTag);
         }
     }
 

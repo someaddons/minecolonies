@@ -291,6 +291,13 @@ public final class NbtTagConstants
      * Tag used to store if the entity is the main.
      */
     public static final String TAG_MAIN = "main";
+    
+    /**
+     * Tags used by guidebook
+     */
+    public static final String BOOKMARKS = "bookmarks";
+    public static final String LAST_PAGE = "lastPage";
+    public static final String GUIDEBOOK_GIVEN = "guidebookGiven";
 
     /**
      * Private constructor to hide the implicit one.

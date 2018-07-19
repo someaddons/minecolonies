@@ -249,6 +249,16 @@ public final class TranslationConstants
     public static final String CANT_PLACE_COLONY_TOO_CLOSE_TO_SPAWN                                = "com.minecolonies.coremod.tooClose";
     @NonNls
     public static final String CANT_PLACE_COLONY_TOO_FAR_FROM_SPAWN                                = "com.minecolonies.coremod.tooFar";
+    @NonNls
+    public static final String GUIDEBOOK_BOOKMARK_ALREADY_EXISTS                                   = "com.minecolonies.coremod.gui.guidebook.bookmarks.alreadyExists";
+    @NonNls
+    public static final String GUIDEBOOK_BOOKMARK_NEW                                              = "com.minecolonies.coremod.gui.guidebook.bookmarks.new";
+    @NonNls
+    public static final String GUIDEBOOK_BOOKMARK_PROBABLY_REMOVED                                 = "com.minecolonies.coremod.gui.guidebook.bookmarks.probablyRemoved";
+    @NonNls
+    public static final String GUIDEBOOK_ERROR_PAGE                                                = "com.minecolonies.coremod.gui.guidebook.errorPage";
+    @NonNls
+    public static final String COM_MINECOLONIES_COREMOD_GUI_GUIDEBOOK_PAGESHORCUT                  = "com.minecolonies.coremod.gui.guidebook.pageShorcut";
 
     private TranslationConstants()
     {
