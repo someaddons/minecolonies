@@ -8,6 +8,7 @@ import com.minecolonies.coremod.colony.Colony;
 import com.minecolonies.coremod.colony.ColonyView;
 import com.minecolonies.coremod.colony.buildings.AbstractBuilding;
 import com.minecolonies.coremod.colony.buildings.views.AbstractBuildingView;
+import com.minecolonies.coremod.entity.EntityCitizen;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.block.BlockBed;
 import net.minecraft.block.state.IBlockState;
@@ -20,11 +21,9 @@ import net.minecraftforge.common.util.Constants;
 import net.minecraftforge.fml.common.gameevent.TickEvent;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
+import static com.minecolonies.api.util.constant.ColonyConstants.ONWORLD_TICK_AVERAGE;
 import static com.minecolonies.api.util.constant.ColonyConstants.NUM_ACHIEVEMENT_FIRST;
 import static com.minecolonies.api.util.constant.Constants.MAX_BUILDING_LEVEL;
 import static com.minecolonies.api.util.constant.NbtTagConstants.TAG_BEDS;
@@ -184,6 +183,14 @@ public class BuildingHome extends AbstractBuilding
     @Override
     public void onWorldTick(@NotNull final TickEvent.WorldTickEvent event)
     {
+        //
+        // Code below this check won't lag each tick anymore
+        //
+        if (!Colony.shallUpdate(event.world, ONWORLD_TICK_AVERAGE))
+        {
+            return;
+        }
+
         if (getAssignedCitizen().size() < getMaxInhabitants() && getColony() != null && !getColony().isManualHousing())
         {
             // 'Capture' as many citizens into this house as possible
@@ -252,6 +259,14 @@ public class BuildingHome extends AbstractBuilding
         if (newLevel >= this.getMaxBuildingLevel())
         {
             this.getColony().getStatsManager().triggerAchievement(ModAchievements.achievementUpgradeColonistMax);
+        }
+
+        for (final Optional<EntityCitizen> entityCitizen: getAssignedEntities())
+        {
+            if (entityCitizen.isPresent() && entityCitizen.get().getCitizenJobHandler().getColonyJob() == null)
+            {
+                entityCitizen.get().getCitizenJobHandler().setModelDependingOnJob(null);
+            }
         }
     }
 
