@@ -91,7 +91,7 @@
         <view id="RaddB" size="100% 100%">
             <label size="100% 18" color="black"
                             label="$(com.minecolonies.coremod.gui.guidebook.bookmarks.title)"/>
-            <input id="addBNewName" size="100% 10" pos="0 21" maxlength="15" textColor="black" backgroundOuter="dimgray" backgroundInner="ivory"/>
+            <input id="addBNewName" size="100% 10" pos="0 21" maxlength="14" textColor="black" backgroundOuter="dimgray" backgroundInner="ivory"/>
             <buttonimage id="addBConfirm" size="50 16" pos="0 35" textcolor="black" source="minecolonies:textures/gui/guidebook/add_bookmark.png"
                             label="$(com.minecolonies.coremod.gui.guidebook.bookmarks.confirm)"/>
             <buttonimage id="addBCancel" size="50 16" pos="53 35" textcolor="black" source="minecolonies:textures/gui/guidebook/add_bookmark.png"

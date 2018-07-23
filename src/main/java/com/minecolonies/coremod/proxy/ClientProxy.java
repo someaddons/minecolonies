@@ -230,6 +230,7 @@ public class ClientProxy extends CommonProxy
         createCustomModel(ModItems.permTool);
         createCustomModel(ModItems.ancientTome);
         createCustomModel(ModItems.chiefSword);
+        createCustomModel(ModItems.guidebook);
 
         // Achievement proxy Items
         createCustomModel(ModItems.itemAchievementProxySettlement);
