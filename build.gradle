@@ -1,3 +1,6 @@
+import net.minecraftforge.gradle.user.*
+import net.minecraftforge.gradle.common.*
+
 buildscript {
     repositories {
         jcenter()
@@ -173,11 +176,6 @@ task structuresJar(type: Jar){
     classifier 'structures'
 }
 
-task deobfJar(type: Jar) {
-    from sourceSets.main.output
-    classifier = 'deobf'
-}
-
 jar {
     from sourceSets.api.output
     from sourceSets.blockOut.output
@@ -189,6 +187,13 @@ jar {
     manifest {
         attributes 'FMLAT': "minecolonies_at.cfg"
     }
+}
+
+reobf {
+    jar {}
+    apiJar {}
+    blockOutJar {}
+    structuresJar {}
 }
 
 javadoc {
@@ -232,10 +237,7 @@ curseforge {
             changelogType = 'markdown'
             releaseType = System.getenv().CURSERELEASETYPE
 
-            addArtifact deobfJar
             addArtifact apiJar
-            addArtifact blockOutJar
-            addArtifact structuresJar
         }
     }
     else

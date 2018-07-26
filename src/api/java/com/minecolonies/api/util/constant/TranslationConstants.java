@@ -250,6 +250,8 @@ public final class TranslationConstants
     @NonNls
     public static final String CANT_PLACE_COLONY_TOO_FAR_FROM_SPAWN                                = "com.minecolonies.coremod.tooFar";
     @NonNls
+    public static final String GUI_TOWNHALL_CITIZEN_JOB_UNEMPLOYED                                 = "com.minecolonies.coremod.gui.townHall.citizens.unemployed";
+    @NonNls
     public static final String GUIDEBOOK_BOOKMARK_ALREADY_EXISTS                                   = "com.minecolonies.coremod.gui.guidebook.bookmarks.alreadyExists";
     @NonNls
     public static final String GUIDEBOOK_BOOKMARK_NEW                                              = "com.minecolonies.coremod.gui.guidebook.bookmarks.new";
