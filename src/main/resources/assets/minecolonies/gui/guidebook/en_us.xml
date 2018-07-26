@@ -30,22 +30,13 @@
     </list>
     <!-- actual invisible list of indexes -->
     <view id="indexList" size="0 0" pos="0 0" visible="false" enabled="false">
-        <text>Sample index 1.....</text>
-        <text>1</text>
-        <text>Sample index 2.....</text>
-        <text>11</text>
-        <text>Sample index 3.....</text>
-        <text>12</text>
-        <text>Sample index 4.....</text>
-        <text>0</text>
-        <text>Sample index 5.....</text>
-        <text>2</text>
-        <text>Sample index 6.....</text>
-        <text>4</text>
-        <text>Sample index 7.....</text>
-        <text>6</text>
-        <text>Sample index 8.....</text>
-        <text>8</text>
+        <text>MOD INFO,1,null</text>
+        <text>GETTING STARTED,2,null</text>
+        <text>TOOLS,3,placedSupply</text>
+        <text>TOWNHALL,4,placedSupply</text>
+        <text>BUILDER,5,placedSupply</text>
+        <text>TEST,6,null</text>
+        <text>TEST_ERROR,20,null</text>
     </view>
 
     <switch id="pagesLeft" size="149 185" pos="126 24">

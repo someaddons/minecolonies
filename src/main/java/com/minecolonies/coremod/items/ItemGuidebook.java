@@ -1,9 +1,11 @@
 package com.minecolonies.coremod.items;
 
+import com.minecolonies.api.util.Log;
 import com.minecolonies.coremod.client.gui.WindowGuideBook;
 import com.minecolonies.coremod.creativetab.ModCreativeTabs;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.EnumActionResult;
@@ -37,14 +39,15 @@ public class ItemGuidebook extends AbstractItemMinecolonies
         String clientLanguage = Minecraft.getMinecraft().getLanguageManager().getCurrentLanguage().getLanguageCode();
 
         //TODO: check if a book translation (LOCATION_OF_GUIDEBOOKS) exists and then use it
-        if (true)
+        if (!worldIn.isRemote)
         {
-            clientLanguage = "en_us";
-        }
+            if (true)
+            {
+                clientLanguage = "en_us";
+            }
+            Log.getLogger().info(worldIn.isRemote);
 
-        if (worldIn.isRemote)
-        {
-            @Nullable final WindowGuideBook window = new WindowGuideBook(stack, clientLanguage);
+            @Nullable final WindowGuideBook window = new WindowGuideBook(stack, ((EntityPlayerMP) playerIn).getAdvancements(), clientLanguage);
             window.open();
         }
         return new ActionResult<>(EnumActionResult.SUCCESS, stack);

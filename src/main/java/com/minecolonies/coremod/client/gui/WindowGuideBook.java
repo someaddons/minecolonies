@@ -13,10 +13,14 @@ import com.minecolonies.blockout.views.ScrollingList;
 import com.minecolonies.blockout.views.SwitchView;
 import com.minecolonies.blockout.views.View;
 import com.minecolonies.blockout.views.Window;
+
+import net.minecraft.advancements.PlayerAdvancements;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.nbt.NBTTagString;
+import net.minecraft.util.EnumHand;
 
 import java.util.List;
 import org.jetbrains.annotations.NotNull;
@@ -39,29 +43,26 @@ public class WindowGuideBook extends Window implements ButtonHandler {
      * styles for the content are inside the same folder as the script
      */
 
-    /*
-     * TODO: check if there is a language file for the current language inside gui/guibebook/
-     * Default is probably en_us
-     * private static final String currentLanguage = Minecraft.getMinecraft().getLanguageManager().getCurrentLanguage().getLanguageCode();
-     * private static final String BOOK_RESOURCE = ":gui/guidebook/" + currentLanguage + ".xml";
-     */
     private static final String BOOK_RESOURCE = ":gui/guidebook/";
 
     // Number of pages in pagesLeft - 1 (for the errorPage)
     private final int maxViews;
-    // Holds the guidebook from a hand of a player
+    // Holds player's guidebook
     private ItemStack playersBook;
+    // Holds player's advancements
+    private PlayerAdvancements playersAdvancements;
     // List of all indexes
     private String[] indexList;
     // NBT tags to store bookmarks and lastPage
     private NBTTagCompound nbtComp = new NBTTagCompound();
     private NBTTagList bookmarks = new NBTTagList();
 
-    public WindowGuideBook(ItemStack book, final String currentLanguage)
+    public WindowGuideBook(final ItemStack book, final PlayerAdvancements advancements, final String currentLanguage)
     {
         super(Constants.MOD_ID + BOOK_RESOURCE + currentLanguage + ".xml");
         maxViews = findPaneOfTypeByID(PAGES_LEFT, SwitchView.class).getChildrenSize() - 1;
         playersBook = book;
+        playersAdvancements = advancements;
 
         if (playersBook.hasTagCompound())
         {
@@ -159,7 +160,7 @@ public class WindowGuideBook extends Window implements ButtonHandler {
     {
         final List<Pane> listOfIndexes = findPaneOfTypeByID(LIST_OF_INDEXES, View.class).getChildren();
 
-        indexList = new String[listOfIndexes.size() / 2];
+        indexList = new String[listOfIndexes.size()];
         findPaneOfTypeByID(PAGE_ERROR_HEAD, Text.class).setTextContent(LanguageHandler.format(GUIDEBOOK_ERROR_PAGE));
 
         // Jump to the lastPage if found
@@ -175,17 +176,24 @@ public class WindowGuideBook extends Window implements ButtonHandler {
             @Override
             public int getElementCount()
             {
-                return listOfIndexes.size() / 2;
+                return listOfIndexes.size();
             }
 
             @Override
             public void updateElement(final int index, @NotNull final Pane rowPane)
             {
-                final String indexName = ((Text) listOfIndexes.get(2 * index)).getTextContent();
-                final int indexPage = Integer.parseInt(((Text) listOfIndexes.get(2 * index + 1)).getTextContent());
+                //indexData[3] = indexName + indexPage + indexAdvancement
+                final String[] indexData = ((Text) listOfIndexes.get(index)).getTextContent().split(",");
+                final int indexPage = Integer.parseInt(indexData[1]);
+                /* ADVANCEMENT CHECK
+                if (playersAdvancement.getProgress(<Advancement>).isDone())
+                {
+                    return;
+                }
+                */
 
-                indexList[index] = indexName + ":" + indexPage;
-                rowPane.findPaneOfTypeByID(LIST_INDEX + LIST_NAME, ButtonImage.class).setLabel(indexName);
+                indexList[index] = indexData[0] + ":" + indexPage;
+                rowPane.findPaneOfTypeByID(LIST_INDEX + LIST_NAME, ButtonImage.class).setLabel(indexData[0]);
                 rowPane.findPaneOfTypeByID(LIST_INDEX + LIST_PAGE, Text.class).setTextContent(PAGE_SHORCUT + (2 * indexPage - 1));
             }
         });
