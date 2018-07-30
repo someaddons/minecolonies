@@ -1,0 +1,39 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "   ",
+    "B B",
+    "BBB"
+  ],
+  "conditions": [
+    {
+      "type": "minecolonies:config_condition",
+      "key": "supply"
+    }
+  ],
+  "key": {
+    "B": [
+      {
+        "item": "minecraft:acacia_boat"
+      },
+      {
+        "item": "minecraft:birch_boat"
+      },
+      {
+        "item": "minecraft:dark_oak_boat"
+      },
+      {
+        "item": "minecraft:jungle_boat"
+      },
+      {
+        "item": "minecraft:boat"
+      },
+      {
+        "item": "minecraft:spruce_boat"
+      }
+    ]
+  },
+  "result": {
+    "item": "minecolonies:supplychestdeployer"
+  }
+}
