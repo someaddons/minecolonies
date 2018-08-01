@@ -160,9 +160,6 @@ public abstract class AbstractEntityAIInteract<J extends AbstractJob> extends Ab
         //get all item drops
         final List<ItemStack> localItems = BlockPosUtil.getBlockDrops(world, blockToMine, fortune);
 
-        //if block in statistic then increment that statistic.
-        triggerMinedBlock(blockToMine);
-
         //Break the block
         worker.getCitizenItemHandler().breakBlockWithToolInHand(blockToMine);
 
@@ -218,35 +215,6 @@ public abstract class AbstractEntityAIInteract<J extends AbstractJob> extends Ab
 
 
         return hasNotDelayed(getBlockMiningDelay(curBlock, blockToMine));
-    }
-
-    private void triggerMinedBlock(@NotNull final BlockPos blockToMine)
-    {
-        if (world.getBlockState(blockToMine).getBlock() == (Blocks.COAL_ORE)
-              || world.getBlockState(blockToMine).getBlock() == (Blocks.IRON_ORE)
-              || world.getBlockState(blockToMine).getBlock() == (Blocks.LAPIS_ORE)
-              || world.getBlockState(blockToMine).getBlock() == (Blocks.GOLD_ORE)
-              || world.getBlockState(blockToMine).getBlock() == (Blocks.REDSTONE_ORE)
-              || world.getBlockState(blockToMine).getBlock() == (Blocks.EMERALD_ORE))
-        {
-            this.getOwnBuilding().getColony().getStatsManager().incrementStatistic("ores");
-        }
-        if (world.getBlockState(blockToMine).getBlock().equals(Blocks.DIAMOND_ORE))
-        {
-            this.getOwnBuilding().getColony().getStatsManager().incrementStatistic("diamonds");
-        }
-        if (world.getBlockState(blockToMine).getBlock().equals(Blocks.CARROTS))
-        {
-            this.getOwnBuilding().getColony().getStatsManager().incrementStatistic("carrots");
-        }
-        if (world.getBlockState(blockToMine).getBlock().equals(Blocks.POTATOES))
-        {
-            this.getOwnBuilding().getColony().getStatsManager().incrementStatistic("potatoes");
-        }
-        if (world.getBlockState(blockToMine).getBlock().equals(Blocks.WHEAT))
-        {
-            this.getOwnBuilding().getColony().getStatsManager().incrementStatistic("wheat");
-        }
     }
 
     /**

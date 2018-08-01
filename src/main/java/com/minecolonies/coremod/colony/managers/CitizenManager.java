@@ -207,7 +207,6 @@ public class CitizenManager implements ICitizenManager
             entity.setPosition(spawnPoint.getX() + HALF_BLOCK, spawnPoint.getY() + SLIGHTLY_UP, spawnPoint.getZ() + HALF_BLOCK);
             world.spawnEntity(entity);
 
-            colony.getStatsManager().checkAchievements();
             markCitizensDirty();
         }
     }

@@ -19,12 +19,6 @@ public final class ColonyConstants
     */
     public static final int ONWORLD_TICK_AVERAGE = 1 * TICKS_SECOND;
 
-    public static final int NUM_ACHIEVEMENT_FIRST  = 1;
-    public static final int NUM_ACHIEVEMENT_SECOND = 25;
-    public static final int NUM_ACHIEVEMENT_THIRD  = 100;
-    public static final int NUM_ACHIEVEMENT_FOURTH = 500;
-    public static final int NUM_ACHIEVEMENT_FIFTH  = 1000;
-
     /**
      * The default spawn radius required for barbarians.
      */

@@ -1,7 +1,6 @@
 package com.minecolonies.coremod.colony.jobs;
 
 import com.minecolonies.api.util.BlockPosUtil;
-import com.minecolonies.coremod.achievements.ModAchievements;
 import com.minecolonies.coremod.client.render.RenderBipedCitizen;
 import com.minecolonies.coremod.colony.CitizenData;
 import com.minecolonies.coremod.entity.EntityCitizen;
@@ -168,16 +167,6 @@ public class JobFisherman extends AbstractJob
             return getCitizen().isFemale() ? FishermanSounds.Female.badWeather : FishermanSounds.Male.badWeather;
         }
         return null;
-    }
-
-    @Override
-    public void triggerDeathAchievement(final DamageSource source, final EntityCitizen citizen)
-    {
-        super.triggerDeathAchievement(source, citizen);
-        if (source.getTrueSource() instanceof EntityGuardian)
-        {
-            this.getColony().getStatsManager().triggerAchievement(ModAchievements.achievementFisherDeathGuardian);
-        }
     }
 
     /**

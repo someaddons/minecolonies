@@ -1,6 +1,5 @@
 package com.minecolonies.coremod.entity.ai.citizen.guard;
 
-import com.minecolonies.coremod.achievements.ModAchievements;
 import com.minecolonies.coremod.colony.Colony;
 import com.minecolonies.coremod.colony.ColonyManager;
 import com.minecolonies.coremod.entity.EntityCitizen;
@@ -53,24 +52,6 @@ public class GuardArrow extends EntityTippedArrow
         super.readEntityFromNBT(compound);
         final int colonyID = compound.getInteger(TAG_COLONY);
         colony = ColonyManager.getColony(colonyID);
-    }
-
-    @Override
-    protected void arrowHit(final EntityLivingBase targetEntity)
-    {
-        super.arrowHit(targetEntity);
-        if (targetEntity.getHealth() <= 0.0F)
-        {
-            if (targetEntity instanceof EntityPlayer)
-            {
-                final EntityPlayer player = (EntityPlayer) targetEntity;
-                if (colony.getPermissions().isColonyMember(player))
-                {
-                    this.colony.getStatsManager().triggerAchievement(ModAchievements.achievementPlayerDeathGuard);
-                }
-            }
-            colony.getStatsManager().incrementStatistic("mobs");
-        }
     }
 
     @Override

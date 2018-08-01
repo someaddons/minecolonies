@@ -360,17 +360,6 @@ public abstract class AbstractJob
     }
 
     /**
-     * Override this to implement Job specific death achievements.
-     *
-     * @param source  of the death
-     * @param citizen which just died
-     */
-    public void triggerDeathAchievement(final DamageSource source, final EntityCitizen citizen)
-    {
-
-    }
-
-    /**
      * Method called when a stack is pickup by the entity.
      *
      * @param pickedUpStack The stack that is being picked up.

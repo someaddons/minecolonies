@@ -7,7 +7,6 @@ import com.minecolonies.api.util.ItemStackUtils;
 import com.minecolonies.api.util.constant.ToolType;
 import com.minecolonies.blockout.views.Window;
 import com.minecolonies.coremod.MineColonies;
-import com.minecolonies.coremod.achievements.ModAchievements;
 import com.minecolonies.coremod.client.gui.WindowHutGuardTower;
 import com.minecolonies.coremod.colony.*;
 import com.minecolonies.coremod.colony.buildings.views.MobEntryView;
@@ -132,11 +131,6 @@ public abstract class AbstractBuildingGuards extends AbstractBuildingWorker
      * Max tries to find a position to path to.
      */
     private static final int MAX_TRIES = 20;
-
-    /**
-     * The level for getting our achievement
-     */
-    private static final int ACHIEVEMENT_LEVEL = 1;
 
     /**
      * Whether to patrol manually or not.
@@ -436,15 +430,6 @@ public abstract class AbstractBuildingGuards extends AbstractBuildingWorker
         }
 
         super.onUpgradeComplete(newLevel);
-
-        if (newLevel == ACHIEVEMENT_LEVEL)
-        {
-            this.getColony().getStatsManager().triggerAchievement(ModAchievements.achievementBuildingGuard);
-        }
-        if (newLevel >= this.getMaxBuildingLevel())
-        {
-            this.getColony().getStatsManager().triggerAchievement(ModAchievements.achievementUpgradeGuardMax);
-        }
     }
 
     @Override

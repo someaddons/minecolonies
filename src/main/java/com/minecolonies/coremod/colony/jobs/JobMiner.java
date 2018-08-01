@@ -1,6 +1,5 @@
 package com.minecolonies.coremod.colony.jobs;
 
-import com.minecolonies.coremod.achievements.ModAchievements;
 import com.minecolonies.coremod.client.render.RenderBipedCitizen;
 import com.minecolonies.coremod.colony.CitizenData;
 import com.minecolonies.coremod.entity.EntityCitizen;
@@ -48,19 +47,5 @@ public class JobMiner extends AbstractJobStructure
     public AbstractAISkeleton<JobMiner> generateAI()
     {
         return new EntityAIStructureMiner(this);
-    }
-
-    @Override
-    public void triggerDeathAchievement(final DamageSource source, final EntityCitizen citizen)
-    {
-        super.triggerDeathAchievement(source, citizen);
-        if (source == DamageSource.LAVA || source == DamageSource.IN_FIRE || source == DamageSource.ON_FIRE)
-        {
-            citizen.getCitizenColonyHandler().getColony().getStatsManager().triggerAchievement(ModAchievements.achievementMinerDeathLava);
-        }
-        if (source.equals(DamageSource.FALL))
-        {
-            citizen.getCitizenColonyHandler().getColony().getStatsManager().triggerAchievement(ModAchievements.achievementMinerDeathFall);
-        }
     }
 }

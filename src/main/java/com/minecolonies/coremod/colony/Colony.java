@@ -93,11 +93,6 @@ public class Colony implements IColony
     private final ICitizenManager citizenManager = new CitizenManager(this);
 
     /**
-     * Statistic and achievement manager manager of the colony.
-     */
-    private final IStatisticAchievementManager statsManager = new StatisticAchievementManager(this);
-
-    /**
      * Barbarian manager of the colony.
      */
     private final IBarbarianManager barbarianManager = new BarbarianManager(this);
@@ -309,16 +304,6 @@ public class Colony implements IColony
             buildingManager.readFromNBT(compound);
         }
 
-        if(compound.hasKey(TAG_STATS_MANAGER))
-        {
-            statsManager.readFromNBT(compound.getCompoundTag(TAG_STATS_MANAGER));
-        }
-        else
-        {
-            //Compatability with old version!
-            statsManager.readFromNBT(compound);
-        }
-
         //  Workload
         workManager.readFromNBT(compound.getCompoundTag(TAG_WORK));
 
@@ -420,10 +405,6 @@ public class Colony implements IColony
         final NBTTagCompound citizenCompound = new NBTTagCompound();
         citizenManager.writeToNBT(citizenCompound);
         compound.setTag(TAG_CITIZEN_MANAGER, citizenCompound);
-
-        final NBTTagCompound statsCompound = new NBTTagCompound();
-        statsManager.writeToNBT(statsCompound);
-        compound.setTag(TAG_STATS_MANAGER, statsCompound);
 
         //  Workload
         @NotNull final NBTTagCompound workManagerCompound = new NBTTagCompound();
@@ -1091,15 +1072,6 @@ public class Colony implements IColony
     public ICitizenManager getCitizenManager()
     {
         return citizenManager;
-    }
-
-    /**
-     * Get the statsManager of the colony.
-     * @return the statsManager.
-     */
-    public IStatisticAchievementManager getStatsManager()
-    {
-        return statsManager;
     }
 
     /**

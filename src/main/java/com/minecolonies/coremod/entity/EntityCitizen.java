@@ -17,7 +17,6 @@ import com.minecolonies.coremod.colony.CitizenDataView;
 import com.minecolonies.coremod.colony.ColonyManager;
 import com.minecolonies.coremod.colony.ColonyView;
 import com.minecolonies.coremod.colony.buildings.AbstractBuilding;
-import com.minecolonies.coremod.colony.jobs.AbstractJob;
 import com.minecolonies.coremod.colony.jobs.AbstractJobGuard;
 import com.minecolonies.coremod.entity.ai.minimal.*;
 import com.minecolonies.coremod.entity.ai.mobs.barbarians.AbstractEntityBarbarian;
@@ -409,26 +408,10 @@ public class EntityCitizen extends AbstractEntityCitizen
             citizenExperienceHandler.dropExperience();
             this.setDead();
             citizenColonyHandler.getColony().decreaseOverallHappiness(penalty);
-            triggerDeathAchievement(damageSource, citizenJobHandler.getColonyJob());
             citizenChatHandler.notifyDeath(damageSource);
             citizenColonyHandler.getColony().getCitizenManager().removeCitizen(getCitizenData());
         }
         super.onDeath(damageSource);
-    }
-
-    /**
-     * Trigger the corresponding death achievement.
-     *
-     * @param source The damage source.
-     * @param job    The job of the citizen.
-     */
-    private void triggerDeathAchievement(final DamageSource source, final AbstractJob job)
-    {
-        // If the job is null, then we can trigger jobless citizen achievement
-        if (job != null)
-        {
-            job.triggerDeathAchievement(source, this);
-        }
     }
 
     /**

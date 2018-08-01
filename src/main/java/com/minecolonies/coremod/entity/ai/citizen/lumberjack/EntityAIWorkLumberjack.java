@@ -365,7 +365,6 @@ public class EntityAIWorkLumberjack extends AbstractEntityAIInteract<JobLumberja
                 job.tree = null;
                 checkedInHut = false;
             }
-            building.getColony().getStatsManager().incrementStatistic("trees");
             workFrom = null;
             return LUMBERJACK_GATHERING;
         }
@@ -535,7 +534,6 @@ public class EntityAIWorkLumberjack extends AbstractEntityAIInteract<JobLumberja
               soundType.getVolume(),
               soundType.getPitch());
             worker.swingArm(worker.getActiveHand());
-            this.getOwnBuilding().getColony().getStatsManager().incrementStatistic("saplings");
         }
 
         if(timeWaited >= MAX_WAITING_TIME/2 && !checkedInHut && !walkToBuilding())

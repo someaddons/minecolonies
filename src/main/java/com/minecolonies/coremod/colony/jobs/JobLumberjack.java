@@ -1,6 +1,5 @@
 package com.minecolonies.coremod.colony.jobs;
 
-import com.minecolonies.coremod.achievements.ModAchievements;
 import com.minecolonies.coremod.client.render.RenderBipedCitizen;
 import com.minecolonies.coremod.colony.CitizenData;
 import com.minecolonies.coremod.entity.EntityCitizen;
@@ -102,15 +101,5 @@ public class JobLumberjack extends AbstractJob
     public AbstractAISkeleton<JobLumberjack> generateAI()
     {
         return new EntityAIWorkLumberjack(this);
-    }
-
-    @Override
-    public void triggerDeathAchievement(final DamageSource source, final EntityCitizen citizen)
-    {
-        super.triggerDeathAchievement(source, citizen);
-        if (source == DamageSource.IN_WALL)
-        {
-            citizen.getCitizenColonyHandler().getColony().getStatsManager().triggerAchievement(ModAchievements.achievementLumberjackDeathTree);
-        }
     }
 }
