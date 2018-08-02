@@ -1,0 +1,40 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "XTX",
+    "XDX",
+    "XXX"
+  ],
+  "key": {
+    "X": {
+      "type": "forge:ore_dict",
+      "ore": "plankWood"
+    },
+    "D": [
+      {
+        "item": "minecraft:acacia_door"
+      },
+      {
+        "item": "minecraft:birch_door"
+      },
+      {
+        "item": "minecraft:dark_oak_door"
+      },
+      {
+        "item": "minecraft:jungle_door"
+      },
+      {
+        "item": "minecraft:wooden_door"
+      },
+      {
+        "item": "minecraft:spruce_door"
+      }
+    ],
+    "T": {
+      "item": "minecolonies:sceptergold"
+    }
+  },
+  "result": {
+    "item": "minecolonies:blockhutbuilder"
+  }
+}
