@@ -12,8 +12,6 @@ public final class NbtTagConstants
     public static final String TAG_MAX_CITIZENS           = "maxCitizens";
     public static final String TAG_BUILDINGS              = "buildings";
     public static final String TAG_CITIZENS               = "citizens";
-    public static final String TAG_ACHIEVEMENT            = "achievement";
-    public static final String TAG_ACHIEVEMENT_LIST       = "achievementlist";
     public static final String TAG_WORK                   = "work";
     public static final String TAG_MANUAL_HIRING          = "manualHiring";
     public static final String TAG_MANUAL_HOUSING         = "manualHousing";

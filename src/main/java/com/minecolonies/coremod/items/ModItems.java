@@ -25,11 +25,6 @@ public final class ModItems
     public static Item itemCactusDoor;
     public static Item compost;
 
-    public static Item itemAchievementProxySettlement;
-    public static Item itemAchievementProxyTown;
-    public static Item itemAchievementProxyCity;
-    public static Item itemAchievementProxyMetropolis;
-
     /**
      * Private constructor to hide the implicit public one.
      */
@@ -57,10 +52,6 @@ public final class ModItems
         clipboard = new ItemClipBoard();
         compost = new ItemCompost();
         itemCactusDoor = new ItemCactusDoor(ModBlocks.blockCactusDoor, "cactusdoor");
-        itemAchievementProxySettlement = new ItemAchievementProxy("sizeSettlement");
-        itemAchievementProxyTown = new ItemAchievementProxy("sizeTown");
-        itemAchievementProxyCity = new ItemAchievementProxy("sizeCity");
-        itemAchievementProxyMetropolis = new ItemAchievementProxy("sizeMetropolis");
 
         registry.register(supplyChest);
         registry.register(buildTool);
@@ -71,10 +62,6 @@ public final class ModItems
         registry.register(supplyCamp);
         registry.register(ancientTome);
         registry.register(chiefSword);
-        registry.register(itemAchievementProxySettlement);
-        registry.register(itemAchievementProxyTown);
-        registry.register(itemAchievementProxyCity);
-        registry.register(itemAchievementProxyMetropolis);
         registry.register(clipboard);
         registry.register(itemCactusDoor);
         registry.register(compost);

@@ -7,7 +7,6 @@ import com.minecolonies.api.colony.permissions.Rank;
 import com.minecolonies.api.util.Utils;
 import com.minecolonies.coremod.colony.Colony;
 import com.minecolonies.coremod.network.PacketUtils;
-import com.minecolonies.coremod.util.AchievementUtils;
 import com.mojang.authlib.GameProfile;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.entity.player.EntityPlayer;
@@ -670,7 +669,6 @@ public class Permissions implements IPermissions
         {
             player.setRank(rank);
             markDirty();
-            AchievementUtils.syncAchievements(colony);
         }
         else
         {
@@ -701,7 +699,6 @@ public class Permissions implements IPermissions
         players.put(p.getID(), p);
 
         markDirty();
-        AchievementUtils.syncAchievements(colony);
         return true;
     }
 
@@ -757,7 +754,6 @@ public class Permissions implements IPermissions
         players.put(p.getID(), p);
 
         markDirty();
-        AchievementUtils.syncAchievements(colony);
         return true;
     }
 
@@ -770,7 +766,6 @@ public class Permissions implements IPermissions
     public boolean removePlayer(final UUID id)
     {
         final Player player = players.get(id);
-        AchievementUtils.syncAchievements(colony);
         if (player != null && player.getRank() != Rank.OWNER && players.remove(id) != null)
         {
             markDirty();

@@ -411,7 +411,7 @@ public abstract class AbstractBuildingGuards extends AbstractBuildingWorker
     }
 
     /**
-     * We use this to set possible health multipliers and give achievements.
+     * We use this to set possible health multipliers.
      *
      * @param newLevel The new level.
      */
