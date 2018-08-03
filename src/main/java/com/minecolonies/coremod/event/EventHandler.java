@@ -7,8 +7,10 @@ import com.minecolonies.api.configuration.Configurations;
 import com.minecolonies.api.util.BlockPosUtil;
 import com.minecolonies.api.util.LanguageHandler;
 import com.minecolonies.api.util.Log;
+import com.minecolonies.api.util.constant.AdvancementsConstants;
 import com.minecolonies.api.util.constant.Constants;
 import com.minecolonies.coremod.MineColonies;
+import com.minecolonies.coremod.advancements.ModAdvancements;
 import com.minecolonies.coremod.blocks.AbstractBlockHut;
 import com.minecolonies.coremod.blocks.huts.BlockHutField;
 import com.minecolonies.coremod.blocks.huts.BlockHutTownHall;
@@ -34,6 +36,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.stats.StatList;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
@@ -159,6 +162,7 @@ public class EventHandler
         //  Add nearby players
         if (entity instanceof EntityPlayerMP && entity.dimension == 0)
         {
+            final int dist = ((EntityPlayerMP) entity).getStatFile().readStat(StatList.WALK_ONE_CM) + ((EntityPlayerMP) entity).getStatFile().readStat(StatList.SPRINT_ONE_CM);
             final World world = entity.getEntityWorld();
             final Chunk newChunk = world.getChunkFromChunkCoords(event.getNewChunkX(), event.getNewChunkZ());
             ColonyManager.loadChunk(newChunk, entity.world);
@@ -210,6 +214,13 @@ public class EventHandler
                 {
                     colony.addVisitingPlayer(player);
                 }
+            }
+
+            //Trigger the first advancement
+            if (dist > AdvancementsConstants.WALKAROUND)
+            {
+                Log.getLogger().info("SHOULD FIRE ADVANCEMENT SUPPLY: " + entity.getName() + ",WALKAROUND");
+                ModAdvancements.WALK_AROUND.trigger((EntityPlayerMP) entity);
             }
         }
     }

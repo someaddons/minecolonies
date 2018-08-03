@@ -1,0 +1,23 @@
+{
+    "criteria": {
+        "walkAround": {
+            "trigger": "minecolonies:walkAround"
+        }
+    },
+    "display": {
+        "icon": {
+            "item": "minecolonies:caliper"
+        },
+        "title": {
+            "translate": "advancements.walkAround.title"
+        },
+        "description": {
+            "translate": "advancements.walkAround.desc"
+        },
+        "background": "minecolonies:textures/blocks/blockhuttownhalltop.png",
+        "hidden": false
+    },
+    "rewards": {
+        "recipes": ["minecolonies:supplychestdeployer","minecolonies:supplycampdeployer"]
+    }
+}

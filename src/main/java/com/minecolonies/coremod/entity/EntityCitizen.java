@@ -441,26 +441,10 @@ public class EntityCitizen extends AbstractEntityCitizen
             citizenExperienceHandler.dropExperience();
             this.setDead();
             citizenColonyHandler.getColony().getHappinessData().setDeathModifier(penalty,citizenJobHandler.getColonyJob() instanceof AbstractJobGuard); 
-            triggerDeathAchievement(damageSource, citizenJobHandler.getColonyJob());
             citizenChatHandler.notifyDeath(damageSource);
             citizenColonyHandler.getColony().getCitizenManager().removeCitizen(getCitizenData());
         }
         super.onDeath(damageSource);
-    }
-
-    /**
-     * Trigger the corresponding death achievement.
-     *
-     * @param source The damage source.
-     * @param job    The job of the citizen.
-     */
-    private void triggerDeathAchievement(final DamageSource source, final AbstractJob job)
-    {
-        // If the job is null, then we can trigger jobless citizen achievement
-        if (job != null)
-        {
-            job.triggerDeathAchievement(source, this);
-        }
     }
 
     /**

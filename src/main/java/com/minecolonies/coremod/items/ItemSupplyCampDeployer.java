@@ -10,6 +10,7 @@ import com.minecolonies.coremod.creativetab.ModCreativeTabs;
 import com.minecolonies.coremod.placementhandlers.PlacementError;
 import com.minecolonies.coremod.placementhandlers.PlacementError.PlacementErrorType;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.EnumActionResult;
@@ -73,14 +74,14 @@ public class ItemSupplyCampDeployer extends AbstractItemMinecolonies
             final float hitY,
             final float hitZ)
     {
-        if (worldIn.isRemote)
+        if (!worldIn.isRemote)
         {
             if(!Configurations.gameplay.allowOtherDimColonies && worldIn.provider.getDimension() != 0)
             {
                 LanguageHandler.sendPlayerMessage(playerIn, CANT_PLACE_COLONY_IN_OTHER_DIM);
                 return EnumActionResult.FAIL;
             }
-            placeSupplyCamp(pos, playerIn.getHorizontalFacing());
+            placeSupplyCamp(pos, playerIn.getHorizontalFacing(), playerIn);
         }
 
         return EnumActionResult.FAIL;
@@ -91,24 +92,24 @@ public class ItemSupplyCampDeployer extends AbstractItemMinecolonies
     public ActionResult<ItemStack> onItemRightClick(final World worldIn, final EntityPlayer playerIn, final EnumHand hand)
     {
         final ItemStack stack = playerIn.getHeldItem(hand);
-        if (worldIn.isRemote)
+        if (!worldIn.isRemote)
         {
             if(!Configurations.gameplay.allowOtherDimColonies && worldIn.provider.getDimension() != 0)
             {
                 LanguageHandler.sendPlayerMessage(playerIn, CANT_PLACE_COLONY_IN_OTHER_DIM);
                 return new ActionResult<>(EnumActionResult.FAIL, stack);
             }
-            placeSupplyCamp(null, playerIn.getHorizontalFacing());
+            placeSupplyCamp(null, playerIn.getHorizontalFacing(), playerIn);
         }
 
         return new ActionResult<>(EnumActionResult.FAIL, stack);
     }
 
-    private void placeSupplyCamp(@Nullable final BlockPos pos, @NotNull final EnumFacing direction)
+    private void placeSupplyCamp(@Nullable final BlockPos pos, @NotNull final EnumFacing direction, final EntityPlayer playerIn)
     {
         if(pos == null)
         {
-            MineColonies.proxy.openBuildToolWindow(null, SUPPLY_CAMP_STRUCTURE_NAME, 0, null);
+            MineColonies.proxy.openBuildToolWindow(null, SUPPLY_CAMP_STRUCTURE_NAME, 0, null, (EntityPlayerMP) playerIn);
             return;
         }
 
@@ -133,7 +134,7 @@ public class ItemSupplyCampDeployer extends AbstractItemMinecolonies
                 rotations = ROTATE_0_TIMES;
                 break;
         }
-        MineColonies.proxy.openBuildToolWindow(tempPos, SUPPLY_CAMP_STRUCTURE_NAME, rotations, WindowBuildTool.FreeMode.SUPPLYCAMP);
+        MineColonies.proxy.openBuildToolWindow(tempPos, SUPPLY_CAMP_STRUCTURE_NAME, rotations, WindowBuildTool.FreeMode.SUPPLYCAMP, (EntityPlayerMP) playerIn);
     }
 
     /**

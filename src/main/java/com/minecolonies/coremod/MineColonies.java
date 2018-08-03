@@ -4,6 +4,7 @@ import com.minecolonies.api.colony.IColonyTagCapability;
 import com.minecolonies.api.colony.IChunkmanagerCapability;
 import com.minecolonies.api.configuration.Configurations;
 import com.minecolonies.api.util.constant.Constants;
+import com.minecolonies.coremod.advancements.ModAdvancements;
 import com.minecolonies.coremod.colony.requestsystem.init.RequestSystemInitializer;
 import com.minecolonies.coremod.colony.requestsystem.init.StandardFactoryControllerInitializer;
 import com.minecolonies.coremod.commands.CommandEntryPoint;
@@ -142,6 +143,8 @@ public class MineColonies
         proxy.registerTileEntityRendering();
 
         proxy.registerRenderer();
+
+        ModAdvancements.init();
 
         MinecoloniesPlacementHandlers.initHandlers();
 

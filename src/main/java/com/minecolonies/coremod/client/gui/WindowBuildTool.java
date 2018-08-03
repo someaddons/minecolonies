@@ -8,6 +8,7 @@ import com.minecolonies.api.util.constant.TranslationConstants;
 import com.minecolonies.blockout.controls.Button;
 import com.minecolonies.blockout.views.DropDownList;
 import com.minecolonies.coremod.MineColonies;
+import com.minecolonies.coremod.advancements.ModAdvancements;
 import com.minecolonies.coremod.colony.ColonyManager;
 import com.minecolonies.coremod.colony.StructureName;
 import com.minecolonies.coremod.colony.Structures;
@@ -24,6 +25,7 @@ import com.minecolonies.structures.helpers.Structure;
 import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiScreen;
+import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.Rotation;
@@ -152,13 +154,18 @@ public class WindowBuildTool extends AbstractWindowSkeleton
     private String staticSchematicName = "";
 
     /**
+     * Used for advancements
+     */
+    private EntityPlayerMP playerMP;
+
+    /**
      * Creates a window build tool for a specific structure.
      * @param pos the position.
      * @param structureName the structure name.
      * @param rotation the rotation.
      * @param mode the mode.
      */
-    public WindowBuildTool(@Nullable final BlockPos pos, final String structureName, final int rotation, final FreeMode mode)
+    public WindowBuildTool(@Nullable final BlockPos pos, final String structureName, final int rotation, final FreeMode mode, final EntityPlayerMP player)
     {
         super(Constants.MOD_ID + BUILD_TOOL_RESOURCE_SUFFIX);
         this.init(pos);
@@ -169,6 +176,7 @@ public class WindowBuildTool extends AbstractWindowSkeleton
             Settings.instance.setRotation(rotation);
             this.rotation = rotation;
         }
+        playerMP = player;
 
         renameButton = findPaneOfTypeByID(BUTTON_RENAME, Button.class);
         deleteButton = findPaneOfTypeByID(BUTTON_DELETE, Button.class);
@@ -937,6 +945,8 @@ public class WindowBuildTool extends AbstractWindowSkeleton
             if (ItemSupplyChestDeployer.canShipBePlaced(Minecraft.getMinecraft().world, Settings.instance.getPosition(),
                     Settings.instance.getActiveStructure().getSize(BlockUtils.getRotation(Settings.instance.getRotation()))))
             {
+                Log.getLogger().info("SHOULD FIRE ADVANCEMENT SUPPLY: " + playerMP.getName() + ",SUPPLY");
+                ModAdvancements.BUILD_SUPPLY.trigger(playerMP);
                 pasteNice();
             }
             else
@@ -950,6 +960,8 @@ public class WindowBuildTool extends AbstractWindowSkeleton
             if (ItemSupplyCampDeployer.canCampBePlaced(Minecraft.getMinecraft().world, Settings.instance.getPosition(),
                     Settings.instance.getActiveStructure().getSize(BlockUtils.getRotation(Settings.instance.getRotation())), placementErrorList))
             {
+                Log.getLogger().info("SHOULD FIRE ADVANCEMENT SUPPLY: " + playerMP.getName() + ",SUPPLY");
+                ModAdvancements.BUILD_SUPPLY.trigger(playerMP);
                 pasteNice();
             }
             else

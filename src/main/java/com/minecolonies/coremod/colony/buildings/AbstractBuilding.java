@@ -18,8 +18,11 @@ import com.minecolonies.api.colony.requestsystem.token.IToken;
 import com.minecolonies.api.crafting.ItemStorage;
 import com.minecolonies.api.util.*;
 import com.minecolonies.api.util.constant.TypeConstants;
+import com.minecolonies.coremod.advancements.ModAdvancements;
 import com.minecolonies.coremod.colony.*;
 import com.minecolonies.coremod.colony.buildings.registry.BuildingRegistry;
+import com.minecolonies.coremod.colony.buildings.workerbuildings.BuildingBuilder;
+import com.minecolonies.coremod.colony.buildings.workerbuildings.BuildingTownHall;
 import com.minecolonies.coremod.colony.requestsystem.requesters.BuildingBasedRequester;
 import com.minecolonies.coremod.colony.requestsystem.resolvers.BuildingRequestResolver;
 import com.minecolonies.coremod.colony.workorders.WorkOrderBuildBuilding;
@@ -31,6 +34,7 @@ import com.minecolonies.coremod.util.StructureWrapper;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.InventoryHelper;
 import net.minecraft.item.ItemStack;
@@ -45,6 +49,7 @@ import net.minecraft.util.text.TextComponentTranslation;
 import net.minecraft.world.World;
 
 import net.minecraftforge.common.capabilities.ICapabilityProvider;
+import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.common.network.ByteBufUtils;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -343,7 +348,8 @@ public abstract class AbstractBuilding extends AbstractBuildingContainer impleme
     public void onUpgradeComplete(final int newLevel)
     {
         final WorkOrderBuildBuilding workOrder = new WorkOrderBuildBuilding(this, newLevel);
-        final StructureWrapper wrapper = new StructureWrapper(colony.getWorld(), workOrder.getStructureName());
+        String structureName = workOrder.getStructureName();
+        final StructureWrapper wrapper = new StructureWrapper(colony.getWorld(), structureName);
         final Tuple<Tuple<Integer, Integer>, Tuple<Integer, Integer>> corners
                 = ColonyUtils.calculateCorners(this.getLocation(),
                 colony.getWorld(),
@@ -352,6 +358,43 @@ public abstract class AbstractBuilding extends AbstractBuildingContainer impleme
                 workOrder.isMirrored());
         this.setHeight(wrapper.getHeight());
         this.setCorners(corners.getFirst().getFirst(), corners.getFirst().getSecond(), corners.getSecond().getFirst(), corners.getSecond().getSecond());
+
+        final Collection<AbstractBuilding> allBuildings = colony.getBuildingManager().getBuildings().values();
+        final EntityPlayerMP playerMP = FMLCommonHandler.instance().getMinecraftServerInstance().getPlayerList().getPlayerByUUID(colony.getPermissions().getOwner());
+        boolean isTownhallReady = false, isBuilderReady = false;
+        structureName = structureName.substring(structureName.lastIndexOf("/")+1, structureName.length()-1);
+        for(AbstractBuilding building : allBuildings)
+        {
+            if(building.getBuildingLevel() > 0)
+            {
+                if(building instanceof BuildingBuilder)
+                {
+                    isBuilderReady = true;
+                }
+                if(building instanceof BuildingTownHall)
+                {
+                    isTownhallReady = true;
+                }
+                if(isTownhallReady && isBuilderReady)
+                {
+                    Log.getLogger().info("SHOULD FIRE GOAL TH1 AND B1: " + playerMP.getName() + ",GOAL TH1 AND B1");
+                    ModAdvancements.GOAL_TH1_BUILDER1.trigger(playerMP);
+                    break;
+                }
+            }
+        }
+        
+        // Advancements trigger for any building
+        if (newLevel == 1)
+        {
+            Log.getLogger().info("SHOULD FIRE ADVANCEMENT BUILDING: " + playerMP.getName() + "," + structureName);
+            ModAdvancements.BUILDING.trigger(playerMP, structureName);
+            
+            if (structureName.equals("Builder"))
+            {
+                ModAdvancements.unlockAllRecipes(playerMP);
+            }
+        }
     }
     //------------------------- Starting Required Tools/Item handling -------------------------//
 

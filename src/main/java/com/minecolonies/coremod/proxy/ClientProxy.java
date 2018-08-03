@@ -36,6 +36,7 @@ import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.client.renderer.block.statemap.StateMap;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
 import net.minecraft.stats.RecipeBook;
@@ -141,14 +142,14 @@ public class ClientProxy extends CommonProxy
     }
 
     @Override
-    public void openBuildToolWindow(final BlockPos pos, final String structureName, final int rotation, final WindowBuildTool.FreeMode mode)
+    public void openBuildToolWindow(final BlockPos pos, final String structureName, final int rotation, final WindowBuildTool.FreeMode mode, final EntityPlayerMP player)
     {
         if (pos == null && Settings.instance.getActiveStructure() == null)
         {
             return;
         }
 
-        @Nullable final WindowBuildTool window = new WindowBuildTool(pos, structureName, rotation, mode);
+        @Nullable final WindowBuildTool window = new WindowBuildTool(pos, structureName, rotation, mode, player);
         window.open();
     }
 

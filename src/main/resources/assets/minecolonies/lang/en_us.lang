@@ -747,3 +747,14 @@ com.minecolonies.coremod.status.harvestingBarrels=Harvesting the barrels
 com.minecolonies.coremod.pvp.townhall.break.start=Beware! %s started breaking your town-hall!
 com.minecolonies.coremod.pvp.townhall.broke=Beware!!! %s broke your town-hall by over %d%%! At 100%% it will be lost!!!
 com.minecolonies.coremod.gui.townHall.pickTeamColor=Pick Team Color:
+
+advancements.walkAround.title=The beginning of MineColonies
+advancements.walkAround.desc=Walk around and find a good narrow place for your future colony
+advancements.buildSupply.title=The new settlement
+advancements.buildSupply.desc=Choose between supply ship or supply camp and place it somewhere near to your future colony
+advancements.buildingTownHall.title=The townhall
+advancements.buildingTownHall.desc=The heart of everything, use a buildtool to place any building
+advancements.buildingBuilder.title=The builder
+advancements.buildingBuilder.desc=Let's touch the sky, also grants every recipe of this mod
+advancements.goalTH1andB1.title=The ingrained root
+advancements.goalTH1andB1.desc=If you have built the builder and the townhall, you can jump into building your own colony to take over this world

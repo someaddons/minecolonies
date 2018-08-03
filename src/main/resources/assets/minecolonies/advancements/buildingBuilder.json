@@ -1,0 +1,22 @@
+{
+    "criteria": {
+        "buildingBuilder": {
+            "trigger": "minecolonies:building",
+            "conditions": {
+                "building": "Builder"
+            }
+        }
+    },
+    "parent": "minecolonies:buildSupply",
+    "display": {
+        "icon": {
+            "item": "minecolonies:scepterguard"
+        },
+        "title": {
+            "translate": "advancements.buildingBuilder.title"
+        },
+        "description": {
+            "translate": "advancements.buildingBuilder.desc"
+        }
+    }
+}

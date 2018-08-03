@@ -9,6 +9,7 @@ import com.minecolonies.coremod.colony.ColonyManager;
 import com.minecolonies.coremod.colony.Structures;
 import com.minecolonies.coremod.creativetab.ModCreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.EnumActionResult;
@@ -75,13 +76,13 @@ public class ItemSupplyChestDeployer extends AbstractItemMinecolonies
             final float hitY,
             final float hitZ)
     {
-        if (worldIn.isRemote)
+        if (!worldIn.isRemote)
         {
             if(!Configurations.gameplay.allowOtherDimColonies && worldIn.provider.getDimension() != 0)
             {
                 return EnumActionResult.FAIL;
             }
-            placeSupplyShip(pos, playerIn.getHorizontalFacing());
+            placeSupplyShip(pos, playerIn.getHorizontalFacing(), playerIn);
         }
 
         return EnumActionResult.FAIL;
@@ -92,24 +93,24 @@ public class ItemSupplyChestDeployer extends AbstractItemMinecolonies
     public ActionResult<ItemStack> onItemRightClick(final World worldIn, final EntityPlayer playerIn, final EnumHand hand)
     {
         final ItemStack stack = playerIn.getHeldItem(hand);
-        if (worldIn.isRemote)
+        if (!worldIn.isRemote)
         {
             if(!Configurations.gameplay.allowOtherDimColonies && worldIn.provider.getDimension() != 0)
             {
                 LanguageHandler.sendPlayerMessage(playerIn, CANT_PLACE_COLONY_IN_OTHER_DIM);
                 return new ActionResult<>(EnumActionResult.FAIL, stack);
             }
-            placeSupplyShip(null, playerIn.getHorizontalFacing());
+            placeSupplyShip(null, playerIn.getHorizontalFacing(), playerIn);
         }
 
         return new ActionResult<>(EnumActionResult.FAIL, stack);
     }
 
-    private void placeSupplyShip(@Nullable final BlockPos pos, @NotNull final EnumFacing direction)
+    private void placeSupplyShip(@Nullable final BlockPos pos, @NotNull final EnumFacing direction, final EntityPlayer playerIn)
     {
         if(pos == null)
         {
-            MineColonies.proxy.openBuildToolWindow(null, SUPPLY_SHIP_STRUCTURE_NAME, 0, null);
+            MineColonies.proxy.openBuildToolWindow(null, SUPPLY_SHIP_STRUCTURE_NAME, 0, null, (EntityPlayerMP) playerIn);
             return;
         }
 
@@ -134,7 +135,7 @@ public class ItemSupplyChestDeployer extends AbstractItemMinecolonies
                 rotations = ROTATE_0_TIMES;
                 break;
         }
-        MineColonies.proxy.openBuildToolWindow(tempPos, SUPPLY_SHIP_STRUCTURE_NAME, rotations, WindowBuildTool.FreeMode.SUPPLYSHIP);
+        MineColonies.proxy.openBuildToolWindow(tempPos, SUPPLY_SHIP_STRUCTURE_NAME, rotations, WindowBuildTool.FreeMode.SUPPLYSHIP, (EntityPlayerMP) playerIn);
     }
 
     /**

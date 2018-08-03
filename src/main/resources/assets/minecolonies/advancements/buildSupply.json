@@ -1,0 +1,22 @@
+{
+    "criteria": {
+        "buildSupply": {
+            "trigger": "minecolonies:buildSupply"
+        }
+    },
+    "parent": "minecolonies:walkAround",
+    "display": {
+        "icon": {
+            "item": "minecolonies:supplychestdeployer"
+        },
+        "title": {
+            "translate": "advancements.buildSupply.title"
+        },
+        "description": {
+            "translate": "advancements.buildSupply.desc"
+        }
+    },
+    "rewards": {
+        "recipes": ["minecolonies:sceptergold", "minecolonies:blockHutBuilder"]
+    }
+}
