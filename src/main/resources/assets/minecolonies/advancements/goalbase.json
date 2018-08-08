@@ -7,7 +7,7 @@
             }
         }
     },
-    "parent": "minecolonies:btownhall",
+    "parent": "minecolonies:bbuilder",
     "display": {
         "icon": {
             "item": "minecolonies:sceptergold"

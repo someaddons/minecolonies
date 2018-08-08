@@ -1,6 +1,5 @@
 package com.minecolonies.coremod.advancements;
 
-import com.minecolonies.api.util.constant.AdvancementsConstants;
 import com.minecolonies.api.util.AdvancementsUtils.BuildingTrigger;
 import com.minecolonies.api.util.AdvancementsUtils.GenericTrigger;
 

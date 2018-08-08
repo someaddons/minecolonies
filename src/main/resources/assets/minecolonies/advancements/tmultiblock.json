@@ -1,7 +1,7 @@
 {
     "criteria": {
         "tmultiblock": {
-            "trigger": "minecraft:on_block_placed",
+            "trigger": "minecraft:placed_block",
             "conditions": {
                 "block": "minecolonies:multiBlock"
             }
