@@ -24,6 +24,7 @@ public final class ModItems
     public static Item clipboard;
     public static Item itemCactusDoor;
     public static Item compost;
+    public static Item resourceScroll;
 
     /**
      * Private constructor to hide the implicit public one.
@@ -51,6 +52,7 @@ public final class ModItems
         chiefSword = new ItemChiefSword();
         clipboard = new ItemClipBoard();
         compost = new ItemCompost();
+        resourceScroll = new ItemResourceScroll();
         itemCactusDoor = new ItemCactusDoor(ModBlocks.blockCactusDoor, "cactusdoor");
 
         registry.register(supplyChest);
@@ -65,5 +67,6 @@ public final class ModItems
         registry.register(clipboard);
         registry.register(itemCactusDoor);
         registry.register(compost);
+        registry.register(resourceScroll);
     }
 }
