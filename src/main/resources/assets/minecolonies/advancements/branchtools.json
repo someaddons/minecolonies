@@ -1,0 +1,23 @@
+{
+    "criteria": {
+        "branchtools": {
+            "trigger": "minecolonies:generic",
+            "conditions": {
+                "test": "goalbase"
+            }
+        }
+    },
+    "parent": "minecolonies:goalbase",
+    "display": {
+        "icon": {
+            "item": "minecolonies:scepterguard"
+        },
+        "title": {
+            "translate": "advancements.branchtools.title"
+        },
+        "description": {
+            "translate": "advancements.branchtools.desc"
+        },
+        "show_toast": false
+    }
+}

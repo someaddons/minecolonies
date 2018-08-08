@@ -1,0 +1,22 @@
+{
+    "criteria": {
+        "twaypoint": {
+            "trigger": "minecraft:on_block_placed",
+            "conditions": {
+                "block": "minecolonies:blockWayPoint"
+            }
+        }
+    },
+    "parent": "minecolonies:branchtools",
+    "display": {
+        "icon": {
+            "item": "minecolonies:blockWayPoint"
+        },
+        "title": {
+            "translate": "advancements.twaypoint.title"
+        },
+        "description": {
+            "translate": "advancements.twaypoint.desc"
+        }
+    }
+}

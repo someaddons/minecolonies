@@ -1,0 +1,22 @@
+{
+    "criteria": {
+        "bfarmer": {
+            "trigger": "minecolonies:building",
+            "conditions": {
+                "building": "Farmer"
+            }
+        }
+    },
+    "parent": "minecolonies:branchnature",
+    "display": {
+        "icon": {
+            "item": "minecolonies:scepterguard"
+        },
+        "title": {
+            "translate": "advancements.bfarmer.title"
+        },
+        "description": {
+            "translate": "advancements.bfarmer.desc"
+        }
+    }
+}

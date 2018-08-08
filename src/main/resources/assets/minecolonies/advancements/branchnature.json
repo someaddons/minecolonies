@@ -1,0 +1,23 @@
+{
+    "criteria": {
+        "branchnature": {
+            "trigger": "minecolonies:generic",
+            "conditions": {
+                "test": "goalbase"
+            }
+        }
+    },
+    "parent": "minecolonies:goalbase",
+    "display": {
+        "icon": {
+            "item": "minecolonies:scepterguard"
+        },
+        "title": {
+            "translate": "advancements.branchnature.title"
+        },
+        "description": {
+            "translate": "advancements.branchnature.desc"
+        },
+        "show_toast": false
+    }
+}

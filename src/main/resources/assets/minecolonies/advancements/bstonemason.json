@@ -1,0 +1,22 @@
+{
+    "criteria": {
+        "bstonemason": {
+            "trigger": "minecolonies:building",
+            "conditions": {
+                "building": "Stonemason"
+            }
+        }
+    },
+    "parent": "minecolonies:bquarry",
+    "display": {
+        "icon": {
+            "item": "minecolonies:scepterguard"
+        },
+        "title": {
+            "translate": "advancements.bstonemason.title"
+        },
+        "description": {
+            "translate": "advancements.bstonemason.desc"
+        }
+    }
+}

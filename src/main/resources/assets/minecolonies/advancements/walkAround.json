@@ -1,7 +1,10 @@
 {
     "criteria": {
-        "walkAround": {
-            "trigger": "minecolonies:walkAround"
+        "walkaround": {
+            "trigger": "minecolonies:generic",
+            "conditions": {
+                "test": "walkaround"
+            }
         }
     },
     "display": {
@@ -9,10 +12,10 @@
             "item": "minecolonies:caliper"
         },
         "title": {
-            "translate": "advancements.walkAround.title"
+            "translate": "advancements.walkaround.title"
         },
         "description": {
-            "translate": "advancements.walkAround.desc"
+            "translate": "advancements.walkaround.desc"
         },
         "background": "minecolonies:textures/blocks/blockhuttownhalltop.png",
         "hidden": false

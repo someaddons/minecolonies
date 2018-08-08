@@ -1,0 +1,22 @@
+{
+    "criteria": {
+        "bdruid": {
+            "trigger": "minecolonies:building",
+            "conditions": {
+                "building": "Druid"
+            }
+        }
+    },
+    "parent": "minecolonies:bflorist",
+    "display": {
+        "icon": {
+            "item": "minecolonies:scepterguard"
+        },
+        "title": {
+            "translate": "advancements.bdruid.title"
+        },
+        "description": {
+            "translate": "advancements.bdruid.desc"
+        }
+    }
+}

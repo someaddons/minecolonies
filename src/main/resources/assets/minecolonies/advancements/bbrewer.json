@@ -1,0 +1,22 @@
+{
+    "criteria": {
+        "bbrewer": {
+            "trigger": "minecolonies:building",
+            "conditions": {
+                "building": "Brewer"
+            }
+        }
+    },
+    "parent": "minecolonies:branchfeeder",
+    "display": {
+        "icon": {
+            "item": "minecolonies:scepterguard"
+        },
+        "title": {
+            "translate": "advancements.bbrewer.title"
+        },
+        "description": {
+            "translate": "advancements.bbrewer.desc"
+        }
+    }
+}

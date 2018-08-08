@@ -1,0 +1,22 @@
+{
+    "criteria": {
+        "bshepherd": {
+            "trigger": "minecolonies:building",
+            "conditions": {
+                "building": "Shepherd"
+            }
+        }
+    },
+    "parent": "minecolonies:branchherders",
+    "display": {
+        "icon": {
+            "item": "minecolonies:scepterguard"
+        },
+        "title": {
+            "translate": "advancements.bshepherd.title"
+        },
+        "description": {
+            "translate": "advancements.bshepherd.desc"
+        }
+    }
+}

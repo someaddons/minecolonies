@@ -1,0 +1,22 @@
+{
+    "criteria": {
+        "bfisherman": {
+            "trigger": "minecolonies:building",
+            "conditions": {
+                "building": "Fisherman"
+            }
+        }
+    },
+    "parent": "minecolonies:branchnature",
+    "display": {
+        "icon": {
+            "item": "minecolonies:scepterguard"
+        },
+        "title": {
+            "translate": "advancements.bfisherman.title"
+        },
+        "description": {
+            "translate": "advancements.bfisherman.desc"
+        }
+    }
+}

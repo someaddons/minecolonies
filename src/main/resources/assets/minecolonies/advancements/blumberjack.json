@@ -1,0 +1,22 @@
+{
+    "criteria": {
+        "blumberjack": {
+            "trigger": "minecolonies:building",
+            "conditions": {
+                "building": "Lumberjack"
+            }
+        }
+    },
+    "parent": "minecolonies:branchnature",
+    "display": {
+        "icon": {
+            "item": "minecolonies:scepterguard"
+        },
+        "title": {
+            "translate": "advancements.blumberjack.title"
+        },
+        "description": {
+            "translate": "advancements.blumberjack.desc"
+        }
+    }
+}

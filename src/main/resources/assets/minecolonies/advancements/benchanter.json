@@ -1,0 +1,22 @@
+{
+    "criteria": {
+        "benchanter": {
+            "trigger": "minecolonies:building",
+            "conditions": {
+                "building": "Enchanter"
+            }
+        }
+    },
+    "parent": "minecolonies:bweaponsmith",
+    "display": {
+        "icon": {
+            "item": "minecolonies:scepterguard"
+        },
+        "title": {
+            "translate": "advancements.benchanter.title"
+        },
+        "description": {
+            "translate": "advancements.benchanter.desc"
+        }
+    }
+}

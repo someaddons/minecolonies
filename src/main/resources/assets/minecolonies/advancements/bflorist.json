@@ -1,0 +1,22 @@
+{
+    "criteria": {
+        "bflorist": {
+            "trigger": "minecolonies:building",
+            "conditions": {
+                "building": "Florist"
+            }
+        }
+    },
+    "parent": "minecolonies:bcomposter",
+    "display": {
+        "icon": {
+            "item": "minecolonies:scepterguard"
+        },
+        "title": {
+            "translate": "advancements.bflorist.title"
+        },
+        "description": {
+            "translate": "advancements.bflorist.desc"
+        }
+    }
+}

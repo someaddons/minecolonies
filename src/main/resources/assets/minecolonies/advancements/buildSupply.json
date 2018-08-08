@@ -1,7 +1,10 @@
 {
     "criteria": {
-        "buildSupply": {
-            "trigger": "minecolonies:buildSupply"
+        "buildsupply": {
+            "trigger": "minecolonies:generic",
+            "conditions": {
+                "test": "buildsupply"
+            }
         }
     },
     "parent": "minecolonies:walkAround",
@@ -10,10 +13,10 @@
             "item": "minecolonies:supplychestdeployer"
         },
         "title": {
-            "translate": "advancements.buildSupply.title"
+            "translate": "advancements.buildsupply.title"
         },
         "description": {
-            "translate": "advancements.buildSupply.desc"
+            "translate": "advancements.buildsupply.desc"
         }
     },
     "rewards": {

@@ -1,0 +1,22 @@
+{
+    "criteria": {
+        "blibrary": {
+            "trigger": "minecolonies:building",
+            "conditions": {
+                "building": "Library"
+            }
+        }
+    },
+    "parent": "minecolonies:bcitizenhut",
+    "display": {
+        "icon": {
+            "item": "minecolonies:scepterguard"
+        },
+        "title": {
+            "translate": "advancements.blibrary.title"
+        },
+        "description": {
+            "translate": "advancements.blibrary.desc"
+        }
+    }
+}

@@ -1,22 +1,22 @@
 {
     "criteria": {
-        "buildingBuilder": {
+        "bweaver": {
             "trigger": "minecolonies:building",
             "conditions": {
-                "building": "Builder"
+                "building": "Weaver"
             }
         }
     },
-    "parent": "minecolonies:buildSupply",
+    "parent": "minecolonies:bsawmill",
     "display": {
         "icon": {
             "item": "minecolonies:scepterguard"
         },
         "title": {
-            "translate": "advancements.buildingBuilder.title"
+            "translate": "advancements.bweaver.title"
         },
         "description": {
-            "translate": "advancements.buildingBuilder.desc"
+            "translate": "advancements.bweaver.desc"
         }
     }
 }

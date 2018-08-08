@@ -946,7 +946,7 @@ public class WindowBuildTool extends AbstractWindowSkeleton
                     Settings.instance.getActiveStructure().getSize(BlockUtils.getRotation(Settings.instance.getRotation()))))
             {
                 Log.getLogger().info("SHOULD FIRE ADVANCEMENT SUPPLY: " + playerMP.getName() + ",SUPPLY");
-                ModAdvancements.BUILD_SUPPLY.trigger(playerMP);
+                ModAdvancements.GENERIC.trigger(playerMP, "buildsupply");
                 pasteNice();
             }
             else
@@ -961,7 +961,7 @@ public class WindowBuildTool extends AbstractWindowSkeleton
                     Settings.instance.getActiveStructure().getSize(BlockUtils.getRotation(Settings.instance.getRotation())), placementErrorList))
             {
                 Log.getLogger().info("SHOULD FIRE ADVANCEMENT SUPPLY: " + playerMP.getName() + ",SUPPLY");
-                ModAdvancements.BUILD_SUPPLY.trigger(playerMP);
+                ModAdvancements.GENERIC.trigger(playerMP, "buildsupply");
                 pasteNice();
             }
             else

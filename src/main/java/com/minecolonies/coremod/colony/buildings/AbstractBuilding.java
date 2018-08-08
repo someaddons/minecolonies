@@ -378,7 +378,7 @@ public abstract class AbstractBuilding extends AbstractBuildingContainer impleme
                 if(isTownhallReady && isBuilderReady)
                 {
                     Log.getLogger().info("SHOULD FIRE GOAL TH1 AND B1: " + playerMP.getName() + ",GOAL TH1 AND B1");
-                    ModAdvancements.GOAL_TH1_BUILDER1.trigger(playerMP);
+                    ModAdvancements.GENERIC.trigger(playerMP, "goalbase");
                     break;
                 }
             }

@@ -1,0 +1,23 @@
+{
+    "criteria": {
+        "buildtoolusage": {
+            "trigger": "minecolonies:generic",
+            "conditions": {
+                "test": "buildsupply"
+            }
+        }
+    },
+    "parent": "minecolonies:buildsupply",
+    "display": {
+        "icon": {
+            "item": "minecolonies:sceptergold"
+        },
+        "title": {
+            "translate": "advancements.buildtoolusage.title"
+        },
+        "description": {
+            "translate": "advancements.buildtoolusage.desc"
+        },
+        "show_toast": false
+    }
+}

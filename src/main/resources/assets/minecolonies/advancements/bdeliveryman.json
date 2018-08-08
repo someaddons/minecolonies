@@ -1,0 +1,22 @@
+{
+    "criteria": {
+        "bdeliveryman": {
+            "trigger": "minecolonies:building",
+            "conditions": {
+                "building": "Deliveryman"
+            }
+        }
+    },
+    "parent": "minecolonies:bwarehouse",
+    "display": {
+        "icon": {
+            "item": "minecolonies:scepterguard"
+        },
+        "title": {
+            "translate": "advancements.bdeliveryman.title"
+        },
+        "description": {
+            "translate": "advancements.bdeliveryman.desc"
+        }
+    }
+}

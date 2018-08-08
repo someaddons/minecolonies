@@ -1,0 +1,22 @@
+{
+    "criteria": {
+        "bcowboy": {
+            "trigger": "minecolonies:building",
+            "conditions": {
+                "building": "Cowboy"
+            }
+        }
+    },
+    "parent": "minecolonies:branchherders",
+    "display": {
+        "icon": {
+            "item": "minecolonies:scepterguard"
+        },
+        "title": {
+            "translate": "advancements.bcowboy.title"
+        },
+        "description": {
+            "translate": "advancements.bcowboy.desc"
+        }
+    }
+}

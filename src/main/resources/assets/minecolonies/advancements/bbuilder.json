@@ -1,0 +1,22 @@
+{
+    "criteria": {
+        "bbuilder": {
+            "trigger": "minecolonies:building",
+            "conditions": {
+                "building": "Builder"
+            }
+        }
+    },
+    "parent": "minecolonies:btownhall",
+    "display": {
+        "icon": {
+            "item": "minecolonies:scepterguard"
+        },
+        "title": {
+            "translate": "advancements.bbuilder.title"
+        },
+        "description": {
+            "translate": "advancements.bbuilder.desc"
+        }
+    }
+}

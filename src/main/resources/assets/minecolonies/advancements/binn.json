@@ -1,0 +1,22 @@
+{
+    "criteria": {
+        "binn": {
+            "trigger": "minecolonies:building",
+            "conditions": {
+                "building": "Inn"
+            }
+        }
+    },
+    "parent": "minecolonies:bbrewer",
+    "display": {
+        "icon": {
+            "item": "minecolonies:scepterguard"
+        },
+        "title": {
+            "translate": "advancements.binn.title"
+        },
+        "description": {
+            "translate": "advancements.binn.desc"
+        }
+    }
+}

@@ -1,0 +1,22 @@
+{
+    "criteria": {
+        "bguardtower": {
+            "trigger": "minecolonies:building",
+            "conditions": {
+                "building": "GuardTower"
+            }
+        }
+    },
+    "parent": "minecolonies:branchguard",
+    "display": {
+        "icon": {
+            "item": "minecolonies:scepterguard"
+        },
+        "title": {
+            "translate": "advancements.bguardtower.title"
+        },
+        "description": {
+            "translate": "advancements.bguardtower.desc"
+        }
+    }
+}

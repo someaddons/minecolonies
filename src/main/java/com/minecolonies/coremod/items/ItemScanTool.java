@@ -4,6 +4,7 @@ import com.minecolonies.api.util.BlockPosUtil;
 import com.minecolonies.api.util.LanguageHandler;
 import com.minecolonies.api.util.constant.Constants;
 import com.minecolonies.coremod.MineColonies;
+import com.minecolonies.coremod.advancements.ModAdvancements;
 import com.minecolonies.coremod.client.gui.WindowScan;
 import com.minecolonies.coremod.creativetab.ModCreativeTabs;
 import com.minecolonies.coremod.network.messages.SaveScanMessage;
@@ -165,5 +166,7 @@ public class ItemScanTool extends AbstractItemMinecolonies
         template.setAuthor(Constants.MOD_ID);
         MineColonies.getNetwork().sendTo(
                 new SaveScanMessage(template.writeToNBT(new NBTTagCompound()), fileName), (EntityPlayerMP) player);
+
+        ModAdvancements.GENERIC.trigger((EntityPlayerMP) player, "sceptersteel");
     }
 }

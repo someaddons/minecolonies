@@ -1,0 +1,22 @@
+{
+    "criteria": {
+        "bbarracks": {
+            "trigger": "minecolonies:building",
+            "conditions": {
+                "building": "Barracks"
+            }
+        }
+    },
+    "parent": "minecolonies:bguardtower",
+    "display": {
+        "icon": {
+            "item": "minecolonies:scepterguard"
+        },
+        "title": {
+            "translate": "advancements.bbarracks.title"
+        },
+        "description": {
+            "translate": "advancements.bbarracks.desc"
+        }
+    }
+}

@@ -1,0 +1,22 @@
+{
+    "criteria": {
+        "tresourcescroll": {
+            "trigger": "minecolonies:generic",
+            "conditions": {
+                "test": "resourcescroll"
+            }
+        }
+    },
+    "parent": "minecolonies:branchtools",
+    "display": {
+        "icon": {
+            "item": "minecolonies:resourcescroll"
+        },
+        "title": {
+            "translate": "advancements.tresourcescroll.title"
+        },
+        "description": {
+            "translate": "advancements.tresourcescroll.desc"
+        }
+    }
+}

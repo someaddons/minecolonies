@@ -1,0 +1,22 @@
+{
+    "criteria": {
+        "bglassmaker": {
+            "trigger": "minecolonies:building",
+            "conditions": {
+                "building": "Glassmaker"
+            }
+        }
+    },
+    "parent": "minecolonies:bquarry",
+    "display": {
+        "icon": {
+            "item": "minecolonies:scepterguard"
+        },
+        "title": {
+            "translate": "advancements.bglassmaker.title"
+        },
+        "description": {
+            "translate": "advancements.bglassmaker.desc"
+        }
+    }
+}

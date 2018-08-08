@@ -1,0 +1,22 @@
+{
+    "criteria": {
+        "tsceptersteel": {
+            "trigger": "minecolonies:generic",
+            "conditions": {
+                "test": "sceptersteel"
+            }
+        }
+    },
+    "parent": "minecolonies:branchtools",
+    "display": {
+        "icon": {
+            "item": "minecolonies:sceptersteel"
+        },
+        "title": {
+            "translate": "advancements.tsceptersteel.title"
+        },
+        "description": {
+            "translate": "advancements.tsceptersteel.desc"
+        }
+    }
+}

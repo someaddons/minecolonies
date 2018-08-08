@@ -1,0 +1,22 @@
+{
+    "criteria": {
+        "bhealer": {
+            "trigger": "minecolonies:building",
+            "conditions": {
+                "building": "Healer"
+            }
+        }
+    },
+    "parent": "minecolonies:bbarracks",
+    "display": {
+        "icon": {
+            "item": "minecolonies:scepterguard"
+        },
+        "title": {
+            "translate": "advancements.bhealer.title"
+        },
+        "description": {
+            "translate": "advancements.bhealer.desc"
+        }
+    }
+}

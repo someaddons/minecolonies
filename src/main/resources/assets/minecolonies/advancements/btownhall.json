@@ -1,25 +1,22 @@
 {
     "criteria": {
-        "buildingTownHall": {
+        "btownhall": {
             "trigger": "minecolonies:building",
             "conditions": {
                 "building": "TownHall"
             }
         }
     },
-    "parent": "minecolonies:buildSupply",
+    "parent": "minecolonies:buildtoolusage",
     "display": {
         "icon": {
             "item": "minecolonies:scepterguard"
         },
         "title": {
-            "translate": "advancements.buildingTownHall.title"
+            "translate": "advancements.btownhall.title"
         },
         "description": {
-            "translate": "advancements.buildingTownHall.desc"
+            "translate": "advancements.btownhall.desc"
         }
-    },
-    "rewards": {
-        "recipes": ["minecolonies:clipboard"]
     }
 }

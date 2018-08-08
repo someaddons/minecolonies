@@ -1,0 +1,22 @@
+{
+    "criteria": {
+        "bsmeltery": {
+            "trigger": "minecolonies:building",
+            "conditions": {
+                "building": "Smeltery"
+            }
+        }
+    },
+    "parent": "minecolonies:bminer",
+    "display": {
+        "icon": {
+            "item": "minecolonies:scepterguard"
+        },
+        "title": {
+            "translate": "advancements.bsmeltery.title"
+        },
+        "description": {
+            "translate": "advancements.bsmeltery.desc"
+        }
+    }
+}

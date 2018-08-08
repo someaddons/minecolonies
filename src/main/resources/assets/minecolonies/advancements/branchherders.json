@@ -1,0 +1,23 @@
+{
+    "criteria": {
+        "branchherders": {
+            "trigger": "minecolonies:building",
+            "conditions": {
+                "building": "Farmer"
+            }
+        }
+    },
+    "parent": "minecolonies:bfarmer",
+    "display": {
+        "icon": {
+            "item": "minecolonies:scepterguard"
+        },
+        "title": {
+            "translate": "advancements.branchherders.title"
+        },
+        "description": {
+            "translate": "advancements.branchherders.desc"
+        }
+    },
+    "show_toast": false
+}

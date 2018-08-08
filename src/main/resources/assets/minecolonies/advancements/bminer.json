@@ -1,0 +1,22 @@
+{
+    "criteria": {
+        "bminer": {
+            "trigger": "minecolonies:building",
+            "conditions": {
+                "building": "Miner"
+            }
+        }
+    },
+    "parent": "minecolonies:branchnature",
+    "display": {
+        "icon": {
+            "item": "minecolonies:scepterguard"
+        },
+        "title": {
+            "translate": "advancements.bminer.title"
+        },
+        "description": {
+            "translate": "advancements.bminer.desc"
+        }
+    }
+}

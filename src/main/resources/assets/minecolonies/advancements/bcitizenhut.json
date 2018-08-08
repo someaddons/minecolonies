@@ -1,0 +1,22 @@
+{
+    "criteria": {
+        "bcitizenhut": {
+            "trigger": "minecolonies:building",
+            "conditions": {
+                "building": "Citizen"
+            }
+        }
+    },
+    "parent": "minecolonies:branchhome",
+    "display": {
+        "icon": {
+            "item": "minecolonies:scepterguard"
+        },
+        "title": {
+            "translate": "advancements.bcitizenhut.title"
+        },
+        "description": {
+            "translate": "advancements.bcitizenhut.desc"
+        }
+    }
+}

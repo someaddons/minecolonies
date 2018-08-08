@@ -220,7 +220,7 @@ public class EventHandler
             if (dist > AdvancementsConstants.WALKAROUND)
             {
                 Log.getLogger().info("SHOULD FIRE ADVANCEMENT SUPPLY: " + entity.getName() + ",WALKAROUND");
-                ModAdvancements.WALK_AROUND.trigger((EntityPlayerMP) entity);
+                ModAdvancements.GENERIC.trigger((EntityPlayerMP) entity, "walkaround");
             }
         }
     }

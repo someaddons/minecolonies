@@ -1,0 +1,22 @@
+{
+    "criteria": {
+        "bcook": {
+            "trigger": "minecolonies:building",
+            "conditions": {
+                "building": "Cook"
+            }
+        }
+    },
+    "parent": "minecolonies:branchfeeder",
+    "display": {
+        "icon": {
+            "item": "minecolonies:scepterguard"
+        },
+        "title": {
+            "translate": "advancements.bcook.title"
+        },
+        "description": {
+            "translate": "advancements.bcook.desc"
+        }
+    }
+}

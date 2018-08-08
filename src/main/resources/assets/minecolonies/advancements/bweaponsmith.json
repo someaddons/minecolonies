@@ -1,0 +1,22 @@
+{
+    "criteria": {
+        "bweaponsmith": {
+            "trigger": "minecolonies:building",
+            "conditions": {
+                "building": "Weaponsmith"
+            }
+        }
+    },
+    "parent": "minecolonies:bblacksmith",
+    "display": {
+        "icon": {
+            "item": "minecolonies:scepterguard"
+        },
+        "title": {
+            "translate": "advancements.bweaponsmith.title"
+        },
+        "description": {
+            "translate": "advancements.bweaponsmith.desc"
+        }
+    }
+}

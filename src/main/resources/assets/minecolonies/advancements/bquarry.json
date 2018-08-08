@@ -1,0 +1,22 @@
+{
+    "criteria": {
+        "bquarry": {
+            "trigger": "minecolonies:building",
+            "conditions": {
+                "building": "Quarry"
+            }
+        }
+    },
+    "parent": "minecolonies:branchnature",
+    "display": {
+        "icon": {
+            "item": "minecolonies:scepterguard"
+        },
+        "title": {
+            "translate": "advancements.bquarry.title"
+        },
+        "description": {
+            "translate": "advancements.bquarry.desc"
+        }
+    }
+}

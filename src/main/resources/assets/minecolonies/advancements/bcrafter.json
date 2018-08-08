@@ -1,0 +1,22 @@
+{
+    "criteria": {
+        "bcrafter": {
+            "trigger": "minecolonies:building",
+            "conditions": {
+                "building": "Crafter"
+            }
+        }
+    },
+    "parent": "minecolonies:bsawmill",
+    "display": {
+        "icon": {
+            "item": "minecolonies:scepterguard"
+        },
+        "title": {
+            "translate": "advancements.bcrafter.title"
+        },
+        "description": {
+            "translate": "advancements.bcrafter.desc"
+        }
+    }
+}

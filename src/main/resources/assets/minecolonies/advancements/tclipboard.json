@@ -1,0 +1,22 @@
+{
+    "criteria": {
+        "tclipboard": {
+            "trigger": "minecolonies:generic",
+            "conditions": {
+                "test": "clipboard"
+            }
+        }
+    },
+    "parent": "minecolonies:branchtools",
+    "display": {
+        "icon": {
+            "item": "minecolonies:clipboard"
+        },
+        "title": {
+            "translate": "advancements.tclipboard.title"
+        },
+        "description": {
+            "translate": "advancements.tclipboard.desc"
+        }
+    }
+}

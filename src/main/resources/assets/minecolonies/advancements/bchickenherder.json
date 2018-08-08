@@ -1,0 +1,22 @@
+{
+    "criteria": {
+        "bchickenherder": {
+            "trigger": "minecolonies:building",
+            "conditions": {
+                "building": "ChickenHerder"
+            }
+        }
+    },
+    "parent": "minecolonies:branchherders",
+    "display": {
+        "icon": {
+            "item": "minecolonies:scepterguard"
+        },
+        "title": {
+            "translate": "advancements.bchickenherder.title"
+        },
+        "description": {
+            "translate": "advancements.bchickenherder.desc"
+        }
+    }
+}

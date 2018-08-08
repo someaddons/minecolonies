@@ -31,7 +31,7 @@ public class AdvancementsUtils
      */
     public static class GenericTrigger implements ICriterionTrigger<GenericTrigger.Instance>
     {
-        private final ResourceLocation RL;
+        private static final ResourceLocation RL = new ResourceLocation(Constants.MOD_ID + ":generic");;
         private final Map<PlayerAdvancements, GenericTrigger.Listeners> listeners = Maps.newHashMap();
 
         /**
@@ -39,10 +39,9 @@ public class AdvancementsUtils
          *
          * @param parString the par string
          */
-        public GenericTrigger(String parString)
+        public GenericTrigger()
         {
             super();
-            RL = new ResourceLocation(Constants.MOD_ID + ":" + parString);
         }
         
         /* (non-Javadoc)
@@ -109,7 +108,19 @@ public class AdvancementsUtils
         @Override
         public GenericTrigger.Instance deserializeInstance(JsonObject json, JsonDeserializationContext context)
         {
-            return new GenericTrigger.Instance(getId());
+            String test = null;
+
+            if (json.has("test"))
+            {
+                test = JsonUtils.getString(json, "test");
+
+                if (test == null || test == "")
+                {
+                    throw new JsonSyntaxException("Test condition is empty or was not found");
+                }
+            }
+
+            return new GenericTrigger.Instance(test);
         }
 
         /**
@@ -117,27 +128,29 @@ public class AdvancementsUtils
          *
          * @param parPlayer the player
          */
-        public void trigger(EntityPlayerMP parPlayer)
+        public void trigger(EntityPlayerMP parPlayer, String testIn)
         {
             GenericTrigger.Listeners myGenericTrigger$listeners = listeners.get(parPlayer.getAdvancements());
 
             if (myGenericTrigger$listeners != null)
             {
-                myGenericTrigger$listeners.trigger(parPlayer);
+                myGenericTrigger$listeners.trigger(parPlayer, testIn);
             }
         }
 
         public static class Instance extends AbstractCriterionInstance
         {
+            private final String test;
             
             /**
              * Instantiates a new instance.
              *
              * @param parRL the par RL
              */
-            public Instance(ResourceLocation parRL)
+            public Instance(String testIn)
             {
-                super(parRL);
+                super(RL);
+                test = testIn;
             }
 
             /**
@@ -145,9 +158,9 @@ public class AdvancementsUtils
              *
              * @return true, if successful
              */
-            public boolean test()
+            public boolean test(String testIn)
             {
-                return true;
+                return test.matches(testIn);
             }
         }
 
@@ -201,13 +214,13 @@ public class AdvancementsUtils
              *
              * @param player the player
              */
-            public void trigger(EntityPlayerMP player)
+            public void trigger(EntityPlayerMP player, String test)
             {
                 ArrayList<ICriterionTrigger.Listener<GenericTrigger.Instance>> list = null;
 
                 for (ICriterionTrigger.Listener<GenericTrigger.Instance> listener : listeners)
                 {
-                    if (listener.getCriterionInstance().test())
+                    if (listener.getCriterionInstance().test(test))
                     {
                         if (list == null)
                         {
@@ -358,7 +371,7 @@ public class AdvancementsUtils
              */
             public boolean test(String buildingIn)
             {
-                return building.equals(buildingIn);
+                return building.matches(buildingIn);
             }
         }
 

@@ -1,0 +1,22 @@
+{
+    "criteria": {
+        "bcomposter": {
+            "trigger": "minecolonies:building",
+            "conditions": {
+                "building": "Composter"
+            }
+        }
+    },
+    "parent": "minecolonies:branchresearch",
+    "display": {
+        "icon": {
+            "item": "minecolonies:scepterguard"
+        },
+        "title": {
+            "translate": "advancements.bcomposter.title"
+        },
+        "description": {
+            "translate": "advancements.bcomposter.desc"
+        }
+    }
+}

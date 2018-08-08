@@ -1,0 +1,22 @@
+{
+    "criteria": {
+        "balchemist": {
+            "trigger": "minecolonies:building",
+            "conditions": {
+                "building": "Alchemist"
+            }
+        }
+    },
+    "parent": "minecolonies:bflorist",
+    "display": {
+        "icon": {
+            "item": "minecolonies:scepterguard"
+        },
+        "title": {
+            "translate": "advancements.balchemist.title"
+        },
+        "description": {
+            "translate": "advancements.balchemist.desc"
+        }
+    }
+}

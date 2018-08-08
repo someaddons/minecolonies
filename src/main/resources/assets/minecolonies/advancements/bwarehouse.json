@@ -1,0 +1,22 @@
+{
+    "criteria": {
+        "bwarehouse": {
+            "trigger": "minecolonies:building",
+            "conditions": {
+                "building": "WareHouse"
+            }
+        }
+    },
+    "parent": "minecolonies:branchstorage",
+    "display": {
+        "icon": {
+            "item": "minecolonies:scepterguard"
+        },
+        "title": {
+            "translate": "advancements.bwarehouse.title"
+        },
+        "description": {
+            "translate": "advancements.bwarehouse.desc"
+        }
+    }
+}

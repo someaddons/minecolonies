@@ -1,0 +1,22 @@
+{
+    "criteria": {
+        "tmultiblock": {
+            "trigger": "minecraft:on_block_placed",
+            "conditions": {
+                "block": "minecolonies:multiBlock"
+            }
+        }
+    },
+    "parent": "minecolonies:branchtools",
+    "display": {
+        "icon": {
+            "item": "minecolonies:multiBlock"
+        },
+        "title": {
+            "translate": "advancements.tmultiblock.title"
+        },
+        "description": {
+            "translate": "advancements.tmultiblock.desc"
+        }
+    }
+}

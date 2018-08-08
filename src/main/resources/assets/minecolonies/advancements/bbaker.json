@@ -1,0 +1,22 @@
+{
+    "criteria": {
+        "bbaker": {
+            "trigger": "minecolonies:building",
+            "conditions": {
+                "building": "Baker"
+            }
+        }
+    },
+    "parent": "minecolonies:branchfeeder",
+    "display": {
+        "icon": {
+            "item": "minecolonies:scepterguard"
+        },
+        "title": {
+            "translate": "advancements.bbaker.title"
+        },
+        "description": {
+            "translate": "advancements.bbaker.desc"
+        }
+    }
+}

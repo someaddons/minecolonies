@@ -1,0 +1,22 @@
+{
+    "criteria": {
+        "barmorer": {
+            "trigger": "minecolonies:building",
+            "conditions": {
+                "building": "Armorer"
+            }
+        }
+    },
+    "parent": "minecolonies:bblacksmith",
+    "display": {
+        "icon": {
+            "item": "minecolonies:scepterguard"
+        },
+        "title": {
+            "translate": "advancements.barmorer.title"
+        },
+        "description": {
+            "translate": "advancements.barmorer.desc"
+        }
+    }
+}

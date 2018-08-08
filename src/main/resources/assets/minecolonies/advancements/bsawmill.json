@@ -1,0 +1,22 @@
+{
+    "criteria": {
+        "bsawmill": {
+            "trigger": "minecolonies:building",
+            "conditions": {
+                "building": "Sawmill"
+            }
+        }
+    },
+    "parent": "minecolonies:blumberjack",
+    "display": {
+        "icon": {
+            "item": "minecolonies:scepterguard"
+        },
+        "title": {
+            "translate": "advancements.bsawmill.title"
+        },
+        "description": {
+            "translate": "advancements.bsawmill.desc"
+        }
+    }
+}

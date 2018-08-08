@@ -1,0 +1,22 @@
+{
+    "criteria": {
+        "branchfeeder": {
+            "trigger": "minecolonies:building",
+            "conditions": {
+                "building": "Farmer"
+            }
+        }
+    },
+    "parent": "minecolonies:bfarmer",
+    "display": {
+        "icon": {
+            "item": "minecolonies:scepterguard"
+        },
+        "title": {
+            "translate": "advancements.branchfeeder.title"
+        },
+        "description": {
+            "translate": "advancements.branchfeeder.desc"
+        }
+    }
+}

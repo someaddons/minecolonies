@@ -3,9 +3,11 @@ package com.minecolonies.coremod.items;
 import com.minecolonies.api.util.LanguageHandler;
 import com.minecolonies.api.util.constant.TranslationConstants;
 import com.minecolonies.coremod.MineColonies;
+import com.minecolonies.coremod.advancements.ModAdvancements;
 import com.minecolonies.coremod.creativetab.ModCreativeTabs;
 import com.minecolonies.coremod.tileentities.TileEntityColonyBuilding;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
@@ -66,7 +68,7 @@ public class ItemClipBoard extends AbstractItemMinecolonies
     {
         final ItemStack clipboard = playerIn.getHeldItem(hand);
 
-        final NBTTagCompound compound = checkForCompound(clipboard);
+        final NBTTagCompound compound = checkForCompound(playerIn, clipboard);
         final TileEntity entity = worldIn.getTileEntity(pos);
 
         if (entity instanceof TileEntityColonyBuilding)
@@ -111,7 +113,7 @@ public class ItemClipBoard extends AbstractItemMinecolonies
             return new ActionResult<>(EnumActionResult.SUCCESS, cllipboard);
         }
 
-        final NBTTagCompound compound = checkForCompound(cllipboard);
+        final NBTTagCompound compound = checkForCompound(playerIn, cllipboard);
 
         if (compound.hasKey(TAG_COLONY))
         {
@@ -129,11 +131,14 @@ public class ItemClipBoard extends AbstractItemMinecolonies
     /**
      * Check for the compound and return it.
      * If not available create and return it.
+     * Also fires advancement
      *
      * @param scepter the scepter to check in for.
      */
-    private static NBTTagCompound checkForCompound(final ItemStack scepter)
+    private static NBTTagCompound checkForCompound(final EntityPlayer playerIn, final ItemStack scepter)
     {
+        ModAdvancements.GENERIC.trigger((EntityPlayerMP) playerIn, scepter.getUnlocalizedName());
+
         if (!scepter.hasTagCompound())
         {
             scepter.setTagCompound(new NBTTagCompound());

@@ -1,0 +1,22 @@
+{
+    "criteria": {
+        "bswineherder": {
+            "trigger": "minecolonies:building",
+            "conditions": {
+                "building": "SwineHerder"
+            }
+        }
+    },
+    "parent": "minecolonies:branchherders",
+    "display": {
+        "icon": {
+            "item": "minecolonies:scepterguard"
+        },
+        "title": {
+            "translate": "advancements.bswineherder.title"
+        },
+        "description": {
+            "translate": "advancements.bswineherder.desc"
+        }
+    }
+}

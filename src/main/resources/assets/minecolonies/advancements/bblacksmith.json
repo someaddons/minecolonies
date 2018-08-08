@@ -1,0 +1,22 @@
+{
+    "criteria": {
+        "bblacksmith": {
+            "trigger": "minecolonies:building",
+            "conditions": {
+                "building": "Blacksmith"
+            }
+        }
+    },
+    "parent": "minecolonies:bsmeltery",
+    "display": {
+        "icon": {
+            "item": "minecolonies:scepterguard"
+        },
+        "title": {
+            "translate": "advancements.bblacksmith.title"
+        },
+        "description": {
+            "translate": "advancements.bblacksmith.desc"
+        }
+    }
+}
