@@ -1,9 +1,5 @@
 package com.minecolonies.coremod.colony;
 
-import com.minecolonies.api.colony.permissions.Player;
-import com.minecolonies.api.colony.permissions.Rank;
-import com.minecolonies.api.util.Log;
-import com.minecolonies.coremod.colony.permissions.Permissions;
 import com.minecolonies.coremod.colony.requestsystem.init.StandardFactoryControllerInitializer;
 import com.minecolonies.coremod.test.ReflectionUtil;
 import com.mojang.authlib.GameProfile;
