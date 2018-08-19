@@ -343,6 +343,11 @@ public class EntityAIWorkBaker extends AbstractEntityAISkill<JobBaker>
             setDelay(UNABLE_TO_CRAFT_DELAY);
             return IDLE;
         }
+        else
+        {
+        	setDelay(UNABLE_TO_CRAFT_DELAY);
+        	return IDLE;
+        }
 
     }
 

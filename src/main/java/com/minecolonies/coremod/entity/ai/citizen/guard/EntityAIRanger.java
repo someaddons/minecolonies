@@ -20,7 +20,6 @@ import org.jetbrains.annotations.NotNull;
 import static com.minecolonies.api.util.constant.GuardConstants.*;
 import static com.minecolonies.coremod.entity.ai.util.AIState.*;
 
-@SuppressWarnings("squid:MaximumInheritanceDepth")
 public class EntityAIRanger extends AbstractEntityAIGuard<JobRanger>
 {
     private static final int TIME_STRAFING_BEFORE_SWITCHING_DIRECTIONS = 15;
