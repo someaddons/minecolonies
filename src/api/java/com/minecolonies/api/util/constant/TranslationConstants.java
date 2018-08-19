@@ -275,6 +275,8 @@ public final class TranslationConstants
     public static final String ON_STRING                                                           = "com.minecolonies.coremod.gui.townHall.on";
     @NonNls
     public static final String OFF_STRING                                                          = "com.minecolonies.coremod.gui.townHall.off";
+    @NonNls
+    public static final String COM_MINECOLONIES_COREMOD_MOURN                                      = "com.minecolonies.coremod.mourning";
 
     private TranslationConstants()
     {

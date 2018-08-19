@@ -80,6 +80,8 @@ public final class NbtTagConstants
     public static final String TAG_NO_TOOLS               = "noTools";
     public static final String TAG_NO_TOOLS_NUMBER_DAYS   = "numberOfDaysNoTools";
     public static final String TAG_NO_TOOLS_TOOL_TYPE     = "toolType";
+    public static final String TAG_NEED_TO_MOURN          = "needToMourn";
+    public static final String TAG_MOURNING               = "mourning";
 
 
     /**
