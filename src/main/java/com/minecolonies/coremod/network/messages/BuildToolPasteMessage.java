@@ -20,6 +20,7 @@ import com.minecolonies.coremod.util.StructureWrapper;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockChest;
+import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.init.Blocks;
@@ -189,6 +190,7 @@ public class BuildToolPasteMessage extends AbstractMessage<BuildToolPasteMessage
                 @Nullable final AbstractBuilding building = ColonyManager.getBuilding(CompatibilityUtils.getWorld(player), message.pos);
                 if (building != null)
                 {
+                    building.onUpgradeComplete(building.getBuildingLevel());
                     final WorkOrderBuildBuilding workOrder = new WorkOrderBuildBuilding(building, 1);
                     ConstructionTapeHelper.removeConstructionTape(workOrder, CompatibilityUtils.getWorld(player));
                 }
@@ -310,7 +312,7 @@ public class BuildToolPasteMessage extends AbstractMessage<BuildToolPasteMessage
         {
             if (building.getTileEntity() != null)
             {
-                final Colony colony = ColonyManager.getColony(world, buildPos);
+                final Colony colony = ColonyManager.getColonyByPosFromWorld(world, buildPos);
                 if (colony == null)
                 {
                     Log.getLogger().info("No colony for " + player.getName());

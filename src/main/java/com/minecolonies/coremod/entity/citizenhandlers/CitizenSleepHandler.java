@@ -14,8 +14,6 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
 import static com.minecolonies.api.util.constant.Constants.*;
-import static com.minecolonies.api.util.constant.Constants.BED_HEIGHT;
-import static com.minecolonies.api.util.constant.Constants.HALF_BLOCK;
 import static com.minecolonies.coremod.entity.AbstractEntityCitizen.DATA_BED_POS;
 import static com.minecolonies.coremod.entity.AbstractEntityCitizen.DATA_IS_ASLEEP;
 
@@ -155,7 +153,7 @@ public class CitizenSleepHandler
         }
 
         final BlockPos spawn;
-        if (!getBedLocation().equals(BlockPos.ORIGIN) && !citizen.world.isAirBlock(getBedLocation()))
+        if (!getBedLocation().equals(BlockPos.ORIGIN) && citizen.world.getBlockState(getBedLocation()).getBlock() == Blocks.BED)
         {
             spawn = BlockBed.getSafeExitLocation(citizen.world, getBedLocation(), 0);
         }
@@ -206,7 +204,7 @@ public class CitizenSleepHandler
             return 0;
         }
 
-        return SLEEPING_RENDER_OFFSET * (float) enumfacing.getFrontOffsetX();
+        return SLEEPING_RENDER_OFFSET * (float) enumfacing.getXOffset();
     }
 
     /**
@@ -229,6 +227,6 @@ public class CitizenSleepHandler
             return 0;
         }
 
-        return SLEEPING_RENDER_OFFSET * (float) enumfacing.getFrontOffsetZ();
+        return SLEEPING_RENDER_OFFSET * (float) enumfacing.getZOffset();
     }
 }

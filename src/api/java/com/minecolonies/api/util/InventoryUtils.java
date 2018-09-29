@@ -176,7 +176,27 @@ public class InventoryUtils
 
         return -1;
         //TODO: Later harden contract to remove compare on slot := -1
-        //throw new IllegalStateException("Item "+targetItem.getUnlocalizedName() + " not found in ItemHandler!");
+        //throw new IllegalStateException("Item "+targetItem.getTranslationKey() + " not found in ItemHandler!");
+    }
+
+    /**
+     * Shrinks a specific stack in an item handler.
+     * @param itemHandler the handler..
+     * @param itemStackSelectionPredicate the predicate..
+     * @return true if successful.
+     */
+    public static boolean shrinkItemCountInItemHandler(final IItemHandler itemHandler, @NotNull final Predicate<ItemStack> itemStackSelectionPredicate)
+    {
+        final Predicate<ItemStack> predicate = ItemStackUtils.NOT_EMPTY_PREDICATE.and(itemStackSelectionPredicate);
+        for (int slot = 0; slot < itemHandler.getSlots(); slot++)
+        {
+            if (predicate.test(itemHandler.getStackInSlot(slot)))
+            {
+                itemHandler.getStackInSlot(slot).shrink(1);
+                return true;
+            }
+        }
+        return false;
     }
 
     /**
@@ -639,7 +659,7 @@ public class InventoryUtils
 
         return -1;
         //TODO: Later harden contract to remove compare on slot := -1
-        //throw new IllegalStateException("Item "+targetItem.getUnlocalizedName() + " not found in ItemHandler!");
+        //throw new IllegalStateException("Item "+targetItem.getTranslationKey() + " not found in ItemHandler!");
     }
 
     /**
@@ -1144,7 +1164,7 @@ public class InventoryUtils
         {
             return -1;
             //TODO: Later harden contract to remove compare on slot := -1
-            //throw new IllegalStateException("Item "+targetItem.getUnlocalizedName() + " not found in ItemHandler!");
+            //throw new IllegalStateException("Item "+targetItem.getTranslationKey() + " not found in ItemHandler!");
         }
 
         return findFirstSlotInItemHandlerWith(provider.getCapability(ITEM_HANDLER_CAPABILITY, facing), itemStackSelectionPredicate);
@@ -1509,6 +1529,53 @@ public class InventoryUtils
     }
 
     /**
+     * Method to put a given Itemstack in a given target {@link IItemHandler}. Trying to merge existing itemStacks if possible.
+     *
+     * @param stack   the itemStack to transfer.
+     * @param targetHandler The {@link IItemHandler} that works as Target.
+     * @return True when the swap was successful, false when not.
+     */
+    public static boolean transferItemStackIntoNextBestSlotInItemHandler(final ItemStack stack, @NotNull final IItemHandler targetHandler)
+    {
+        return transferItemStackIntoNextBestSlotInItemHandlerWithResult(stack, targetHandler).isEmpty();
+    }
+
+    /**
+     * Method to put a given Itemstack in a given target {@link IItemHandler}. Trying to merge existing itemStacks if possible.
+     *
+     * @param stack   the itemStack to transfer.
+     * @param targetHandler The {@link IItemHandler} that works as Target.
+     * @return the rest of the stack.
+     */
+    public static ItemStack transferItemStackIntoNextBestSlotInItemHandlerWithResult(final ItemStack stack, @NotNull final IItemHandler targetHandler)
+    {
+        ItemStack sourceStack = stack.copy();
+
+        if(ItemStackUtils.isEmpty(sourceStack))
+        {
+            return sourceStack;
+        }
+
+        sourceStack = mergeItemStackIntoNextBestSlotInItemHandlers(sourceStack, targetHandler);
+
+        if(ItemStackUtils.isEmpty(sourceStack))
+        {
+            return sourceStack;
+        }
+
+        for (int i = 0; i < targetHandler.getSlots(); i++)
+        {
+            sourceStack = targetHandler.insertItem(i, sourceStack, false);
+            if (ItemStackUtils.isEmpty(sourceStack))
+            {
+                return sourceStack;
+            }
+        }
+
+        return sourceStack;
+    }
+
+    /**
      * Method to merge the ItemStacks from the given source {@link IItemHandler}
      * to the given target {@link IItemHandler}. Trying to merge itemStacks or returning stack if not possible.
      *
@@ -1537,6 +1604,39 @@ public class InventoryUtils
                 if (ItemStackUtils.isEmpty(sourceStack))
                 {
                     sourceHandler.extractItem(sourceIndex, Integer.MAX_VALUE, false);
+                    return sourceStack;
+                }
+            }
+        }
+        return sourceStack;
+    }
+
+    /**
+     * Method to merge the ItemStacks from the given source {@link IItemHandler}
+     * to the given target {@link IItemHandler}. Trying to merge itemStacks or returning stack if not possible.
+     *
+     * @param stack the stack to add.
+     * @param targetHandler The {@link IItemHandler} that works as Target.
+     * @return True when the swap was successful, false when not.
+     */
+    public static ItemStack mergeItemStackIntoNextBestSlotInItemHandlers(
+      final ItemStack stack,
+      @NotNull final IItemHandler targetHandler)
+    {
+        ItemStack sourceStack = stack.copy();
+
+        if(ItemStackUtils.isEmpty(sourceStack))
+        {
+            return sourceStack;
+        }
+
+        for (int i = 0; i < targetHandler.getSlots(); i++)
+        {
+            if (!ItemStackUtils.isEmpty(targetHandler.getStackInSlot(i)) && targetHandler.getStackInSlot(i).isItemEqual(sourceStack))
+            {
+                sourceStack = targetHandler.insertItem(i, sourceStack, false);
+                if (ItemStackUtils.isEmpty(sourceStack))
+                {
                     return sourceStack;
                 }
             }
@@ -1936,7 +2036,7 @@ public class InventoryUtils
             }
             else if (itemStackSelectionPredicate.test(stack))
             {
-                if (ItemStackUtils.getSize(stack) + amount <= Constants.STACKSIZE)
+                if (ItemStackUtils.getSize(stack) + amount <= stack.getMaxStackSize())
                 {
                     foundEmptySlot = true;
                 }

@@ -10,6 +10,7 @@ import com.minecolonies.api.configuration.Configurations;
 import com.minecolonies.api.util.BlockPosUtil;
 import com.minecolonies.api.util.LanguageHandler;
 import com.minecolonies.api.util.constant.Suppression;
+import com.minecolonies.blockout.Log;
 import com.minecolonies.coremod.MineColonies;
 import com.minecolonies.coremod.colony.buildings.AbstractBuilding;
 import com.minecolonies.coremod.colony.managers.*;
@@ -36,14 +37,12 @@ import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.EnumDifficulty;
 import net.minecraft.world.World;
 import net.minecraft.world.chunk.Chunk;
-import net.minecraftforge.common.DimensionManager;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.util.Constants.NBT;
 import net.minecraftforge.fml.common.gameevent.TickEvent;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.io.File;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -52,7 +51,6 @@ import static com.minecolonies.api.util.constant.Constants.*;
 import static com.minecolonies.api.util.constant.NbtTagConstants.*;
 import static com.minecolonies.api.util.constant.TranslationConstants.*;
 import static com.minecolonies.coremod.MineColonies.CLOSE_COLONY_CAP;
-import static com.minecolonies.coremod.colony.ColonyManager.*;
 
 /**
  * This class describes a colony and contains all the data and methods for
@@ -74,7 +72,7 @@ public class Colony implements IColony
     /**
      * Dimension of the colony.
      */
-    private final int dimensionId;
+    private int dimensionId;
 
     /**
      * List of waypoints of the colony.
@@ -194,11 +192,6 @@ public class Colony implements IColony
     private NBTTagCompound colonyTag;
 
     /**
-     * Field to check if the colony is dirty.
-     */
-    private boolean isDirty = false;
-
-    /**
      * List of players visiting the colony.
      */
     private final List<EntityPlayer> visitingPlayers = new ArrayList<>();
@@ -214,6 +207,12 @@ public class Colony implements IColony
     private final HappinessData happinessData = new HappinessData();
 
     /**
+     * Mournign parameters.
+     */
+    private boolean needToMourn = false;
+    private boolean mourning = false;
+
+    /**
      * The colony team color.
      */
     private TextFormatting colonyTeamColor = TextFormatting.WHITE;
@@ -226,7 +225,7 @@ public class Colony implements IColony
      * @param c  The center of the colony (location of Town Hall).
      */
     @SuppressWarnings("squid:S2637")
-    Colony(final int id, @NotNull final World w, final BlockPos c)
+    Colony(final int id, @Nullable final World w, final BlockPos c)
     {
         this(id, w);
         center = c;
@@ -241,18 +240,16 @@ public class Colony implements IColony
      * @param id    The current id for the colony.
      * @param world The world the colony exists in.
      */
-    protected Colony(final int id, final World world)
+    protected Colony(final int id, @Nullable final World world)
     {
         this.id = id;
-        this.dimensionId = world.provider.getDimension();
-        this.world = world;
-        this.permissions = new Permissions(this);
-
-        if (this.world.getScoreboard().getTeam(TEAM_COLONY_NAME + id) == null)
+        if (world != null)
         {
-            this.world.getScoreboard().createTeam(TEAM_COLONY_NAME + id);
-            this.world.getScoreboard().getTeam(TEAM_COLONY_NAME + id).setAllowFriendlyFire(false);
+            this.dimensionId = world.provider.getDimension();
+            this.world = world;
+            checkOrCreateTeam();
         }
+        this.permissions = new Permissions(this);
 
         // Register a new event handler
         eventHandler = new ColonyPermissionEventHandler(this);
@@ -277,6 +274,18 @@ public class Colony implements IColony
     }
 
     /**
+     * Check or create the team.
+     */
+    private void checkOrCreateTeam()
+    {
+        if (this.world.getScoreboard().getTeam(TEAM_COLONY_NAME + id) == null)
+        {
+            this.world.getScoreboard().createTeam(TEAM_COLONY_NAME + id);
+            this.world.getScoreboard().getTeam(TEAM_COLONY_NAME + id).setAllowFriendlyFire(false);
+        }
+    }
+
+    /**
      * Set up the colony color for team handling for pvp.
      * @param colonyColor the colony color.
      */
@@ -284,6 +293,7 @@ public class Colony implements IColony
     {
         if (this.world != null)
         {
+            checkOrCreateTeam();
             this.colonyTeamColor = colonyColor;
             this.world.getScoreboard().getTeam(TEAM_COLONY_NAME + this.id).setColor(colonyColor);
             this.world.getScoreboard().getTeam(TEAM_COLONY_NAME + this.id).setPrefix(colonyColor.toString());
@@ -298,7 +308,7 @@ public class Colony implements IColony
      * @return loaded colony.
      */
     @NotNull
-    public static Colony loadColony(@NotNull final NBTTagCompound compound, @NotNull final World world)
+    public static Colony loadColony(@NotNull final NBTTagCompound compound, @Nullable final World world)
     {
         final int id = compound.getInteger(TAG_ID);
         @NotNull final Colony c = new Colony(id, world);
@@ -327,10 +337,21 @@ public class Colony implements IColony
      *
      * @param compound compound to read from.
      */
-    private void readFromNBT(@NotNull final NBTTagCompound compound)
+    public void readFromNBT(@NotNull final NBTTagCompound compound)
     {
         manualHiring = compound.getBoolean(TAG_MANUAL_HIRING);
+        dimensionId = compound.getInteger(TAG_DIMENSION);
 
+        if(compound.hasKey(TAG_NEED_TO_MOURN))
+        {
+            needToMourn = compound.getBoolean(TAG_NEED_TO_MOURN);
+            mourning = compound.getBoolean(TAG_MOURNING);
+        }
+        else
+        {
+            needToMourn = false;
+            mourning = false;
+        }
         // Permissions
         permissions.loadPermissions(compound);
 
@@ -369,9 +390,9 @@ public class Colony implements IColony
             progressManager.readFromNBT(compound);
         }
 
-        if (compound.hasKey(TAG_HAPPINESS))
+        if (compound.hasKey(TAG_HAPPINESS_MODIFIER))
         {
-            colonyHappinessManager.setLockedHappinessModifier(Optional.of(compound.getDouble(TAG_HAPPINESS)));
+            colonyHappinessManager.setLockedHappinessModifier(Optional.of(compound.getDouble(TAG_HAPPINESS_MODIFIER)));
         }
         else
         {
@@ -411,11 +432,6 @@ public class Colony implements IColony
         packageManager.setLastContactInHours(compound.getInteger(TAG_ABANDONED));
         manualHousing = compound.getBoolean(TAG_MANUAL_HOUSING);
 
-        if (compound.hasKey(TAG_REQUESTMANAGER))
-        {
-            this.requestManager.deserializeNBT(compound.getCompoundTag(TAG_REQUESTMANAGER));
-        }
-
         if(compound.hasKey(TAG_STYLE))
         {
             this.style = compound.getString(TAG_STYLE);
@@ -444,6 +460,11 @@ public class Colony implements IColony
             this.setColonyColor(TextFormatting.values()[compound.getInteger(TAG_TEAM_COLOR)]);
         }
 
+        if (getColonyTag().hasKey(TAG_REQUESTMANAGER))
+        {
+            this.requestManager.deserializeNBT(getColonyTag().getCompoundTag(TAG_REQUESTMANAGER));
+        }
+
         this.colonyTag = compound;
     }
 
@@ -462,7 +483,7 @@ public class Colony implements IColony
      *
      * @param compound compound to write to.
      */
-    protected void writeToNBT(@NotNull final NBTTagCompound compound)
+    public NBTTagCompound writeToNBT(@NotNull final NBTTagCompound compound)
     {
         //  Core attributes
         compound.setInteger(TAG_ID, id);
@@ -473,6 +494,8 @@ public class Colony implements IColony
         BlockPosUtil.writeToNBT(compound, TAG_CENTER, center);
 
         compound.setBoolean(TAG_MANUAL_HIRING, manualHiring);
+        compound.setBoolean(TAG_NEED_TO_MOURN, needToMourn);
+        compound.setBoolean(TAG_MOURNING, mourning);
 
         // Permissions
         permissions.savePermissions(compound);
@@ -485,7 +508,7 @@ public class Colony implements IColony
         citizenManager.writeToNBT(citizenCompound);
         compound.setTag(TAG_CITIZEN_MANAGER, citizenCompound);
 
-        colonyHappinessManager.getLockedHappinessModifier().ifPresent(d -> compound.setDouble(TAG_HAPPINESS, d));
+        colonyHappinessManager.getLockedHappinessModifier().ifPresent(d -> compound.setDouble(TAG_HAPPINESS_MODIFIER, d));
 
         final NBTTagCompound statsCompound = new NBTTagCompound();
         statsManager.writeToNBT(statsCompound);
@@ -537,6 +560,8 @@ public class Colony implements IColony
         compound.setBoolean(TAG_AUTO_DELETE, canColonyBeAutoDeleted);
         compound.setInteger(TAG_TEAM_COLOR, colonyTeamColor.ordinal());
         this.colonyTag = compound;
+
+        return compound;
     }
 
     /**
@@ -556,10 +581,7 @@ public class Colony implements IColony
      */
     public void onWorldLoad(@NotNull final World w)
     {
-        if (w.provider.getDimension() == dimensionId)
-        {
-            world = w;
-        }
+        this.world = w;
     }
 
     /**
@@ -755,21 +777,25 @@ public class Colony implements IColony
                 citizenManager.checkCitizensForHappiness();
             }
             happinessData.processDeathModifiers(); 
+            if (mourning)
+            {
+                mourning = false;
+                citizenManager.updateCitizenMourn(false);
+            }
         }
         else if (!isDay && world.isDaytime())
         {
             isDay = true;
+            if (needToMourn)
+            {
+                needToMourn = false;
+                mourning = true;
+                citizenManager.updateCitizenMourn(true);
+            }
         }
 
         updateWayPoints();
         workManager.onWorldTick(event);
-
-        if(this.isDirty && shallUpdate(world, CLEANUP_TICK_INCREMENT))
-        {
-            this.isDirty = false;
-            @NotNull final File saveDir = new File(DimensionManager.getWorld(0).getSaveHandler().getWorldDirectory(), FILENAME_MINECOLONIES_PATH);
-            ColonyManager.saveNBTToPath(new File(saveDir, String.format(FILENAME_COLONY, this.getID())), this.getColonyTag());
-        }
     }
 
     /**
@@ -866,7 +892,7 @@ public class Colony implements IColony
     @Override
     public boolean isCoordInColony(@NotNull final World w, @NotNull final BlockPos pos)
     {
-        final Chunk chunk = w.getChunkFromBlockCoords(pos);
+        final Chunk chunk = w.getChunk(pos);
         final IColonyTagCapability cap = chunk.getCapability(CLOSE_COLONY_CAP, null);
         return cap.getOwningColony() == this.getID();
     }
@@ -948,8 +974,6 @@ public class Colony implements IColony
     public void markDirty()
     {
         packageManager.setDirty();
-        colonyTag = null;
-        this.isDirty = true;
     }
 
     @Override
@@ -1280,6 +1304,41 @@ public class Colony implements IColony
     }
 
     /**
+     * call to figure out if the colony needs to mourn.
+     * 
+     * @return a boolean indicating the colony needs to mourn
+     */
+    public boolean isNeedToMourn()
+    {
+        return needToMourn;
+    }
+
+    /**
+     * Call to set if the colony needs to mourn or not.
+     * 
+     * @param needToMourn indicate if the colony needs to mourn
+     * @param name  Name of citizen that died
+     */
+    public void setNeedToMourn(final boolean needToMourn, final String name)
+    {
+        this.needToMourn = needToMourn;
+        if (needToMourn)
+        {
+            LanguageHandler.sendPlayersMessage(getMessageEntityPlayers(), COM_MINECOLONIES_COREMOD_MOURN,name);
+        }
+    }
+
+    /**
+     * Call to check if the colony is mourning.
+     * 
+     * @return indicates if the colony is mourning
+     */
+    public boolean isMourning()
+    {
+        return mourning;
+    }
+
+    /**
      * Add a guard to the list of attacking guards.
      * @param entityCitizen the citizen to add.
      */
@@ -1350,6 +1409,15 @@ public class Colony implements IColony
         }
 
         return AttackingPlayer.isValidAttack(entity, this);
+    }
+
+    /**
+     * Check if the colony is currently under attack by another player.
+     * @return true if so.
+     */
+    public boolean isColonyUnderAttack()
+    {
+        return !attackingPlayers.isEmpty();
     }
 
     /**

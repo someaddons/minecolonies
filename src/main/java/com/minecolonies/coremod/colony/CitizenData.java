@@ -12,7 +12,6 @@ import com.minecolonies.coremod.colony.buildings.AbstractBuildingWorker;
 import com.minecolonies.coremod.colony.buildings.workerbuildings.BuildingBarracksTower;
 import com.minecolonies.coremod.colony.buildings.workerbuildings.BuildingHome;
 import com.minecolonies.coremod.colony.jobs.AbstractJob;
-import com.minecolonies.coremod.colony.managers.interfaces.ICitizenManager;
 import com.minecolonies.coremod.entity.EntityCitizen;
 import com.minecolonies.coremod.entity.ai.basic.AbstractAISkeleton;
 import com.minecolonies.coremod.entity.citizenhandlers.CitizenHappinessHandler; 
@@ -675,7 +674,7 @@ public class CitizenData
     {
         if (workBuilding != null && building != null && workBuilding != building)
         {
-            throw new IllegalStateException("CitizenData.setWorkBuilding() - already assigned a work building when setting a new work building");
+            Log.getLogger().warn("CitizenData.setWorkBuilding() - already assigned a work building when setting a new work building");
         }
         else if (workBuilding != building)
         {

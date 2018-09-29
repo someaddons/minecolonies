@@ -20,6 +20,7 @@ import com.minecolonies.coremod.entity.ai.util.Structure;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockBed;
 import net.minecraft.block.BlockDoor;
+import net.minecraft.block.BlockFalling;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
@@ -207,6 +208,14 @@ public abstract class AbstractEntityAIStructureWithWorkOrder<J extends AbstractJ
             }
 
             final Block worldBlock = BlockPosUtil.getBlock(world, job.getStructure().getBlockPosition());
+            if (block instanceof BlockFalling )
+            {
+                final IBlockState downState = BlockPosUtil.getBlockState(world, job.getStructure().getBlockPosition().down());
+                if (!downState.getMaterial().isSolid())
+                {
+                    requestBlockToBuildingIfRequired(buildingWorker, getSolidSubstitution(job.getStructure().getBlockPosition()));
+                }
+            }
 
             if (block != null
                   && block != Blocks.AIR
@@ -254,7 +263,7 @@ public abstract class AbstractEntityAIStructureWithWorkOrder<J extends AbstractJ
         final int hashCode = stack.hasTagCompound() ? stack.getTagCompound().hashCode() : 0;
         if (getOwnBuilding(AbstractBuildingStructureBuilder.class)
               .getNeededResources()
-              .get(stack.getUnlocalizedName()
+              .get(stack.getTranslationKey()
                      + ":" + stack.getItemDamage()
                      + "-" + hashCode) == null)
         {
@@ -273,7 +282,7 @@ public abstract class AbstractEntityAIStructureWithWorkOrder<J extends AbstractJ
         final BuildingBuilderResource resource
                 = getOwnBuilding(AbstractBuildingStructureBuilder.class)
                 .getNeededResources()
-                .get(deliveredItemStack.getUnlocalizedName()
+                .get(deliveredItemStack.getTranslationKey()
                         + ":" + deliveredItemStack.getItemDamage()
                         + "-" + hashCode);
         if (resource != null)
@@ -409,7 +418,7 @@ public abstract class AbstractEntityAIStructureWithWorkOrder<J extends AbstractJ
         }
         final int hashCode = stack.hasTagCompound() ? stack.getTagCompound().hashCode() : 0;
         final AbstractBuildingStructureBuilder buildingWorker = getOwnBuilding(AbstractBuildingStructureBuilder.class);
-        final BuildingBuilderResource resource = buildingWorker.getNeededResources().get(stack.getUnlocalizedName() + ":" + stack.getItemDamage() + "-" + hashCode);
+        final BuildingBuilderResource resource = buildingWorker.getNeededResources().get(stack.getTranslationKey() + ":" + stack.getItemDamage() + "-" + hashCode);
 
         if(resource == null)
         {

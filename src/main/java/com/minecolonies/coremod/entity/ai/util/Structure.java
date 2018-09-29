@@ -146,8 +146,7 @@ public class Structure
             final Block structureBlock = structureBlockState.getBlock();
 
             //All worldBlocks are equal the substitution block
-            if (structureBlockEqualsWorldBlock(structureBlock, worldBlock, worldMetadata)
-                  || structureBlock == ModBlocks.blockWayPoint)
+            if (structureBlockEqualsWorldBlock(structureBlock, worldBlock, worldMetadata))
             {
                 return true;
             }
@@ -367,8 +366,8 @@ public class Structure
                                       || structureBlock.worldBlock == Blocks.AIR);
             case BUILD:
                 return advanceBlocks(this.theStructure::incrementBlock, structureBlock -> structureBlock.doesStructureBlockEqualWorldBlock()
-                                                                                         && structureBlock.block == Blocks.AIR
-                                                                                         && !structureBlock.metadata.getMaterial().isSolid());
+                                                                                         || structureBlock.block == Blocks.AIR
+                                                                                         || !structureBlock.metadata.getMaterial().isSolid());
             case SPAWN:
                 return advanceBlocks(this.theStructure::decrementBlock, structureBlock ->
                                                                        structureBlock.entity == null);

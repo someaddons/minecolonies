@@ -157,7 +157,6 @@ public class BuildingMoveMessage extends AbstractMessage<BuildingMoveMessage, IM
         @Nullable AbstractBuilding oldBuilding = ColonyManager.getBuilding(world, oldBuildingId);
         if (oldBuilding instanceof BuildingTownHall)
         {
-            oldBuilding = null;
             if (tempColony != null)
             {
                 tempColony.getBuildingManager().setTownHall(null);
@@ -203,7 +202,7 @@ public class BuildingMoveMessage extends AbstractMessage<BuildingMoveMessage, IM
         }
         else
         {
-            final Colony colony = ColonyManager.getColony(world, buildPos);
+            final Colony colony = ColonyManager.getColonyByPosFromWorld(world, buildPos);
             if (colony == null)
             {
                 Log.getLogger().info("No colony for " + player.getName());
@@ -230,7 +229,7 @@ public class BuildingMoveMessage extends AbstractMessage<BuildingMoveMessage, IM
                 {
                     citizen.setWorkBuilding(null);
                     citizen.setWorkBuilding((AbstractBuildingWorker) building);
-                    ((AbstractBuildingWorker) building).assignCitizen(citizen);
+                    building.assignCitizen(citizen);
                 }
             }
 
@@ -251,11 +250,11 @@ public class BuildingMoveMessage extends AbstractMessage<BuildingMoveMessage, IM
 
             if (oldBuilding instanceof BuildingHome)
             {
-                final List<CitizenData> residents = ((BuildingHome) oldBuilding).getAssignedCitizen();
+                final List<CitizenData> residents = oldBuilding.getAssignedCitizen();
                 for(final CitizenData citizen : residents)
                 {
                     citizen.setHomeBuilding(building);
-                    ((BuildingHome) building).assignCitizen(citizen);
+                    building.assignCitizen(citizen);
                 }
             }
 
