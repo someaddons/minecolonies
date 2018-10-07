@@ -1,6 +1,5 @@
 package com.minecolonies.coremod.entity.ai.citizen.lumberjack;
 
-import com.ferreusveritas.dynamictrees.blocks.BlockDynamicLeaves;
 import com.minecolonies.api.compatibility.Compatibility;
 import com.minecolonies.api.configuration.Configurations;
 import com.minecolonies.api.crafting.ItemStorage;
@@ -356,7 +355,7 @@ public class Tree
 
                         leafCount++;
                         // Dynamic tree growth is checked by radius instead of leafcount
-                        if (leafCount >= NUMBER_OF_LEAVES || (world.getBlockState(leafPos).getBlock() instanceof BlockDynamicLeaves))
+                        if (leafCount >= NUMBER_OF_LEAVES || (Compatibility.isDynamicLeaf(world.getBlockState(leafPos).getBlock())))
                         {
                             return true;
                         }
@@ -380,7 +379,7 @@ public class Tree
         for (final ItemStorage stack : treesToNotCut)
         {
             IBlockState bState = world.getBlockState(leafPos);
-            if (bState.getBlock() instanceof BlockDynamicLeaves)
+            if (Compatibility.isDynamicLeaf(bState.getBlock()))
                 bState = bState.withProperty(HYDRO,1).withProperty(TREE,1);
             final ItemStack sap = ColonyManager.getCompatibilityManager().getSaplingForLeave(bState);
             if(sap != null && sap.isItemEqual(stack.getItemStack()))
