@@ -547,7 +547,6 @@ public class EntityAIWorkLumberjack extends AbstractEntityAIInteract<JobLumberja
                 Compatibility.plantDynamicSapling(world, location, stack);
                 new InvWrapper(getInventory()).extractItem(saplingSlot, 1, false);
                 worker.swingArm(worker.getActiveHand());
-                this.getOwnBuilding().getColony().getStatsManager().incrementStatistic("saplings");
                 timeWaited = 0;
                 incrementActionsDoneAndDecSaturation();
                 setDelay(TIMEOUT_DELAY);
