@@ -99,7 +99,7 @@ public final class DynamicTreeCompat extends DynamicTreeProxy
     {
         if (isDynamicLeavesBlock(leaf))
         {
-            NonNullList<ItemStack> list = NonNullList.create();
+            final NonNullList<ItemStack> list = NonNullList.create();
             list.addAll(((BlockDynamicLeaves) leaf).getDrops(world, pos, blockState, fortune));
             return list;
         }
@@ -176,7 +176,8 @@ public final class DynamicTreeCompat extends DynamicTreeProxy
                 Log.getLogger().error("Minecolonies:DynamicTreeCompat unexpected null while trying to get World");
                 return;
             }
-            FakePlayer fake = new FakePlayer(world.getMinecraftServer().getWorld(world.provider.getDimension()), new GameProfile(UUID.randomUUID(), "minecolonies_LumberjackFake"));
+            final FakePlayer fake =
+              new FakePlayer(world.getMinecraftServer().getWorld(world.provider.getDimension()), new GameProfile(UUID.randomUUID(), "minecolonies_LumberjackFake"));
 
             if (workerPos != null)
             {
@@ -216,7 +217,7 @@ public final class DynamicTreeCompat extends DynamicTreeProxy
      */
     @Override
     @Optional.Method(modid = DYNAMIC_MODID)
-    protected boolean plantDynamicSaplingCompat(@NotNull World world, @NotNull BlockPos location, @NotNull ItemStack saplingStack)
+    protected boolean plantDynamicSaplingCompat(@NotNull final World world, @NotNull final BlockPos location, @NotNull final ItemStack saplingStack)
     {
         if (saplingStack.getItem() instanceof Seed)
         {
