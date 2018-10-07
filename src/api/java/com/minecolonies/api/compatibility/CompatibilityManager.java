@@ -130,10 +130,10 @@ public class CompatibilityManager implements ICompatibilityManager
     public ItemStack getSaplingForLeave(final IBlockState block)
     {
         final ItemStack stack = new ItemStack(block.getBlock(), 1, block.getBlock().getMetaFromState(block));
-        final IBlockState tempLeave = BlockLeaves.getBlockFromItem(stack.getItem()).getStateFromMeta(stack.getMetadata());
-        if(leavesToSaplingMap.containsKey(tempLeave))
+        final IBlockState tempLeaf = BlockLeaves.getBlockFromItem(stack.getItem()).getStateFromMeta(stack.getMetadata());
+        if(leavesToSaplingMap.containsKey(tempLeaf))
         {
-            return leavesToSaplingMap.get(tempLeave).getItemStack();
+            return leavesToSaplingMap.get(tempLeaf).getItemStack();
         }
         return null;
     }
@@ -197,13 +197,13 @@ public class CompatibilityManager implements ICompatibilityManager
     }
 
     @Override
-    public void connectLeaveToSapling(final IBlockState leave, final ItemStack stack)
+    public void connectLeaveToSapling(final IBlockState leaf, final ItemStack stack)
     {
-        final ItemStack tempStack = new ItemStack(leave.getBlock(), 1, leave.getBlock().getMetaFromState(leave));
-        final IBlockState tempLeave = BlockLeaves.getBlockFromItem(tempStack.getItem()).getStateFromMeta(tempStack.getMetadata());
-        if(!leavesToSaplingMap.containsKey(tempLeave) && !leavesToSaplingMap.containsValue(new ItemStorage(stack, false, true)))
+        final ItemStack tempStack = new ItemStack(leaf.getBlock(), 1, leaf.getBlock().getMetaFromState(leaf));
+        final IBlockState tempLeaf = BlockLeaves.getBlockFromItem(tempStack.getItem()).getStateFromMeta(tempStack.getMetadata());
+        if(!leavesToSaplingMap.containsKey(tempLeaf) && !leavesToSaplingMap.containsValue(new ItemStorage(stack, false, true)))
         {
-            leavesToSaplingMap.put(tempLeave, new ItemStorage(stack, false, true));
+            leavesToSaplingMap.put(tempLeaf, new ItemStorage(stack, false, true));
         }
     }
 
@@ -265,6 +265,14 @@ public class CompatibilityManager implements ICompatibilityManager
                             saplings.add(new ItemStorage(stack, false, true));
                         }
                     }
+                }
+            }
+            else
+            {
+                // Dynamictree's saplings dont have sub types
+                if(Compatibility.isDynamicTreeSapling(saps) && !ItemStackUtils.isEmpty(saps) && !leavesToSaplingMap.containsValue(new ItemStorage(saps, false, true)) && !saplings.contains(new ItemStorage(saps, false, true)))
+                {
+                    saplings.add(new ItemStorage(saps, false, true));
                 }
             }
         }

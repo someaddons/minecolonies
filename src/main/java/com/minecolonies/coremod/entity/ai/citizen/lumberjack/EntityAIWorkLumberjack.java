@@ -387,10 +387,21 @@ public class EntityAIWorkLumberjack extends AbstractEntityAIInteract<JobLumberja
         {
             //take first log from queue
             final BlockPos log = job.tree.peekNextLog();
-            if (!mineBlock(log, workFrom))
+
+            if (job.tree.isDynamicTree())
             {
-                return getState();
+                // Dynamic Trees handles drops/tool dmg upon tree break, so those are set to false here
+                if (!mineBlock(log, workFrom,false,false,Compatibility.getDynamicTreeBreakAction(world,log,worker.getHeldItem(EnumHand.MAIN_HAND),worker.getPosition())))
+                    return getState();
             }
+            else
+            {
+                if (!mineBlock(log, workFrom))
+                {
+                    return getState();
+                }
+            }
+
             job.tree.pollNextLog();
         }
         else if (job.tree.hasLeaves() && job.tree.isSlimeTree())
@@ -523,17 +534,32 @@ public class EntityAIWorkLumberjack extends AbstractEntityAIInteract<JobLumberja
                                     || (!job.tree.isSlimeTree() && !Compatibility.isSlimeDirtOrGrass(dirt))))
         {
             final ItemStack stack = getInventory().getStackInSlot(saplingSlot);
-            final Block block = ((ItemBlock) stack.getItem()).getBlock();
             worker.getCitizenItemHandler().setHeldItem(EnumHand.MAIN_HAND, saplingSlot);
 
-            placeSaplings(saplingSlot, stack, block);
-            final SoundType soundType = block.getSoundType(world.getBlockState(location), world, location, worker);
-            world.playSound(null,
-              this.worker.getPosition(),
-              soundType.getPlaceSound(),
-              SoundCategory.BLOCKS,
-              soundType.getVolume(),
-              soundType.getPitch());
+            if (job.tree.isDynamicTree() && Compatibility.isDynamicTreeSapling(stack))
+            {
+                Compatibility.plantDynamicSapling(world,location,stack);
+                new InvWrapper(getInventory()).extractItem(saplingSlot, 1, false);
+                worker.swingArm(worker.getActiveHand());
+                this.getOwnBuilding().getColony().getStatsManager().incrementStatistic("saplings");
+                timeWaited = 0;
+                incrementActionsDoneAndDecSaturation();
+                setDelay(TIMEOUT_DELAY);
+                return true;
+            }
+            else
+            {
+                final Block block = ((ItemBlock) stack.getItem()).getBlock();
+                placeSaplings(saplingSlot, stack, block);
+                final SoundType soundType = block.getSoundType(world.getBlockState(location), world, location, worker);
+                world.playSound(null,
+                        this.worker.getPosition(),
+                        soundType.getPlaceSound(),
+                        SoundCategory.BLOCKS,
+                        soundType.getVolume(),
+                        soundType.getPitch());
+            }
+
             worker.swingArm(worker.getActiveHand());
             this.getOwnBuilding().getColony().getStatsManager().incrementStatistic("saplings");
         }
@@ -659,7 +685,7 @@ public class EntityAIWorkLumberjack extends AbstractEntityAIInteract<JobLumberja
         }
         else if(ItemStackUtils.isEmpty(job.tree.getSapling()))
         {
-            return isStackSapling(stack);
+            return true;
         }
         else
         {
@@ -675,7 +701,7 @@ public class EntityAIWorkLumberjack extends AbstractEntityAIInteract<JobLumberja
      */
     private static boolean isStackSapling(@Nullable final ItemStack stack)
     {
-        return !ItemStackUtils.isEmpty(stack) && stack.getItem() instanceof ItemBlock && ((ItemBlock) stack.getItem()).getBlock() instanceof BlockSapling;
+        return !ItemStackUtils.isEmpty(stack) && (stack.getItem() instanceof ItemBlock && (((ItemBlock) stack.getItem()).getBlock() instanceof BlockSapling) || Compatibility.isDynamicTreeSapling((stack)));
     }
 
     /**
