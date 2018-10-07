@@ -1,6 +1,6 @@
 package com.minecolonies.api.compatibility;
 
-import com.minecolonies.api.compatibility.dynamicTrees.DynamicTreeCompat;
+import com.minecolonies.api.compatibility.dynamictrees.DynamicTreeCompat;
 import com.minecolonies.api.compatibility.tinkers.SlimeTreeCheck;
 import com.minecolonies.api.compatibility.tinkers.TinkersWeaponHelper;
 import com.minecolonies.api.compatibility.tinkers.ToolBrokenCheck;
@@ -158,47 +158,49 @@ public final class Compatibility
 
     /**
      * Returns drops of a dynamic seed as List
-     * @param world world the Leaf is in
-     * @param pos position of the Leaf
+     *
+     * @param world      world the Leaf is in
+     * @param pos        position of the Leaf
      * @param blockState Blockstate of the Leaf
-     * @param fortune amount of fortune to use
-     * @param leaf The leaf to check
-     * @return
+     * @param fortune    amount of fortune to use
+     * @param leaf       The leaf to check
      */
     public static NonNullList<ItemStack> getDropsForDynamicLeaf(final IBlockAccess world, final BlockPos pos, final IBlockState blockState, final int fortune, final Block leaf)
     {
-        return DynamicTreeCompat.getDropsForLeafCompat(world,pos,blockState,fortune,leaf);
+        return DynamicTreeCompat.getDropsForLeafCompat(world, pos, blockState, fortune, leaf);
     }
 
     /**
      * Tries to plant a sapling at the given location
-     * @param world World to plant the sapling in
+     *
+     * @param world    World to plant the sapling in
      * @param location location to plant the sapling
-     * @param sapling Itemstack of the sapling
+     * @param sapling  Itemstack of the sapling
      * @return true if successful
      */
-    public static boolean plantDynamicSapling(World world, BlockPos location, ItemStack sapling)
+    public static boolean plantDynamicSapling(final World world, final BlockPos location, final ItemStack sapling)
     {
-        return DynamicTreeCompat.plantDynamicSapling(world,location,sapling);
+        return DynamicTreeCompat.plantDynamicSapling(world, location, sapling);
     }
 
     /**
      * Creates a runnable to harvest/break a dynamic tree
-     * @param world The world the tree is in
+     *
+     * @param world        The world the tree is in
      * @param blockToBreak The block of the dynamic tree
-     * @param toolToUse The tool to break the tree with, optional
-     * @param workerPos The position the fakeplayer breaks the tree from, optional
+     * @param toolToUse    The tool to break the tree with, optional
+     * @param workerPos    The position the fakeplayer breaks the tree from, optional
      * @return Runnable to break the Tree
      */
-    public static Runnable getDynamicTreeBreakAction(final World world,final BlockPos blockToBreak,final ItemStack toolToUse, final BlockPos workerPos)
+    public static Runnable getDynamicTreeBreakAction(final World world, final BlockPos blockToBreak, final ItemStack toolToUse, final BlockPos workerPos)
     {
-        return DynamicTreeCompat.getTreeBreakAction(world,blockToBreak,toolToUse,workerPos);
+        return DynamicTreeCompat.getTreeBreakAction(world, blockToBreak, toolToUse, workerPos);
     }
 
     /**
      * Check wether the item is a dynamic Sapling
+     *
      * @param item Item to check
-     * @return
      */
     public static boolean isDynamicTreeSapling(final Item item)
     {
@@ -207,6 +209,7 @@ public final class Compatibility
 
     /**
      * Check wether the Itemstack is a dynamic Sapling
+     *
      * @param stack Itemstack to check
      * @return true if it is a dynamic Sapling
      */
@@ -214,5 +217,4 @@ public final class Compatibility
     {
         return DynamicTreeCompat.isDynamicTreeSapling(stack.getItem());
     }
-
 }

@@ -1,4 +1,4 @@
-package com.minecolonies.api.compatibility.dynamicTrees;
+package com.minecolonies.api.compatibility.dynamictrees;
 
 import com.ferreusveritas.dynamictrees.blocks.BlockBranch;
 import com.ferreusveritas.dynamictrees.blocks.BlockDynamicLeaves;
@@ -21,34 +21,36 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.UUID;
 
-public class DynamicTreeCompat extends DynamicTreeProxy {
-
+public final class DynamicTreeCompat extends DynamicTreeProxy
+{
 
     private static DynamicTreeCompat instance = new DynamicTreeCompat();
 
-    private final String DynModId = "dynamictrees";
-
+    private static final String DYNAMIC_MODID = "dynamictrees";
 
     private DynamicTreeCompat()
-    {}
-
+    {
+        /**
+         * Intentionally left empty.
+         */
+    }
 
     /**
      * Check wether the block is part of a dynamic Tree
+     *
      * @param block Block to check
-     * @return
      */
     @Override
-    @Optional.Method(modid = DynModId)
-    boolean checkForDynamicTreeBlock(@NotNull final Block block)
+    @Optional.Method(modid = DYNAMIC_MODID)
+    protected boolean checkForDynamicTreeBlock(@NotNull final Block block)
     {
         return (block instanceof BlockBranch);
     }
 
     /**
      * Check wether the block is part of a dynamic Tree
+     *
      * @param block Block to check
-     * @return
      */
     public static boolean isDynamicTreeBlock(final Block block)
     {
@@ -57,79 +59,83 @@ public class DynamicTreeCompat extends DynamicTreeProxy {
 
     /**
      * Check wether the block is a dynamic leaf
+     *
      * @param block Block to check
-     * @return
      */
     @Override
-    @Optional.Method(modid = DynModId)
-    boolean checkForDynamicLeavesBlock(final Block block)
+    @Optional.Method(modid = DYNAMIC_MODID)
+    protected boolean checkForDynamicLeavesBlock(final Block block)
     {
         return block instanceof BlockDynamicLeaves;
     }
 
     /**
      * Check wether the block is a dynamic leaf
+     *
      * @param block Block to check
-     * @return
      */
     public static boolean isDynamicLeavesBlock(final Block block)
     {
-       return instance.checkForDynamicLeavesBlock(block);
+        return instance.checkForDynamicLeavesBlock(block);
     }
 
     /**
      * Returns drops of a dynamic seed as List
-     * @param world world the Leaf is in
-     * @param pos position of the Leaf
+     *
+     * @param world      world the Leaf is in
+     * @param pos        position of the Leaf
      * @param blockState Blockstate of the Leaf
-     * @param fortune amount of fortune to use
-     * @param leaf The leaf to check
-     * @return
+     * @param fortune    amount of fortune to use
+     * @param leaf       The leaf to check
      */
     @Override
-    @Optional.Method(modid = DynModId)
-    NonNullList<ItemStack> getDropsForLeaf(@NotNull final IBlockAccess world,@NotNull final BlockPos pos,@NotNull final IBlockState blockState,@NotNull final int fortune,@NotNull final Block leaf)
+    @Optional.Method(modid = DYNAMIC_MODID)
+    protected NonNullList<ItemStack> getDropsForLeaf(
+      @NotNull final IBlockAccess world,
+      @NotNull final BlockPos pos,
+      @NotNull final IBlockState blockState,
+      @NotNull final int fortune,
+      @NotNull final Block leaf)
     {
         if (isDynamicLeavesBlock(leaf))
         {
             NonNullList<ItemStack> list = NonNullList.create();
-            list.addAll(((BlockDynamicLeaves)leaf).getDrops(world,pos,blockState,fortune));
+            list.addAll(((BlockDynamicLeaves) leaf).getDrops(world, pos, blockState, fortune));
             return list;
         }
-       return NonNullList.create();
+        return NonNullList.create();
     }
 
     /**
      * Returns drops of a dynamic seed as List
-     * @param world world the Leaf is in
-     * @param pos position of the Leaf
+     *
+     * @param world      world the Leaf is in
+     * @param pos        position of the Leaf
      * @param blockState Blockstate of the Leaf
-     * @param fortune amount of fortune to use
-     * @param leaf The leaf to check
-     * @return
+     * @param fortune    amount of fortune to use
+     * @param leaf       The leaf to check
      */
     public static NonNullList<ItemStack> getDropsForLeafCompat(final IBlockAccess world, final BlockPos pos, final IBlockState blockState, final int fortune, final Block leaf)
     {
-        return instance.getDropsForLeaf(world,pos,blockState,fortune,leaf);
+        return instance.getDropsForLeaf(world, pos, blockState, fortune, leaf);
     }
-
 
     /**
      * Check wether the item is a dynamic Sapling
+     *
      * @param item Item to check
-     * @return
      */
     @Override
-    @Optional.Method(modid = DynModId)
-    boolean checkForDynamicSapling(@NotNull final Item item)
+    @Optional.Method(modid = DYNAMIC_MODID)
+    protected boolean checkForDynamicSapling(@NotNull final Item item)
     {
         return (item instanceof Seed);
     }
 
     /**
      * Check wether the item is a dynamic Sapling
+     *
      * @param item Item to check
-     * @return
      */
     public static boolean isDynamicTreeSapling(final Item item)
     {
@@ -138,6 +144,7 @@ public class DynamicTreeCompat extends DynamicTreeProxy {
 
     /**
      * Check wether the Itemstack is a dynamic Sapling
+     *
      * @param stack Itemstack to check
      * @return true if it is a dynamic Sapling
      */
@@ -148,15 +155,16 @@ public class DynamicTreeCompat extends DynamicTreeProxy {
 
     /**
      * Creates a runnable to harvest/break a dynamic tree
-     * @param world The world the tree is in
+     *
+     * @param world        The world the tree is in
      * @param blockToBreak The block of the dynamic tree
-     * @param toolToUse The tool to break the tree with, optional
-     * @param workerPos The position the fakeplayer breaks the tree from, optional
+     * @param toolToUse    The tool to break the tree with, optional
+     * @param workerPos    The position the fakeplayer breaks the tree from, optional
      * @return Runnable to break the Tree
      */
     @Override
-    @Optional.Method(modid = DynModId)
-    Runnable getTreeBreakActionCompat(@NotNull final World world,@NotNull final BlockPos blockToBreak,final ItemStack toolToUse, final BlockPos workerPos)
+    @Optional.Method(modid = DYNAMIC_MODID)
+    protected Runnable getTreeBreakActionCompat(@NotNull final World world, @NotNull final BlockPos blockToBreak, final ItemStack toolToUse, final BlockPos workerPos)
     {
         return () ->
         {
@@ -170,56 +178,66 @@ public class DynamicTreeCompat extends DynamicTreeProxy {
             }
             FakePlayer fake = new FakePlayer(world.getMinecraftServer().getWorld(world.provider.getDimension()), new GameProfile(UUID.randomUUID(), "minecolonies_LumberjackFake"));
 
-            if(workerPos != null)
-                fake.setPosition(workerPos.getX(),workerPos.getY(),workerPos.getZ());
+            if (workerPos != null)
+            {
+                fake.setPosition(workerPos.getX(), workerPos.getY(), workerPos.getZ());
+            }
 
-            if(toolToUse != null)
-                fake.setHeldItem(EnumHand.MAIN_HAND,toolToUse);
+            if (toolToUse != null)
+            {
+                fake.setHeldItem(EnumHand.MAIN_HAND, toolToUse);
+            }
 
-            curBlock.removedByPlayer(curBlockState,world,blockToBreak,fake,true);
+            curBlock.removedByPlayer(curBlockState, world, blockToBreak, fake, true);
         };
     }
 
     /**
      * Creates a runnable to harvest/break a dynamic tree
-     * @param world The world the tree is in
+     *
+     * @param world        The world the tree is in
      * @param blockToBreak The block of the dynamic tree
-     * @param toolToUse The tool to break the tree with, optional
-     * @param workerPos The position the fakeplayer breaks the tree from, optional
+     * @param toolToUse    The tool to break the tree with, optional
+     * @param workerPos    The position the fakeplayer breaks the tree from, optional
      * @return Runnable to break the Tree
      */
-    public static Runnable getTreeBreakAction(final World world,final BlockPos blockToBreak,final ItemStack toolToUse, final BlockPos workerPos)
+    public static Runnable getTreeBreakAction(final World world, final BlockPos blockToBreak, final ItemStack toolToUse, final BlockPos workerPos)
     {
-        return instance.getTreeBreakActionCompat(world,blockToBreak,toolToUse,workerPos);
+        return instance.getTreeBreakActionCompat(world, blockToBreak, toolToUse, workerPos);
     }
 
     /**
      * Tries to plant a sapling at the given location
-     * @param world World to plant the sapling in
-     * @param location location to plant the sapling
+     *
+     * @param world        World to plant the sapling in
+     * @param location     location to plant the sapling
      * @param saplingStack Itemstack of the sapling
      * @return true if successful
      */
     @Override
-    @Optional.Method(modid = DynModId)
-    boolean plantDynamicSaplingCompat(@NotNull World world,@NotNull BlockPos location,@NotNull ItemStack saplingStack)
+    @Optional.Method(modid = DYNAMIC_MODID)
+    protected boolean plantDynamicSaplingCompat(@NotNull World world, @NotNull BlockPos location, @NotNull ItemStack saplingStack)
     {
-        if(saplingStack.getItem() instanceof Seed)
-            return ((Seed) saplingStack.getItem()).getSpecies(saplingStack).plantSapling(world,location);
+        if (saplingStack.getItem() instanceof Seed)
+        {
+            return ((Seed) saplingStack.getItem()).getSpecies(saplingStack).plantSapling(world, location);
+        }
         else
+        {
             return false;
+        }
     }
 
     /**
      * Tries to plant a sapling at the given location
-     * @param world World to plant the sapling in
+     *
+     * @param world    World to plant the sapling in
      * @param location location to plant the sapling
-     * @param sapling Itemstack of the sapling
+     * @param sapling  Itemstack of the sapling
      * @return true if successful
      */
-    public static boolean plantDynamicSapling(World world,BlockPos location,ItemStack sapling)
+    public static boolean plantDynamicSapling(final World world, final BlockPos location, final ItemStack sapling)
     {
-       return instance.plantDynamicSaplingCompat(world,location,sapling);
+        return instance.plantDynamicSaplingCompat(world, location, sapling);
     }
-
 }

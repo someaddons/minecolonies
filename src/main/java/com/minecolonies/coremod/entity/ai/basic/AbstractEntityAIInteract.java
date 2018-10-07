@@ -70,7 +70,7 @@ public abstract class AbstractEntityAIInteract<J extends AbstractJob> extends Ab
     /**
      * Vertical range in which the worker picks up items.
      */
-    public static final float RANGE_VERTICAL_PICKUP   = 3.0F;
+    public static final float RANGE_VERTICAL_PICKUP = 3.0F;
 
     /**
      * Number of ticks the worker is standing still.
@@ -131,9 +131,8 @@ public abstract class AbstractEntityAIInteract<J extends AbstractJob> extends Ab
      */
     protected final boolean mineBlock(@NotNull final BlockPos blockToMine, @NotNull final BlockPos safeStand)
     {
-        return mineBlock(blockToMine,safeStand,true,true,null);
+        return mineBlock(blockToMine, safeStand, true, true, null);
     }
-
 
     /**
      * Will simulate mining a block with particles ItemDrop etc.
@@ -142,14 +141,19 @@ public abstract class AbstractEntityAIInteract<J extends AbstractJob> extends Ab
      * So make sure the code path up to this function is reachable a second time.
      * And make sure to immediately exit the update function when this returns false.
      *
-     * @param blockToMine the block that should be mined
-     * @param safeStand   the block we want to stand on to do that
-     * @param damageTool  boolean wether we want to damage the tool used
-     * @param getDrops    boolean wether we want to get Drops
+     * @param blockToMine      the block that should be mined
+     * @param safeStand        the block we want to stand on to do that
+     * @param damageTool       boolean wether we want to damage the tool used
+     * @param getDrops         boolean wether we want to get Drops
      * @param blockBreakAction Runnable that is used instead of the default block break action, can be null
      * @return true once we're done
      */
-    protected final boolean mineBlock(@NotNull final BlockPos blockToMine, @NotNull final BlockPos safeStand, @NotNull final boolean damageTool, @NotNull final boolean getDrops, Runnable blockBreakAction)
+    protected final boolean mineBlock(
+      @NotNull final BlockPos blockToMine,
+      @NotNull final BlockPos safeStand,
+      @NotNull final boolean damageTool,
+      @NotNull final boolean getDrops,
+      Runnable blockBreakAction)
     {
         final IBlockState curBlockState = world.getBlockState(blockToMine);
         @Nullable final Block curBlock = curBlockState.getBlock();
@@ -197,7 +201,9 @@ public abstract class AbstractEntityAIInteract<J extends AbstractJob> extends Ab
             worker.getCitizenItemHandler().breakBlockWithToolInHand(blockToMine);
         }
         else
+        {
             blockBreakAction.run();
+        }
 
 
         if (tool != null && damageTool)
@@ -291,8 +297,9 @@ public abstract class AbstractEntityAIInteract<J extends AbstractJob> extends Ab
             return (int) world.getBlockState(pos).getBlockHardness(world, pos);
         }
 
-        return (int) ((Configurations.gameplay.pvp_mode ? Configurations.gameplay.blockMiningDelayModifier/2 : Configurations.gameplay.blockMiningDelayModifier
-                         * Math.pow(LEVEL_MODIFIER, worker.getCitizenExperienceHandler().getLevel()))
+        return (int) ((Configurations.gameplay.pvp_mode ? Configurations.gameplay.blockMiningDelayModifier / 2 : Configurations.gameplay.blockMiningDelayModifier
+                                                                                                                   * Math.pow(LEVEL_MODIFIER,
+          worker.getCitizenExperienceHandler().getLevel()))
                         * (double) world.getBlockState(pos).getBlockHardness(world, pos)
                         / (double) (worker.getHeldItemMainhand().getItem()
                                       .getDestroySpeed(worker.getHeldItemMainhand(),
@@ -305,8 +312,8 @@ public abstract class AbstractEntityAIInteract<J extends AbstractJob> extends Ab
     public void fillItemsList()
     {
         searchForItems(worker.getEntityBoundingBox()
-                .expand(RANGE_HORIZONTAL_PICKUP, RANGE_VERTICAL_PICKUP, RANGE_HORIZONTAL_PICKUP)
-                .expand(-RANGE_HORIZONTAL_PICKUP, -RANGE_VERTICAL_PICKUP, -RANGE_HORIZONTAL_PICKUP));
+                         .expand(RANGE_HORIZONTAL_PICKUP, RANGE_VERTICAL_PICKUP, RANGE_HORIZONTAL_PICKUP)
+                         .expand(-RANGE_HORIZONTAL_PICKUP, -RANGE_VERTICAL_PICKUP, -RANGE_HORIZONTAL_PICKUP));
     }
 
     /**
@@ -320,7 +327,7 @@ public abstract class AbstractEntityAIInteract<J extends AbstractJob> extends Ab
         items = world.getEntitiesWithinAABB(EntityItem.class, boundingBox)
                   .stream()
                   .filter(item -> item != null && !item.isDead &&
-                          (!item.getEntityData().hasKey("PreventRemoteMovement") || !item.getEntityData().getBoolean("PreventRemoteMovement")))
+                                    (!item.getEntityData().hasKey("PreventRemoteMovement") || !item.getEntityData().getBoolean("PreventRemoteMovement")))
                   .map(BlockPosUtil::fromEntity)
                   .collect(Collectors.toList());
     }

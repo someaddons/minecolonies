@@ -48,79 +48,78 @@ public class EntityAIWorkLumberjack extends AbstractEntityAIInteract<JobLumberja
     /**
      * If no trees are found, increment the range.
      */
-    private static final int SEARCH_INCREMENT = 5;
+    private static final int    SEARCH_INCREMENT       = 5;
     /**
      * If this limit is reached, no trees are found.
      */
-    private static final int SEARCH_LIMIT = 150;
+    private static final int    SEARCH_LIMIT           = 150;
     /**
      * Number of ticks to wait before coming to the conclusion of being stuck.
      */
-    private static final int STUCK_WAIT_TIME = 10;
+    private static final int    STUCK_WAIT_TIME        = 10;
     /**
      * Number of ticks until he gives up destroying leaves
      * and walks a bit back to try a new path.
      */
-    private static final int WALKING_BACK_WAIT_TIME = 60;
+    private static final int    WALKING_BACK_WAIT_TIME = 60;
     /**
      * How much he backs away when really not finding any path.
      */
-    private static final double WALK_BACK_RANGE = 3.0;
+    private static final double WALK_BACK_RANGE        = 3.0;
     /**
      * The speed in which he backs away.
      */
-    private static final double WALK_BACK_SPEED = 1.0;
+    private static final double WALK_BACK_SPEED        = 1.0;
     /**
      * The standard range the lumberjack should reach until his target.
      */
-    private static final int STANDARD_WORKING_RANGE = 1;
+    private static final int    STANDARD_WORKING_RANGE = 1;
     /**
      * The minimum range the lumberjack has to reach in order to construct or clear.
      */
-    private static final int MIN_WORKING_RANGE = 1;
+    private static final int    MIN_WORKING_RANGE      = 1;
     /**
      * Time in ticks to wait before placing a sapling.
      * Is used to collect falling saplings from the ground.
      */
-    private static final int WAIT_BEFORE_SAPLING = 50;
+    private static final int    WAIT_BEFORE_SAPLING    = 50;
     /**
      * Time in ticks to wait before placing a sapling.
      * Is used to collect falling saplings from the ground.
      */
-    private static final int MAX_WAITING_TIME = 50;
+    private static final int    MAX_WAITING_TIME       = 50;
 
     /**
      * Number of ticks to wait for tree.
      */
-    private static final int TIMEOUT_DELAY = 10;
-    private static final int LEAVES_RADIUS = 3;
+    private static final int TIMEOUT_DELAY      = 10;
+    private static final int LEAVES_RADIUS      = 3;
     /**
      * Time in ticks to wait before rechecking
      * if there are trees in the
      * range of the lumberjack.
      */
-    private static final int   WAIT_BEFORE_SEARCH      = 100;
+    private static final int WAIT_BEFORE_SEARCH = 100;
 
     /**
      * Time in ticks before incrementing the search radius.
      */
-    private static final int   WAIT_BEFORE_INCREMENT   = 20;
-
+    private static final int WAIT_BEFORE_INCREMENT = 20;
 
     /**
      * How often should strength factor into the lumberjacks skill modifier.
      */
-    private static final int   STRENGTH_MULTIPLIER     = 2;
+    private static final int STRENGTH_MULTIPLIER = 2;
 
     /**
      * How often should charisma factor into the lumberjacks skill modifier.
      */
-    private static final int   CHARISMA_MULTIPLIER     = 1;
+    private static final int CHARISMA_MULTIPLIER = 1;
 
     /**
      * Return to chest after half a stack.
      */
-    private static final int   MAX_BLOCKS_MINED        = 32;
+    private static final int MAX_BLOCKS_MINED = 32;
 
     /**
      * Position where the Builders constructs from.
@@ -130,18 +129,18 @@ public class EntityAIWorkLumberjack extends AbstractEntityAIInteract<JobLumberja
      * The time in ticks the lumberjack has waited already.
      * Directly connected with the MAX_WAITING_TIME.
      */
-    private              int   timeWaited              = 0;
+    private int      timeWaited = 0;
 
     /**
      * Number of ticks the lumberjack is standing still.
      */
-    private              int   stillTicks              = 0;
+    private int stillTicks = 0;
 
     /**
      * Used to store the walk distance
      * to check if the lumberjack is still walking.
      */
-    private              int previousDistance    = 0;
+    private int previousDistance = 0;
 
     /**
      * Variable describing if the lj looked in his hut for a certain sapling.
@@ -157,7 +156,7 @@ public class EntityAIWorkLumberjack extends AbstractEntityAIInteract<JobLumberja
      * A counter by how much the tree search radius
      * has been increased by now.
      */
-    private int searchIncrement = 0;
+    private int                            searchIncrement = 0;
 
     /**
      * Create a new LumberjackAI.
@@ -178,7 +177,7 @@ public class EntityAIWorkLumberjack extends AbstractEntityAIInteract<JobLumberja
           new AITarget(LUMBERJACK_NO_TREES_FOUND, this::waitBeforeCheckingAgain)
         );
         worker.getCitizenExperienceHandler().setSkillModifier(STRENGTH_MULTIPLIER * worker.getCitizenData().getStrength()
-                                  + CHARISMA_MULTIPLIER * worker.getCitizenData().getCharisma());
+                                                                + CHARISMA_MULTIPLIER * worker.getCitizenData().getCharisma());
         worker.setCanPickUpLoot(true);
     }
 
@@ -270,7 +269,8 @@ public class EntityAIWorkLumberjack extends AbstractEntityAIInteract<JobLumberja
 
         if (pathResult == null || pathResult.treeLocation == null)
         {
-            pathResult = worker.getNavigator().moveToTree(SEARCH_RANGE + searchIncrement, 1.0D, ((BuildingLumberjack) building).getTreesToNotCut(), worker.getCitizenColonyHandler().getColony());
+            pathResult = worker.getNavigator()
+                           .moveToTree(SEARCH_RANGE + searchIncrement, 1.0D, ((BuildingLumberjack) building).getTreesToNotCut(), worker.getCitizenColonyHandler().getColony());
             return getState();
         }
         if (pathResult.isPathReachingDestination())
@@ -338,7 +338,7 @@ public class EntityAIWorkLumberjack extends AbstractEntityAIInteract<JobLumberja
     {
         worker.getCitizenStatusHandler().setLatestStatus(new TextComponentTranslation("com.minecolonies.coremod.status.chopping"));
 
-        if(job.tree.hasLogs() || checkedInHut)
+        if (job.tree.hasLogs() || checkedInHut)
         {
             final BlockPos location = job.tree.getLocation();
             if (!walkToTree(job.tree.getStumpLocations().get(0)))
@@ -356,7 +356,7 @@ public class EntityAIWorkLumberjack extends AbstractEntityAIInteract<JobLumberja
             }
 
             final BuildingLumberjack building = getOwnBuilding(BuildingLumberjack.class);
-            if ( building.shouldReplant())
+            if (building.shouldReplant())
             {
                 plantSapling();
             }
@@ -391,8 +391,14 @@ public class EntityAIWorkLumberjack extends AbstractEntityAIInteract<JobLumberja
             if (job.tree.isDynamicTree())
             {
                 // Dynamic Trees handles drops/tool dmg upon tree break, so those are set to false here
-                if (!mineBlock(log, workFrom,false,false,Compatibility.getDynamicTreeBreakAction(world,log,worker.getHeldItem(EnumHand.MAIN_HAND),worker.getPosition())))
+                if (!mineBlock(log, workFrom, false, false, Compatibility.getDynamicTreeBreakAction(
+                  world,
+                  log,
+                  worker.getHeldItem(EnumHand.MAIN_HAND),
+                  worker.getPosition())))
+                {
                     return getState();
+                }
             }
             else
             {
@@ -538,7 +544,7 @@ public class EntityAIWorkLumberjack extends AbstractEntityAIInteract<JobLumberja
 
             if (job.tree.isDynamicTree() && Compatibility.isDynamicTreeSapling(stack))
             {
-                Compatibility.plantDynamicSapling(world,location,stack);
+                Compatibility.plantDynamicSapling(world, location, stack);
                 new InvWrapper(getInventory()).extractItem(saplingSlot, 1, false);
                 worker.swingArm(worker.getActiveHand());
                 this.getOwnBuilding().getColony().getStatsManager().incrementStatistic("saplings");
@@ -553,18 +559,18 @@ public class EntityAIWorkLumberjack extends AbstractEntityAIInteract<JobLumberja
                 placeSaplings(saplingSlot, stack, block);
                 final SoundType soundType = block.getSoundType(world.getBlockState(location), world, location, worker);
                 world.playSound(null,
-                        this.worker.getPosition(),
-                        soundType.getPlaceSound(),
-                        SoundCategory.BLOCKS,
-                        soundType.getVolume(),
-                        soundType.getPitch());
+                  this.worker.getPosition(),
+                  soundType.getPlaceSound(),
+                  SoundCategory.BLOCKS,
+                  soundType.getVolume(),
+                  soundType.getPitch());
             }
 
             worker.swingArm(worker.getActiveHand());
             this.getOwnBuilding().getColony().getStatsManager().incrementStatistic("saplings");
         }
 
-        if(timeWaited >= MAX_WAITING_TIME/2 && !checkedInHut && !walkToBuilding())
+        if (timeWaited >= MAX_WAITING_TIME / 2 && !checkedInHut && !walkToBuilding())
         {
             isInHut(new ItemStack(Blocks.SAPLING, 1, job.tree.getVariant()));
             checkedInHut = true;
@@ -587,17 +593,17 @@ public class EntityAIWorkLumberjack extends AbstractEntityAIInteract<JobLumberja
     @Override
     public void fillItemsList()
     {
-        if(job.tree != null)
+        if (job.tree != null)
         {
             searchForItems(new AxisAlignedBB(job.tree.getLocation())
-                    .expand(RANGE_HORIZONTAL_PICKUP, RANGE_VERTICAL_PICKUP, RANGE_HORIZONTAL_PICKUP)
-                    .expand(-RANGE_HORIZONTAL_PICKUP, -RANGE_VERTICAL_PICKUP, -RANGE_HORIZONTAL_PICKUP));
+                             .expand(RANGE_HORIZONTAL_PICKUP, RANGE_VERTICAL_PICKUP, RANGE_HORIZONTAL_PICKUP)
+                             .expand(-RANGE_HORIZONTAL_PICKUP, -RANGE_VERTICAL_PICKUP, -RANGE_HORIZONTAL_PICKUP));
         }
         else
         {
             searchForItems(worker.getEntityBoundingBox()
-                    .expand(RANGE_HORIZONTAL_PICKUP, RANGE_VERTICAL_PICKUP, RANGE_HORIZONTAL_PICKUP)
-                    .expand(-RANGE_HORIZONTAL_PICKUP, -RANGE_VERTICAL_PICKUP, -RANGE_HORIZONTAL_PICKUP));
+                             .expand(RANGE_HORIZONTAL_PICKUP, RANGE_VERTICAL_PICKUP, RANGE_HORIZONTAL_PICKUP)
+                             .expand(-RANGE_HORIZONTAL_PICKUP, -RANGE_VERTICAL_PICKUP, -RANGE_HORIZONTAL_PICKUP));
         }
     }
 
@@ -674,7 +680,7 @@ public class EntityAIWorkLumberjack extends AbstractEntityAIInteract<JobLumberja
      */
     private boolean isCorrectSapling(final ItemStack stack)
     {
-        if(!isStackSapling(stack))
+        if (!isStackSapling(stack))
         {
             return false;
         }
@@ -683,7 +689,7 @@ public class EntityAIWorkLumberjack extends AbstractEntityAIInteract<JobLumberja
         {
             return isStackSapling(stack) && Compatibility.isSlimeSapling(((ItemBlock) stack.getItem()).getBlock()) && job.tree.getVariant() == stack.getMetadata();
         }
-        else if(ItemStackUtils.isEmpty(job.tree.getSapling()))
+        else if (ItemStackUtils.isEmpty(job.tree.getSapling()))
         {
             return true;
         }
@@ -701,7 +707,8 @@ public class EntityAIWorkLumberjack extends AbstractEntityAIInteract<JobLumberja
      */
     private static boolean isStackSapling(@Nullable final ItemStack stack)
     {
-        return !ItemStackUtils.isEmpty(stack) && (stack.getItem() instanceof ItemBlock && (((ItemBlock) stack.getItem()).getBlock() instanceof BlockSapling) || Compatibility.isDynamicTreeSapling((stack)));
+        return !ItemStackUtils.isEmpty(stack) && (stack.getItem() instanceof ItemBlock && (((ItemBlock) stack.getItem()).getBlock() instanceof BlockSapling)
+                                                    || Compatibility.isDynamicTreeSapling(stack));
     }
 
     /**

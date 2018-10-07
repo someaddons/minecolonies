@@ -39,24 +39,21 @@ public final class NbtTagConstants
     public static final String TAG_GUARD_STATISTICS       = "guardStatistics";
     public static final String TAG_GUARD_MOBS             = "mobs";
     public static final String TAG_BUILDER_STATISTICS     = "builderStatistics";
-    public static final String TAG_BUILDER_HUTS           = "huts";
-    public static final String TAG_FISHERMAN_STATISTICS   = "fishermanStatistics";
-    public static final String TAG_FISHERMAN_FISH         = "fish";
-    public static final String TAG_LUMBERJACK_STATISTICS  = "lumberjackStatistics";
-    public static final String TAG_LUMBERJACK_TREES       = "trees";
-    public static final String TAG_LUMBERJACK_SAPLINGS    = "saplings";
-    public static final String TAG_FIELDS                 = "fields";
-    public static final String TAG_NEW_FIELDS             = "newFields";
-    public static final String TAG_COMPATABILITY_MANAGER  = "compatabilityManager";
-    public static final String TAG_SAPLINGS               = "tagSaplings";
-    public static final String TAG_SAP_LEAVE              = "tagSapLeaves";
-    public static final String TAG_ORES                   = "tagOres";
-    public static final String TAG_BLOCK                  = "block";
-    public static final String TAG_POS                    = "pos";
-    public static final String TAG_BOOKCASES              = "bookcase";
-    public static final String TAG_BUILDING_MANAGER       = "buildingManager";
-    public static final String TAG_CITIZEN_MANAGER        = "citizenManager";
-    public static final String TAG_STATS_MANAGER          = "statsManager";
+    public static final String TAG_BUILDER_HUTS          = "huts";
+    public static final String TAG_FISHERMAN_STATISTICS  = "fishermanStatistics";
+    public static final String TAG_FISHERMAN_FISH        = "fish";
+    public static final String TAG_FIELDS                = "fields";
+    public static final String TAG_NEW_FIELDS            = "newFields";
+    public static final String TAG_COMPATABILITY_MANAGER = "compatabilityManager";
+    public static final String TAG_SAPLINGS              = "tagSaplings";
+    public static final String TAG_SAP_LEAF              = "tagSapLeaves";
+    public static final String TAG_ORES                  = "tagOres";
+    public static final String TAG_BLOCK                 = "block";
+    public static final String TAG_POS                   = "pos";
+    public static final String TAG_BOOKCASES             = "bookcase";
+    public static final String TAG_BUILDING_MANAGER      = "buildingManager";
+    public static final String TAG_CITIZEN_MANAGER       = "citizenManager";
+    public static final String TAG_STATS_MANAGER         = "statsManager";
     public static final String TAG_COLONY_ID              = "colony";
     public static final String TAG_CITIZEN                = "citizen";
     public static final String TAG_HELD_ITEM_SLOT         = "HeldItemSlot";
@@ -81,18 +78,17 @@ public final class NbtTagConstants
     public static final String TAG_NO_TOOLS_NUMBER_DAYS   = "numberOfDaysNoTools";
     public static final String TAG_NO_TOOLS_TOOL_TYPE     = "toolType";
     public static final String TAG_IS_BUILT               = "isBuilt";
-    public static final String TAG_OTHER_LEVEL            = "otherLevel";
-    public static final String TAG_PASTEABLE              = "isPasteable";
-    public static final String TAG_STRING_NAME            = "Name";
-    public static final String TAG_DISPLAY                = "display";
-    public static final String TAG_NEED_TO_MOURN          = "needToMourn";
-    public static final String TAG_MOURNING               = "mourning";
-
+    public static final String TAG_OTHER_LEVEL           = "otherLevel";
+    public static final String TAG_PASTEABLE             = "isPasteable";
+    public static final String TAG_STRING_NAME           = "Name";
+    public static final String TAG_DISPLAY               = "display";
+    public static final String TAG_NEED_TO_MOURN         = "needToMourn";
+    public static final String TAG_MOURNING              = "mourning";
 
     /**
      * Tag used to store the containers to NBT.
      */
-    public static final String TAG_CONTAINERS             = "Containers";
+    public static final String TAG_CONTAINERS = "Containers";
 
     /**
      * The tag to store the building type.
@@ -365,6 +361,18 @@ public final class NbtTagConstants
      * String to store the ladder counter to NBT.
      */
     public static final String TAG_LADDER_COUNTER = "ladder";
+
+    /**
+     * Lumberjack/Tree Tags for NBT
+     */
+    public static final String TAG_LUMBERJACK_STATISTICS = "lumberjackStatistics";
+    public static final String TAG_LUMBERJACK_TREES      = "trees";
+    public static final String TAG_LUMBERJACK_SAPLINGS   = "saplings";
+    public static final String TAG_IS_SLIME_TREE         = "slimeTree";
+    public static final String TAG_DYNAMIC_TREE          = "dynamicTree";
+    public static final String TAG_LOGS                  = "Logs";
+    public static final String TAG_STUMPS                = "Stumps";
+    public static final String TAG_TOP_LOG               = "topLog";
 
     /**
      * Private constructor to hide the implicit one.
