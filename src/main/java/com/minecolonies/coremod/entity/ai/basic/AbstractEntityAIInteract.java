@@ -7,6 +7,7 @@ import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.init.Blocks;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
@@ -183,8 +184,24 @@ public abstract class AbstractEntityAIInteract<J extends AbstractJob> extends Ab
             //calculate fortune enchantment
             final int fortune = ItemStackUtils.getFortuneOf(tool);
 
-            //get all item drops
-            final List<ItemStack> localItems = BlockPosUtil.getBlockDrops(world, blockToMine, fortune);
+            //check if tool has Silk Touch
+            final boolean silkTouch = ItemStackUtils.hasSilkTouch(tool);
+
+            //create list for all item drops to be stored in
+            final List<ItemStack> localItems = new ArrayList<ItemStack>();
+
+            //Checks to see if the equipped tool has Silk Touch AND if the blocktoMine has a viable Item SilkTouch can get.
+            if (silkTouch && Item.getItemFromBlock(BlockPosUtil.getBlock(world, blockToMine)) != null)
+            {
+                //Stores Silk Touch Block in localItems
+                final ItemStack silkItem = new ItemStack(Item.getItemFromBlock(BlockPosUtil.getBlock(world, blockToMine)), 1);
+                localItems.add(silkItem);
+            }
+            //If Silk Touch doesn't work, get blocks with Fortune value as normal.
+            else
+            {
+                localItems.addAll(BlockPosUtil.getBlockDrops(world, blockToMine, fortune));
+            }
 
             //add the drops to the citizen
             for (final ItemStack item : localItems)

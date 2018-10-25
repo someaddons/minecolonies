@@ -242,21 +242,23 @@ public final class TranslationConstants
     @NonNls
     public static final String REALLY_FAR_DESC                                                     = "com.minecolonies.coremod.max.schematic.reallyfar";
     @NonNls
-    public static final String COM_MINECOLONIES_COREMOD_GUI_COWBOY_COLLECT                         = "com.minecolonies.coremod.gui.cowboy.collect";
+    public static final String COM_MINECOLONIES_COREMOD_GUI_COWBOY_COLLECT         = "com.minecolonies.coremod.gui.cowboy.collect";
     @NonNls
-    public static final String COM_MINECOLONIES_COREMOD_GUI_COWBOY_NOTCOLLECT                      = "com.minecolonies.coremod.gui.cowboy.notcollect";
+    public static final String COM_MINECOLONIES_COREMOD_GUI_COWBOY_NOTCOLLECT      = "com.minecolonies.coremod.gui.cowboy.notcollect";
     @NonNls
-    public static final String COM_MINECOLONIES_COREMOD_GUI_WORKERHUTS_MODE_AUTO                   = "com.minecolonies.coremod.gui.workerHuts.modeA";
+    public static final String COM_MINECOLONIES_COREMOD_GUI_WORKERHUTS_MODE_AUTO   = "com.minecolonies.coremod.gui.workerHuts.modeA";
     @NonNls
-    public static final String COM_MINECOLONIES_COREMOD_GUI_WORKERHUTS_MODE_MANUAL                 = "com.minecolonies.coremod.gui.workerHuts.modeM";
+    public static final String COM_MINECOLONIES_COREMOD_GUI_WORKERHUTS_MODE_MANUAL = "com.minecolonies.coremod.gui.workerHuts.modeM";
     @NonNls
-    public static final String RAID_EVENT_MESSAGE                                                  = "event.minecolonies.raidMessage";
+    public static final String AUTOMATIC_HIRE_WARNING                              = "com.minecolonies.coremod.gui.auto.hire.warning";
     @NonNls
-    public static final String ONLY_X_BARBARIANS_LEFT_MESSAGE                                      = "com.minecolonies.coremod.barbarians.left";
+    public static final String RAID_EVENT_MESSAGE                                  = "event.minecolonies.raidMessage";
     @NonNls
-    public static final String ALL_BARBARIANS_KILLED_MESSAGE                                       = "com.minecolonies.coremod.barbarians.killed";
+    public static final String ONLY_X_BARBARIANS_LEFT_MESSAGE                      = "com.minecolonies.coremod.barbarians.left";
     @NonNls
-    public static final String CANT_PLACE_COLONY_TOO_CLOSE_TO_SPAWN                                = "com.minecolonies.coremod.tooClose";
+    public static final String ALL_BARBARIANS_KILLED_MESSAGE                       = "com.minecolonies.coremod.barbarians.killed";
+    @NonNls
+    public static final String CANT_PLACE_COLONY_TOO_CLOSE_TO_SPAWN                = "com.minecolonies.coremod.tooClose";
     @NonNls
     public static final String CANT_PLACE_COLONY_TOO_FAR_FROM_SPAWN                                = "com.minecolonies.coremod.tooFar";
     @NonNls
