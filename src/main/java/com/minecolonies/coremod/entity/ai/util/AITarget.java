@@ -24,6 +24,9 @@ public class AITarget
     @NotNull
     private final Supplier<AIState> action;
 
+    @NotNull
+    private final int tickRate;
+
     /**
      * Variable describing if it is okay to eat in a state.
      */
@@ -34,9 +37,9 @@ public class AITarget
      *
      * @param action the action to apply
      */
-    public AITarget(@NotNull final Supplier<AIState> action, final boolean isOkayToEat)
+    public AITarget(@NotNull final Supplier<AIState> action, final boolean isOkayToEat, @NotNull final int tickRate)
     {
-        this(() -> true, isOkayToEat, action);
+        this(() -> true, isOkayToEat, action, tickRate);
     }
 
     /**
@@ -45,9 +48,9 @@ public class AITarget
      * @param predicate the predicate for execution
      * @param action    the action to apply
      */
-    public AITarget(@NotNull final BooleanSupplier predicate, final boolean isOkayToEat, @NotNull final Supplier<AIState> action)
+    public AITarget(@NotNull final BooleanSupplier predicate, final boolean isOkayToEat, @NotNull final Supplier<AIState> action, @NotNull final int tickRate)
     {
-        this(null, isOkayToEat, predicate, action);
+        this(null, isOkayToEat, predicate, action, tickRate);
     }
 
     /**
@@ -57,12 +60,18 @@ public class AITarget
      * @param predicate the predicate for execution
      * @param action    the action to apply
      */
-    public AITarget(@Nullable final AIState state, final boolean isOkayToEat, @NotNull final BooleanSupplier predicate, @NotNull final Supplier<AIState> action)
+    public AITarget(
+      @Nullable final AIState state,
+      final boolean isOkayToEat,
+      @NotNull final BooleanSupplier predicate,
+      @NotNull final Supplier<AIState> action,
+      @NotNull final int tickRate)
     {
         this.state = state;
         this.predicate = predicate;
         this.action = action;
         this.okayToEat = isOkayToEat;
+        this.tickRate = tickRate < 1 ? 1 : tickRate;
     }
 
     /**
@@ -71,9 +80,9 @@ public class AITarget
      * @param predicate the predicate for execution
      * @param state     the state to switch to
      */
-    public AITarget(@NotNull final BooleanSupplier predicate, @Nullable final AIState state, final boolean isOkayToEat)
+    public AITarget(@NotNull final BooleanSupplier predicate, @Nullable final AIState state, final boolean isOkayToEat, @NotNull final int tickRate)
     {
-        this(null, isOkayToEat, predicate, () -> state);
+        this(null, isOkayToEat, predicate, () -> state, tickRate);
     }
 
     /**
@@ -82,9 +91,9 @@ public class AITarget
      * @param predicateState the state it needs to be | null
      * @param state          the state to switch to
      */
-    public AITarget(@NotNull final AIState predicateState, @Nullable final AIState state, final boolean isOkayToEat)
+    public AITarget(@NotNull final AIState predicateState, @Nullable final AIState state, final boolean isOkayToEat, @NotNull final int tickRate)
     {
-        this(predicateState, isOkayToEat, () -> state);
+        this(predicateState, isOkayToEat, () -> state, tickRate);
     }
 
     /**
@@ -93,9 +102,9 @@ public class AITarget
      * @param state  the state it needs to be | null
      * @param action the action to apply
      */
-    public AITarget(@Nullable final AIState state, final boolean isOkayToEat, @NotNull final Supplier<AIState> action)
+    public AITarget(@Nullable final AIState state, final boolean isOkayToEat, @NotNull final Supplier<AIState> action, @NotNull final int tickRate)
     {
-        this(state, isOkayToEat, () -> true, action);
+        this(state, isOkayToEat, () -> true, action, tickRate);
     }
 
     /**
@@ -118,6 +127,11 @@ public class AITarget
     public boolean test()
     {
         return predicate.getAsBoolean();
+    }
+
+    public int getTickRate()
+    {
+        return tickRate;
     }
 
     /**

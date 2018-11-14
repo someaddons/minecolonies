@@ -24,6 +24,8 @@ import org.jetbrains.annotations.Nullable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
 
 import static com.minecolonies.api.util.constant.TranslationConstants.COM_MINECOLONIES_COREMOD_ENTITY_BAKER_NO_FURNACES;
 import static com.minecolonies.coremod.entity.ai.util.AIState.*;
@@ -114,18 +116,20 @@ public class EntityAIWorkBaker extends AbstractEntityAISkill<JobBaker>
     {
         super(job);
         super.registerTargets(
-          new AITarget(IDLE, START_WORKING, true),
-          new AITarget(START_WORKING, true, this::startWorkingAtOwnBuilding),
-          new AITarget(PREPARING, true, this::prepareForBaking),
-          new AITarget(BAKER_KNEADING, false, this::kneadTheDough),
-          new AITarget(BAKER_BAKING, false, this::bake),
-          new AITarget(BAKER_TAKE_OUT_OF_OVEN, false, this::takeFromOven),
-          new AITarget(BAKER_FINISHING, false, this::finishing)
+          new AITarget(IDLE, START_WORKING, true, 10),
+          new AITarget(START_WORKING, true, this::startWorkingAtOwnBuilding, 10),
+          new AITarget(PREPARING, true, this::prepareForBaking, 10),
+          new AITarget(BAKER_KNEADING, false, this::kneadTheDough, 10),
+          new AITarget(BAKER_BAKING, false, this::bake, 10),
+          new AITarget(BAKER_TAKE_OUT_OF_OVEN, false, this::takeFromOven, 10),
+          new AITarget(BAKER_FINISHING, false, this::finishing, 10)
         );
         worker.getCitizenExperienceHandler().setSkillModifier(
           INTELLIGENCE_MULTIPLIER * worker.getCitizenData().getIntelligence()
             + DEXTERITY_MULTIPLIER * worker.getCitizenData().getDexterity());
         worker.setCanPickUpLoot(true);
+        Executors.newScheduledThreadPool(5).scheduleAtFixedRate(() -> getActionsDoneUntilDumping(), 1000, 50, TimeUnit.MILLISECONDS);
+
     }
 
     @Override

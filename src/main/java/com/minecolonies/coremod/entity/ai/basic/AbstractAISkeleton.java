@@ -132,6 +132,11 @@ public abstract class AbstractAISkeleton<J extends AbstractJob> extends EntityAI
     @Override
     public final void updateTask()
     {
+        TickNum++;
+        if (TickNum == 100)
+        {
+            TickNum = 1;
+        }
         targetList.stream().anyMatch(this::checkOnTarget);
     }
 
@@ -147,6 +152,8 @@ public abstract class AbstractAISkeleton<J extends AbstractJob> extends EntityAI
     {
         super.setMutexBits(mutexBits);
     }
+
+    private int TickNum = 0;
 
     /**
      * Checks on one target to see if it has to be executed.
@@ -166,6 +173,13 @@ public abstract class AbstractAISkeleton<J extends AbstractJob> extends EntityAI
         {
             return false;
         }
+
+        // Check if the state should be run this Tick
+        if ((TickNum % target.getTickRate()) != 0)
+        {
+            return false;
+        }
+
         try
         {
             if (!target.test())
