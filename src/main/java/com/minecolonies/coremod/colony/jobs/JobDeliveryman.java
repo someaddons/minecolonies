@@ -11,7 +11,7 @@ import com.minecolonies.api.util.constant.NbtTagConstants;
 import com.minecolonies.api.util.constant.TypeConstants;
 import com.minecolonies.coremod.client.render.RenderBipedCitizen;
 import com.minecolonies.coremod.colony.CitizenData;
-import com.minecolonies.coremod.entity.ai.basic.AbstractAISkeleton;
+import com.minecolonies.coremod.entity.ai.basic.AbstractEntityWorkerAI;
 import com.minecolonies.coremod.entity.ai.citizen.deliveryman.EntityAIWorkDeliveryman;
 import com.minecolonies.coremod.sounds.DeliverymanSounds;
 import net.minecraft.nbt.NBTTagCompound;
@@ -101,7 +101,7 @@ public class JobDeliveryman extends AbstractJob
      */
     @NotNull
     @Override
-    public AbstractAISkeleton<JobDeliveryman> generateAI()
+    public AbstractEntityWorkerAI<JobDeliveryman> generateAI()
     {
         return new EntityAIWorkDeliveryman(this);
     }

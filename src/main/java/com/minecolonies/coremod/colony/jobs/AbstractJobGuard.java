@@ -3,7 +3,7 @@ package com.minecolonies.coremod.colony.jobs;
 import com.minecolonies.coremod.achievements.ModAchievements;
 import com.minecolonies.coremod.colony.CitizenData;
 import com.minecolonies.coremod.entity.EntityCitizen;
-import com.minecolonies.coremod.entity.ai.basic.AbstractAISkeleton;
+import com.minecolonies.coremod.entity.ai.basic.AbstractEntityWorkerAI;
 import com.minecolonies.coremod.entity.ai.citizen.guard.AbstractEntityAIGuard;
 import com.minecolonies.coremod.sounds.ArcherSounds;
 import com.minecolonies.coremod.sounds.KnightSounds;
@@ -30,7 +30,7 @@ public abstract class AbstractJobGuard extends AbstractJob
     protected abstract AbstractEntityAIGuard generateGuardAI();
 
     @Override
-    public AbstractAISkeleton<? extends AbstractJob> generateAI()
+    public AbstractEntityWorkerAI<? extends AbstractJob> generateAI()
     {
         return generateGuardAI();
     }

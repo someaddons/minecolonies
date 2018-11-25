@@ -8,7 +8,7 @@ import com.minecolonies.coremod.colony.CitizenData;
 import com.minecolonies.coremod.colony.Colony;
 import com.minecolonies.coremod.colony.jobs.registry.JobRegistry;
 import com.minecolonies.coremod.entity.EntityCitizen;
-import com.minecolonies.coremod.entity.ai.basic.AbstractAISkeleton;
+import com.minecolonies.coremod.entity.ai.basic.AbstractEntityWorkerAI;
 import com.minecolonies.coremod.entity.ai.util.AIState;
 import net.minecraft.entity.ai.EntityAITasks;
 import net.minecraft.item.ItemStack;
@@ -72,7 +72,7 @@ public abstract class AbstractJob
     /**
      * The workerAI for this Job
      */
-    protected AbstractAISkeleton workerAI;
+    protected AbstractEntityWorkerAI workerAI;
 
     /**
      * Initialize citizen data.
@@ -182,7 +182,7 @@ public abstract class AbstractJob
      * @return your personal AI instance.
      */
     @SuppressWarnings("squid:S1452")
-    public abstract AbstractAISkeleton<? extends AbstractJob> generateAI();
+    public abstract AbstractEntityWorkerAI<? extends AbstractJob> generateAI();
 
     /**
      * Check if the citizen already checked for food in his chest today.
@@ -359,7 +359,7 @@ public abstract class AbstractJob
      * generates the AI when not created yet.
      * @return worker AI
      */
-    public AbstractAISkeleton getWorkerAI()
+    public AbstractEntityWorkerAI getWorkerAI()
     {
         return workerAI;
     }

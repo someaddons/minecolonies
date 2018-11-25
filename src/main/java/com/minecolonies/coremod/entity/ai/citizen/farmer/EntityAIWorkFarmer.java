@@ -6,7 +6,7 @@ import com.minecolonies.api.compatibility.Compatibility;
 import com.minecolonies.api.util.BlockUtils;
 import com.minecolonies.api.util.InventoryUtils;
 import com.minecolonies.api.util.ItemStackUtils;
-import com.minecolonies.api.util.constant.IToolType; 
+import com.minecolonies.api.util.constant.IToolType;
 import com.minecolonies.api.util.constant.ToolType;
 import com.minecolonies.coremod.MineColonies;
 import com.minecolonies.coremod.blocks.huts.BlockHutField;
@@ -524,8 +524,7 @@ public class EntityAIWorkFarmer extends AbstractEntityAIInteract<JobFarmer>
         return true;
     }
 
-    @Override
-    protected int getLevelDelay()
+    private int getLevelDelay()
     {
         return (int) Math.max(SMALLEST_DELAY, STANDARD_DELAY - (this.worker.getCitizenExperienceHandler().getLevel() * DELAY_DIVIDER));
     }

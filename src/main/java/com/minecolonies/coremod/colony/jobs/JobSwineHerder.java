@@ -2,7 +2,7 @@ package com.minecolonies.coremod.colony.jobs;
 
 import com.minecolonies.coremod.client.render.RenderBipedCitizen;
 import com.minecolonies.coremod.colony.CitizenData;
-import com.minecolonies.coremod.entity.ai.basic.AbstractAISkeleton;
+import com.minecolonies.coremod.entity.ai.basic.AbstractEntityWorkerAI;
 import com.minecolonies.coremod.entity.ai.citizen.herders.EntityAIWorkSwineHerder;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -36,7 +36,7 @@ public class JobSwineHerder extends AbstractJob
      */
     @Nullable
     @Override
-    public AbstractAISkeleton<JobSwineHerder> generateAI()
+    public AbstractEntityWorkerAI<JobSwineHerder> generateAI()
     {
         return new EntityAIWorkSwineHerder(this);
     }

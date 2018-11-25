@@ -15,7 +15,7 @@ import com.minecolonies.coremod.colony.buildings.workerbuildings.BuildingHome;
 import com.minecolonies.coremod.colony.jobs.AbstractJob;
 import com.minecolonies.coremod.colony.jobs.registry.JobRegistry;
 import com.minecolonies.coremod.entity.EntityCitizen;
-import com.minecolonies.coremod.entity.ai.basic.AbstractAISkeleton;
+import com.minecolonies.coremod.entity.ai.basic.AbstractEntityWorkerAI;
 import com.minecolonies.coremod.entity.citizenhandlers.CitizenHappinessHandler;
 import com.minecolonies.coremod.inventory.InventoryCitizen;
 import com.minecolonies.coremod.util.TeleportHelper;
@@ -753,7 +753,7 @@ public class CitizenData
             {
                 getCitizenEntity().ifPresent(entityCitizen -> {
                     entityCitizen.tasks.removeTask(entityCitizen.tasks.taskEntries.stream()
-                                                     .filter(task -> task.action instanceof AbstractAISkeleton)
+                                                     .filter(task -> task.action instanceof AbstractEntityWorkerAI)
                                                      .findFirst()
                                                      .orElse(null).action);
                 });

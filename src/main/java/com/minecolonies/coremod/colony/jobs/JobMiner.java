@@ -4,7 +4,7 @@ import com.minecolonies.coremod.achievements.ModAchievements;
 import com.minecolonies.coremod.client.render.RenderBipedCitizen;
 import com.minecolonies.coremod.colony.CitizenData;
 import com.minecolonies.coremod.entity.EntityCitizen;
-import com.minecolonies.coremod.entity.ai.basic.AbstractAISkeleton;
+import com.minecolonies.coremod.entity.ai.basic.AbstractEntityWorkerAI;
 import com.minecolonies.coremod.entity.ai.citizen.miner.EntityAIStructureMiner;
 import net.minecraft.util.DamageSource;
 import org.jetbrains.annotations.NotNull;
@@ -45,7 +45,7 @@ public class JobMiner extends AbstractJobStructure
      */
     @NotNull
     @Override
-    public AbstractAISkeleton<JobMiner> generateAI()
+    public AbstractEntityWorkerAI<JobMiner> generateAI()
     {
         return new EntityAIStructureMiner(this);
     }

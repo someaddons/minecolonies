@@ -2,7 +2,7 @@ package com.minecolonies.coremod.colony.jobs;
 
 import com.minecolonies.coremod.client.render.RenderBipedCitizen;
 import com.minecolonies.coremod.colony.CitizenData;
-import com.minecolonies.coremod.entity.ai.basic.AbstractAISkeleton;
+import com.minecolonies.coremod.entity.ai.basic.AbstractEntityWorkerAI;
 import com.minecolonies.coremod.entity.ai.citizen.baker.EntityAIWorkBaker;
 import com.minecolonies.coremod.sounds.BakerSounds;
 import net.minecraft.util.SoundEvent;
@@ -58,7 +58,7 @@ public class JobBaker extends AbstractJob
      */
     @NotNull
     @Override
-    public AbstractAISkeleton<JobBaker> generateAI()
+    public AbstractEntityWorkerAI<JobBaker> generateAI()
     {
         return new EntityAIWorkBaker(this);
     }

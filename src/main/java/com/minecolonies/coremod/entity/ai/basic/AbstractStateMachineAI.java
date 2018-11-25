@@ -1,16 +1,9 @@
 package com.minecolonies.coremod.entity.ai.basic;
 
-import com.minecolonies.api.entity.ai.DesiredActivity;
-import com.minecolonies.api.entity.ai.Status;
-import com.minecolonies.api.util.CompatibilityUtils;
 import com.minecolonies.api.util.Log;
-import com.minecolonies.coremod.colony.jobs.AbstractJob;
-import com.minecolonies.coremod.entity.EntityCitizen;
 import com.minecolonies.coremod.entity.ai.util.AIState;
 import com.minecolonies.coremod.entity.ai.util.AITarget;
-import com.minecolonies.coremod.entity.ai.util.ChatSpamFilter;
 import net.minecraft.entity.ai.EntityAIBase;
-import net.minecraft.world.World;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
@@ -19,31 +12,21 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * Skeleton class for worker ai.
- * Here general target execution will be handled.
- * No utility on this level!
- * That's what {@link AbstractEntityAIInteract} is for.
- *
- * @param <J> the job this ai will have.
+ * Basic Statemachine with Target registration and execution
  */
-public abstract class AbstractAISkeleton<J extends AbstractJob> extends EntityAIBase
+public abstract class AbstractStateMachineAI extends EntityAIBase
 {
 
-    private static final int                               MUTEX_MASK = 3;
+    private static final int MUTEX_MASK = 3;
+
     @NotNull
-    protected final      J                                 job;
-    @NotNull
-    protected final      EntityCitizen                     worker;
-    protected final      World                             world;
-    @NotNull
-    protected final      ChatSpamFilter                    chatSpamFilter;
-    @NotNull
-    private final        Map<AIState, ArrayList<AITarget>> targetMap;
+    private final Map<AIState, ArrayList<AITarget>> targetMap = new HashMap<>();
+
     /**
      * The current state the ai is in.
      * Used to compare to state matching targets.
      */
-    private              AIState                           state;
+    private AIState state;
 
     /**
      * Tick counter for the AI
@@ -51,25 +34,13 @@ public abstract class AbstractAISkeleton<J extends AbstractJob> extends EntityAI
     private int tickCount = 0;
 
     /**
-     * Sets up some important skeleton stuff for every ai.
-     *
-     * @param job the job class.
+     * Sets up some important stuff for every ai.
      */
-    protected AbstractAISkeleton(@NotNull final J job)
+    protected AbstractStateMachineAI()
     {
         super();
 
-        if (!job.getCitizen().getCitizenEntity().isPresent())
-        {
-            throw new IllegalArgumentException("Cannot instantiate a AI from a Job that is attached to a Citizen without entity.");
-        }
-
-        this.targetMap = new HashMap<>();
         setMutexBits(MUTEX_MASK);
-        this.job = job;
-        this.worker = this.job.getCitizen().getCitizenEntity().get();
-        this.world = CompatibilityUtils.getWorld(this.worker);
-        this.chatSpamFilter = new ChatSpamFilter(job.getCitizen());
         this.state = AIState.INIT;
         this.targetMap.put(AIState.INIT, new ArrayList<>());
         this.targetMap.put(AIState.AI_BLOCKING_PRIO, new ArrayList<>());
@@ -116,44 +87,6 @@ public abstract class AbstractAISkeleton<J extends AbstractJob> extends EntityAI
     protected final void registerTargets(final AITarget... targets)
     {
         Arrays.asList(targets).forEach(this::registerTarget);
-    }
-
-    /**
-     * Returns whether the EntityAIBase should begin execution.
-     *
-     * @return true if execution is wanted.
-     */
-    @Override
-    public final boolean shouldExecute()
-    {
-        return worker.getDesiredActivity() == DesiredActivity.WORK;
-    }
-
-    /**
-     * Returns whether an in-progress EntityAIBase should continue executing.
-     */
-    @Override
-    public final boolean shouldContinueExecuting()
-    {
-        return super.shouldContinueExecuting();
-    }
-
-    /**
-     * Execute a one shot task or start executing a continuous task.
-     */
-    @Override
-    public final void startExecuting()
-    {
-        worker.getCitizenStatusHandler().setStatus(Status.WORKING);
-    }
-
-    /**
-     * Resets the task.
-     */
-    @Override
-    public final void resetTask()
-    {
-        worker.getCitizenStatusHandler().setStatus(Status.IDLE);
     }
 
     /**
@@ -281,16 +214,6 @@ public abstract class AbstractAISkeleton<J extends AbstractJob> extends EntityAI
     }
 
     /**
-     * Get the level delay.
-     *
-     * @return by default 10.
-     */
-    protected int getLevelDelay()
-    {
-        return 10;
-    }
-
-    /**
      * Check if it is okay to eat by checking if the current target is good to eat.
      *
      * @return true if so.
@@ -306,11 +229,4 @@ public abstract class AbstractAISkeleton<J extends AbstractJob> extends EntityAI
                  .anyMatch(AITarget::isOkayToEat);
     }
 
-    /**
-     * Resets the worker AI to Idle state, use with care interrupts all current Actions
-     */
-    public void resetAIToIdle()
-    {
-        state = AIState.IDLE;
-    }
 }

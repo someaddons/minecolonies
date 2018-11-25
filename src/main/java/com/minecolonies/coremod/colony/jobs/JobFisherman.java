@@ -5,7 +5,7 @@ import com.minecolonies.coremod.achievements.ModAchievements;
 import com.minecolonies.coremod.client.render.RenderBipedCitizen;
 import com.minecolonies.coremod.colony.CitizenData;
 import com.minecolonies.coremod.entity.EntityCitizen;
-import com.minecolonies.coremod.entity.ai.basic.AbstractAISkeleton;
+import com.minecolonies.coremod.entity.ai.basic.AbstractEntityWorkerAI;
 import com.minecolonies.coremod.entity.ai.citizen.fisherman.EntityAIWorkFisherman;
 import com.minecolonies.coremod.sounds.FishermanSounds;
 import net.minecraft.entity.monster.EntityGuardian;
@@ -135,7 +135,7 @@ public class JobFisherman extends AbstractJob
      */
     @NotNull
     @Override
-    public AbstractAISkeleton<JobFisherman> generateAI()
+    public AbstractEntityWorkerAI<JobFisherman> generateAI()
     {
         return new EntityAIWorkFisherman(this);
     }

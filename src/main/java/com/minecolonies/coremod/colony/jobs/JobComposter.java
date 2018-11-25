@@ -2,7 +2,7 @@ package com.minecolonies.coremod.colony.jobs;
 
 import com.minecolonies.coremod.client.render.RenderBipedCitizen;
 import com.minecolonies.coremod.colony.CitizenData;
-import com.minecolonies.coremod.entity.ai.basic.AbstractAISkeleton;
+import com.minecolonies.coremod.entity.ai.basic.AbstractEntityWorkerAI;
 import com.minecolonies.coremod.entity.ai.citizen.composter.EntityAIWorkComposter;
 import org.jetbrains.annotations.NotNull;
 
@@ -38,7 +38,7 @@ public class JobComposter extends AbstractJob
     }
 
     @Override
-    public AbstractAISkeleton<? extends AbstractJob> generateAI()
+    public AbstractEntityWorkerAI<? extends AbstractJob> generateAI()
     {
         return new EntityAIWorkComposter(this);
     }

@@ -56,7 +56,7 @@ import static net.minecraftforge.items.CapabilityItemHandler.ITEM_HANDLER_CAPABI
  *
  * @param <J> The job this ai has to fulfil
  */
-public abstract class AbstractEntityAIBasic<J extends AbstractJob> extends AbstractAISkeleton<J>
+public abstract class AbstractEntityAIBasic<J extends AbstractJob> extends AbstractEntityWorkerAI<J>
 {
     /**
      * The standard delay after each terminated action.

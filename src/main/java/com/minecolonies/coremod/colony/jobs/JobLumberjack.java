@@ -4,7 +4,7 @@ import com.minecolonies.coremod.achievements.ModAchievements;
 import com.minecolonies.coremod.client.render.RenderBipedCitizen;
 import com.minecolonies.coremod.colony.CitizenData;
 import com.minecolonies.coremod.entity.EntityCitizen;
-import com.minecolonies.coremod.entity.ai.basic.AbstractAISkeleton;
+import com.minecolonies.coremod.entity.ai.basic.AbstractEntityWorkerAI;
 import com.minecolonies.coremod.entity.ai.citizen.lumberjack.EntityAIWorkLumberjack;
 import com.minecolonies.coremod.entity.ai.citizen.lumberjack.Tree;
 import net.minecraft.nbt.NBTTagCompound;
@@ -99,7 +99,7 @@ public class JobLumberjack extends AbstractJob
      */
     @NotNull
     @Override
-    public AbstractAISkeleton<JobLumberjack> generateAI()
+    public AbstractEntityWorkerAI<JobLumberjack> generateAI()
     {
         return new EntityAIWorkLumberjack(this);
     }
