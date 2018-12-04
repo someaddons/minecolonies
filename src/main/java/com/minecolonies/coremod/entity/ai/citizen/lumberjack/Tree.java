@@ -1,7 +1,6 @@
 package com.minecolonies.coremod.entity.ai.citizen.lumberjack;
 
 import com.minecolonies.api.compatibility.Compatibility;
-import com.minecolonies.api.configuration.Configurations;
 import com.minecolonies.api.crafting.ItemStorage;
 import com.minecolonies.api.util.BlockPosUtil;
 import com.minecolonies.api.util.ItemStackUtils;
@@ -187,6 +186,12 @@ public class Tree
                 block.getDrops(list, world, pos, world.getBlockState(pos), A_LOT_OF_LUCK);
                 for(final ItemStack stack: list)
                 {
+                    // Exclude incorrect stacks
+                    if (stack.isEmpty())
+                    {
+                        continue;
+                    }
+
                     final int[] oreIds = OreDictionary.getOreIDs(stack);
                     for(final int oreId: oreIds)
                     {
