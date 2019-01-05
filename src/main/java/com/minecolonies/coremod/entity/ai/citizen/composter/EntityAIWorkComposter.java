@@ -1,6 +1,7 @@
 package com.minecolonies.coremod.entity.ai.citizen.composter;
 
 import com.minecolonies.api.colony.requestsystem.requestable.StackList;
+import com.minecolonies.api.configuration.Configurations;
 import com.minecolonies.api.crafting.ItemStorage;
 import com.minecolonies.api.util.InventoryUtils;
 import com.minecolonies.api.util.ItemStackUtils;
@@ -90,6 +91,15 @@ public class EntityAIWorkComposter extends AbstractEntityAIInteract<JobComposter
 
         worker.setCanPickUpLoot(true);
 
+    }
+
+    @Override
+    protected boolean updateTimer()
+    {
+        super.updateTimer();
+
+        ticksToComplain -= Configurations.gameplay.updateRate;
+        return false;
     }
 
     /**

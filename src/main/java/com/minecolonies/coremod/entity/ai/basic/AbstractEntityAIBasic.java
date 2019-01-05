@@ -8,6 +8,7 @@ import com.minecolonies.api.colony.requestsystem.request.RequestState;
 import com.minecolonies.api.colony.requestsystem.requestable.IDeliverable;
 import com.minecolonies.api.colony.requestsystem.requestable.Stack;
 import com.minecolonies.api.colony.requestsystem.requestable.Tool;
+import com.minecolonies.api.configuration.Configurations;
 import com.minecolonies.api.crafting.ItemStorage;
 import com.minecolonies.api.entity.ai.pathfinding.IWalkToProxy;
 import com.minecolonies.api.util.*;
@@ -147,6 +148,12 @@ public abstract class AbstractEntityAIBasic<J extends AbstractJob> extends Abstr
             and does not stop execution
            */
           new AIEventTarget(AIBlockingEventType.AI_BLOCKING, this::updateVisualState),
+
+          /**
+           * Updates AI timers, use this to keep a certain action interval in your AI code
+           */
+          new AIEventTarget(AIBlockingEventType.AI_BLOCKING, this::updateTimer, () -> null),
+
           /*
             If waitingForSomething returns true
             stop execution to wait for it.
@@ -303,6 +310,15 @@ public abstract class AbstractEntityAIBasic<J extends AbstractJob> extends Abstr
             }
         }
         return null;
+    }
+
+    /**
+     * Updates the timers each tick. Override this function to have a nonstate dependant timer.
+     * Call super.updateTimer()
+     */
+    protected boolean updateTimer()
+    {
+        return false;
     }
 
     @Override
@@ -462,11 +478,11 @@ public abstract class AbstractEntityAIBasic<J extends AbstractJob> extends Abstr
                 //Don't decrease delay as we are just walking...
                 return true;
             }
-            if (delay % HIT_EVERY_X_TICKS == 0)
+            if (delay % HIT_EVERY_X_TICKS <= Configurations.gameplay.updateRate)
             {
                 worker.getCitizenItemHandler().hitBlockWithToolInHand(currentWorkingLocation);
             }
-            delay--;
+            delay-= Configurations.gameplay.updateRate;
             return true;
         }
         clearWorkTarget();
