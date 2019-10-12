@@ -1,5 +1,6 @@
 package com.minecolonies.api.colony.managers.interfaces;
 
+import com.minecolonies.api.colony.IColony;
 import com.minecolonies.api.colony.buildings.IBuilding;
 import com.minecolonies.api.colony.buildings.workerbuildings.ITownHall;
 import com.minecolonies.api.colony.buildings.workerbuildings.IWareHouse;
@@ -58,13 +59,13 @@ public interface IBuildingManager
      * Tick the buildings on world tick.
      * @param event the event.
      */
-    void onWorldTick(TickEvent.WorldTickEvent event);
+    boolean onWorldTick(IColony colony);
 
     /**
      * Clean up the buildings.
      * @param event at the worldTick event.
      */
-    void cleanUpBuildings(final TickEvent.WorldTickEvent event);
+    boolean cleanUpBuildings();
 
     /**
      * Get a certain building.

@@ -4,6 +4,7 @@ import com.ldtteam.structures.helpers.Structure;
 import com.ldtteam.structurize.util.PlacementSettings;
 import com.minecolonies.api.blocks.AbstractBlockHut;
 import com.minecolonies.api.colony.ICitizenData;
+import com.minecolonies.api.colony.IColony;
 import com.minecolonies.api.colony.buildings.IBuilding;
 import com.minecolonies.api.colony.buildings.registry.IBuildingDataManager;
 import com.minecolonies.api.colony.buildings.workerbuildings.ITownHall;
@@ -168,19 +169,19 @@ public class BuildingManager implements IBuildingManager
     }
 
     @Override
-    public void onWorldTick(final TickEvent.WorldTickEvent event)
+    public boolean onWorldTick(final IColony colony)
     {
         //  Tick Buildings
         for (@NotNull final IBuilding building : buildings.values())
         {
-            if (event.world.isBlockLoaded(building.getPosition()))
+            if (colony.getWorld().isBlockLoaded(building.getPosition()))
             {
                 if (tickCounter == 20)
                 {
-                    building.secondsWorldTick(event);
+                    building.secondsWorldTick(colony);
                 }
 
-                building.onWorldTick(event);
+                building.onWorldTick(colony);
             }
         }
 
@@ -189,6 +190,7 @@ public class BuildingManager implements IBuildingManager
             tickCounter = 0;
         }
         tickCounter++;
+        return false;
     }
 
     @Override
@@ -198,7 +200,7 @@ public class BuildingManager implements IBuildingManager
     }
 
     @Override
-    public void cleanUpBuildings(@NotNull final TickEvent.WorldTickEvent event)
+    public boolean cleanUpBuildings()
     {
         @Nullable final List<IBuilding> removedBuildings = new ArrayList<>();
 
@@ -208,7 +210,9 @@ public class BuildingManager implements IBuildingManager
         for (@NotNull final IBuilding building : tempBuildings)
         {
             final BlockPos loc = building.getPosition();
-            if (event.world.isBlockLoaded(loc) && !building.isMatchingBlock(event.world.getBlockState(loc).getBlock()))
+            if (colony.getWorld().isBlockLoaded(loc) && building.getBuildingRegistryEntry().getBuildingBlock() != null && !building.isMatchingBlock(colony.getWorld()
+                                                                                                                                                      .getBlockState(loc)
+                                                                                                                                                      .getBlock()))
             {
                 //  Sanity cleanup
                 removedBuildings.add(building);
@@ -219,9 +223,9 @@ public class BuildingManager implements IBuildingManager
 
         for (@NotNull final BlockPos pos : tempFields)
         {
-            if (event.world.isBlockLoaded(pos))
+            if (colony.getWorld().isBlockLoaded(pos))
             {
-                final TileEntityScarecrow scarecrow = (TileEntityScarecrow) event.world.getTileEntity(pos);
+                final TileEntityScarecrow scarecrow = (TileEntityScarecrow) colony.getWorld().getTileEntity(pos);
                 if (scarecrow == null)
                 {
                     removeField(pos);
@@ -229,7 +233,15 @@ public class BuildingManager implements IBuildingManager
             }
         }
 
+        if (removedBuildings.size() > 1)
+        {
+            Log.getLogger()
+              .warn("Colony " + colony.getID()
+                      + " is removing more than one building from its data. Did you load a colony backup recently? Else this might be a sign of data corruption of colonies.");
+        }
+
         removedBuildings.forEach(IBuilding::destroy);
+        return false;
     }
 
     /**

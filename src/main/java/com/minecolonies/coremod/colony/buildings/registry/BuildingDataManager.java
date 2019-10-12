@@ -12,6 +12,7 @@ import com.minecolonies.api.util.BlockPosUtil;
 import com.minecolonies.api.util.Log;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraftforge.fml.common.network.ByteBufUtils;
@@ -38,6 +39,16 @@ public class BuildingDataManager implements IBuildingDataManager
             Log.getLogger().error(String.format("A Building %s(%s) has thrown an exception during loading, its state cannot be restored. Report this to the mod author",
               type, building.getClass().getName()), ex);
             building = null;
+        }
+
+        if (colony.getWorld() != null)
+        {
+            Log.getLogger().warn("Reloaded block for building:%s", building.getCustomBuildingName());
+            final TileEntity tile = colony.getWorld().getTileEntity(pos);
+            if (tile instanceof AbstractTileEntityColonyBuilding)
+            {
+                ((AbstractTileEntityColonyBuilding) tile).setColony(colony);
+            }
         }
 
         return building;

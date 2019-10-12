@@ -4,7 +4,6 @@ import com.minecolonies.api.colony.ICitizenData;
 import com.minecolonies.api.colony.IColony;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.math.BlockPos;
-import net.minecraftforge.fml.common.gameevent.TickEvent;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -111,7 +110,7 @@ public interface IWorkManager
      *
      * @param event {@link net.minecraftforge.fml.common.gameevent.TickEvent.WorldTickEvent}.
      */
-    void onWorldTick(@NotNull TickEvent.WorldTickEvent event);
+    boolean onWorldTick(@NotNull IColony colony);
 
     /**
      * Get an ordered list by priority of the work orders.

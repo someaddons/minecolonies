@@ -4,6 +4,7 @@ import com.google.common.collect.ImmutableCollection;
 import com.google.common.collect.ImmutableList;
 import com.google.common.reflect.TypeToken;
 import com.minecolonies.api.colony.ICitizenData;
+import com.minecolonies.api.colony.IColony;
 import com.minecolonies.api.colony.buildings.registry.BuildingEntry;
 import com.minecolonies.api.colony.requestsystem.request.IRequest;
 import com.minecolonies.api.colony.requestsystem.requestable.IRequestable;
@@ -19,7 +20,6 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.Tuple;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
-import net.minecraftforge.fml.common.gameevent.TickEvent;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -80,8 +80,9 @@ public interface IBuilding extends ISchematicProvider, ICitizenAssignable, IBuil
 
     /**
      * Ticks once a second(once per 20 ticks) for calculations which do not need to be checked each tick.
+     * @param colony
      */
-    void secondsWorldTick(@NotNull TickEvent.WorldTickEvent event);
+    void secondsWorldTick(@NotNull IColony colony);
 
     /**
      * Method to define if a builder can build this although the builder is not level 1 yet.

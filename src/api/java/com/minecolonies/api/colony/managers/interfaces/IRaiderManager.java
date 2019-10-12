@@ -109,7 +109,7 @@ public interface IRaiderManager
      * To be executed on each colony world tick.
      * @param world the ticking world.
      */
-    void onWorldTick(@NotNull final World world);
+    boolean onWorldTick(@NotNull final World world);
 
     /**
      * Writes the raider manager to NBT.

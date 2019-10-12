@@ -11,9 +11,6 @@ import static com.minecolonies.api.util.constant.Constants.TICKS_SECOND;
  */
 public final class ColonyConstants
 {
-    //  Settings
-    public static final int CLEANUP_TICK_INCREMENT = 5 * TICKS_SECOND;
-
     /**
      * The colony name in the team + the id.
      */

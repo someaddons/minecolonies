@@ -221,10 +221,8 @@ public class RaidManager implements IRaiderManager
     }
 
     @Override
-    public void onWorldTick(@NotNull final World world)
+    public boolean onWorldTick(@NotNull final World world)
     {
-        if (Colony.shallUpdate(world, TICKS_SECOND * SECONDS_A_MINUTE))
-        {
             for (final Map.Entry<BlockPos, Tuple<String, Long>> entry : new HashMap<>(schematicMap).entrySet())
             {
                 if (entry.getKey().equals(BlockPos.ORIGIN))
@@ -252,10 +250,10 @@ public class RaidManager implements IRaiderManager
                     LanguageHandler.sendPlayersMessage(
                       colony.getMessageEntityPlayers(),
                       PIRATES_SAILING_OFF_MESSAGE, colony.getName());
-                    return;
+                    return false;
                 }
             }
-        }
+        return false;
     }
 
     /**

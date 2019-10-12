@@ -12,6 +12,9 @@ import com.minecolonies.api.colony.requestsystem.manager.IRequestManager;
 import com.minecolonies.api.colony.requestsystem.requester.IRequester;
 import com.minecolonies.api.colony.workorders.IWorkManager;
 import com.minecolonies.api.configuration.Configurations;
+import com.minecolonies.api.entity.ai.statemachine.tickratestatemachine.ITickRateStateMachine;
+import com.minecolonies.api.entity.ai.statemachine.tickratestatemachine.TickRateStateMachine;
+import com.minecolonies.api.entity.ai.statemachine.tickratestatemachine.TickingTransition;
 import com.minecolonies.api.entity.citizen.AbstractEntityCitizen;
 import com.minecolonies.api.entity.mobs.util.MobEventsUtils;
 import com.minecolonies.api.util.BlockPosUtil;
@@ -37,7 +40,6 @@ import net.minecraft.nbt.NBTTagString;
 import net.minecraft.nbt.NBTUtil;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.TextFormatting;
-import net.minecraft.world.EnumDifficulty;
 import net.minecraft.world.World;
 import net.minecraft.world.chunk.Chunk;
 import net.minecraftforge.common.MinecraftForge;
@@ -47,13 +49,15 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.*;
-import java.util.stream.Collectors;
 
+import static com.minecolonies.api.entity.ai.statemachine.tickratestatemachine.TickRateConstants.MAX_TICKRATE;
 import static com.minecolonies.api.util.constant.ColonyConstants.*;
 import static com.minecolonies.api.util.constant.Constants.*;
 import static com.minecolonies.api.util.constant.NbtTagConstants.*;
 import static com.minecolonies.api.util.constant.TranslationConstants.*;
 import static com.minecolonies.coremod.MineColonies.CLOSE_COLONY_CAP;
+import static com.minecolonies.coremod.colony.ColonyStates.ACTIVE;
+import static com.minecolonies.coremod.colony.ColonyStates.INACTIVE;
 
 /**
  * This class describes a colony and contains all the data and methods for
@@ -250,6 +254,8 @@ public class Colony implements IColony
      */
     private boolean hasChilds = false;
 
+    private final ITickRateStateMachine stateMachine;
+
     /**
      * Constructor for a newly created Colony.
      *
@@ -299,6 +305,22 @@ public class Colony implements IColony
                 freeBlocks.add(block);
             }
         }
+
+        stateMachine = new TickRateStateMachine(INACTIVE, e -> {});
+
+        stateMachine.addTransition(new TickingTransition(ACTIVE, () -> packageManager.getSubscribers().isEmpty(), () -> INACTIVE, 1));
+
+        stateMachine.addTransition(new TickingTransition(ACTIVE, buildingManager::cleanUpBuildings, () -> ACTIVE, MAX_TICKRATE));
+        stateMachine.addTransition(new TickingTransition(ACTIVE, () -> MobEventsUtils.checkForRaid(this), () -> ACTIVE, MAX_TICKRATE));
+        stateMachine.addTransition(new TickingTransition(ACTIVE, () -> citizenManager.onWorldTick(this), () -> ACTIVE, MAX_TICKRATE));
+        stateMachine.addTransition(new TickingTransition(ACTIVE, this::updateAttackingPlayers, () -> ACTIVE, MAX_TICKRATE));
+        stateMachine.addTransition(new TickingTransition(ACTIVE, () -> world != null && raidManager.onWorldTick(world), () -> ACTIVE, MAX_TICKRATE));
+        stateMachine.addTransition(new TickingTransition(ACTIVE, () -> buildingManager.onWorldTick(this), () -> ACTIVE, MAX_TICKRATE));
+        stateMachine.addTransition(new TickingTransition(ACTIVE, this::checkDayTime, () -> ACTIVE, 20));
+        stateMachine.addTransition(new TickingTransition(ACTIVE, this::updateWayPoints, () -> ACTIVE, CHECK_WAYPOINT_EVERY));
+        stateMachine.addTransition(new TickingTransition(ACTIVE, () -> workManager.onWorldTick(this), () -> ACTIVE, MAX_TICKRATE));
+
+        stateMachine.addTransition(new TickingTransition(INACTIVE, () -> !packageManager.getSubscribers().isEmpty(), () -> ACTIVE, 100));
     }
 
     /**
@@ -823,46 +845,14 @@ public class Colony implements IColony
             return;
         }
 
-        // Clean up or spawn citizens.
-        if (packageManager.getSubscribers().isEmpty())
-        {
-            return;
-        }
-        isActive = true;
+        stateMachine.tick();
+    }
 
-        //  Cleanup Buildings whose Blocks have gone AWOL
-        buildingManager.cleanUpBuildings(event);
-        citizenManager.onWorldTick(event);
-
-        if (shallUpdate(world, TICKS_SECOND)
-              && event.world.getDifficulty() != EnumDifficulty.PEACEFUL
-              && Configurations.gameplay.doBarbariansSpawn
-              && raidManager.canHaveRaiderEvents()
-              && !world.getMinecraftServer().getPlayerList().getPlayers()
-                    .stream().filter(permissions::isSubscriber).collect(Collectors.toList()).isEmpty()
-              && MobEventsUtils.isItTimeToRaid(event.world, this))
-        {
-            MobEventsUtils.raiderEvent(event.world, this);
-        }
-
-        if (shallUpdate(world, TICKS_SECOND))
-        {
-            for (final AttackingPlayer player : attackingPlayers)
-            {
-                if (!player.getGuards().isEmpty())
-                {
-                    player.refreshList(this);
-                    if (player.getGuards().isEmpty())
-                    {
-                        LanguageHandler.sendPlayersMessage(getMessageEntityPlayers(), "You successfully defended your colony against, " + player.getPlayer().getName());
-                    }
-                }
-            }
-        }
-
-        raidManager.onWorldTick(world);
-        buildingManager.onWorldTick(event);
-
+    /**
+     * Checks the time and does daytime logic
+     */
+    private boolean checkDayTime()
+    {
         if (isDay && !world.isDaytime())
         {
             isDay = false;
@@ -888,9 +878,26 @@ public class Colony implements IColony
                 citizenManager.updateCitizenMourn(true);
             }
         }
+        return false;
+    }
 
-        updateWayPoints();
-        workManager.onWorldTick(event);
+    /**
+     * Updates the pvping playeres.
+     */
+    public boolean updateAttackingPlayers()
+    {
+        for (final AttackingPlayer player : attackingPlayers)
+        {
+            if (!player.getGuards().isEmpty())
+            {
+                player.refreshList(this);
+                if (player.getGuards().isEmpty())
+                {
+                    LanguageHandler.sendPlayersMessage(getMessageEntityPlayers(), "You successfully defended your colony against, " + player.getPlayer().getName());
+                }
+            }
+        }
+        return false;
     }
 
     /**
@@ -905,14 +912,14 @@ public class Colony implements IColony
         return world.getWorldTime() % (world.rand.nextInt(averageTicks * 2) + 1) == 0;
     }
 
-    public boolean areAllColonyChunksLoaded(@NotNull final TickEvent.WorldTickEvent event)
+    public boolean areAllColonyChunksLoaded()
     {
         final int distanceFromCenter = Configurations.gameplay.workingRangeTownHallChunks * BLOCKS_PER_CHUNK + 48 /* 3 chunks */ + BLOCKS_PER_CHUNK - 1 /* round up a chunk */;
         for (int x = -distanceFromCenter; x <= distanceFromCenter; x += CONST_CHUNKSIZE)
         {
             for (int z = -distanceFromCenter; z <= distanceFromCenter; z += CONST_CHUNKSIZE)
             {
-                if (!event.world.isBlockLoaded(new BlockPos(getCenter().getX() + x, 1, getCenter().getZ() + z)))
+                if (!world.isBlockLoaded(new BlockPos(getCenter().getX() + x, 1, getCenter().getZ() + z)))
                 {
                     return false;
                 }
@@ -924,9 +931,9 @@ public class Colony implements IColony
     /**
      * Update the waypoints after worldTicks.
      */
-    private void updateWayPoints()
+    private boolean updateWayPoints()
     {
-        if (world != null && world.rand.nextInt(CHECK_WAYPOINT_EVERY) <= 1 && !wayPoints.isEmpty())
+        if (world != null && !wayPoints.isEmpty())
         {
             final Object[] entries = wayPoints.entrySet().toArray();
             final int stopAt = world.rand.nextInt(entries.length);
@@ -946,6 +953,7 @@ public class Colony implements IColony
                 }
             }
         }
+        return false;
     }
 
     /**
@@ -1390,7 +1398,7 @@ public class Colony implements IColony
     {
         try
         {
-            if (this.colonyTag == null || this.isActive)
+            if (this.colonyTag == null || stateMachine.getState() == ACTIVE)
             {
                 this.writeToNBT(new NBTTagCompound());
             }
@@ -1565,7 +1573,10 @@ public class Colony implements IColony
      */
     public void setActive(final boolean isActive)
     {
-        this.isActive = isActive;
+        if (!isActive)
+        {
+            this.stateMachine.reset();
+        }
     }
 
     /**
@@ -1623,7 +1634,7 @@ public class Colony implements IColony
     @Override
     public void updateHasChilds()
     {
-        for(ICitizenData data: this.getCitizenManager().getCitizens())
+        for (ICitizenData data : this.getCitizenManager().getCitizens())
         {
             if (data.isChild())
             {

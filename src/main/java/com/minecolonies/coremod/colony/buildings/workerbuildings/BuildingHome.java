@@ -23,7 +23,6 @@ import net.minecraft.nbt.NBTUtil;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.Constants;
-import net.minecraftforge.fml.common.gameevent.TickEvent;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.*;
@@ -240,7 +239,7 @@ public class BuildingHome extends AbstractBuilding
     }
 
     @Override
-    public void secondsWorldTick(@NotNull final TickEvent.WorldTickEvent event)
+    public void secondsWorldTick(@NotNull final IColony colony)
     {
         if (childCreationTimer > childCreationInterval)
         {
@@ -251,12 +250,12 @@ public class BuildingHome extends AbstractBuilding
     }
 
     @Override
-    public void onWorldTick(@NotNull final TickEvent.WorldTickEvent event)
+    public void onWorldTick(@NotNull final IColony colony)
     {
         //
         // Code below this check won't lag each tick anymore
         //
-        if (!Colony.shallUpdate(event.world, ONWORLD_TICK_AVERAGE))
+        if (!Colony.shallUpdate(colony.getWorld(), ONWORLD_TICK_AVERAGE))
         {
             return;
         }
